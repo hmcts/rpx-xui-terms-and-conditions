@@ -1,0 +1,26 @@
+#!groovy
+
+properties([
+    [
+        $class       : 'GithubProjectProperty',
+        displayName  : 'Terms and Conditions Microservice',
+        projectUrlStr: 'https://github.com/hmcts/rpx-xui-terms-and-conditions'
+    ],
+    pipelineTriggers([
+        [$class: 'GitHubPushTrigger']
+    ])
+])
+
+@Library("Infrastructure")
+
+def type      = "nodejs"
+def product   = "xui"
+def component = "terms-and-conditions"
+
+withPipeline("nodejs", product, component) {
+
+    enableDockerBuild()
+
+    after('checkout') {sh 'yarn cache clean'}
+
+}

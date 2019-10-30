@@ -1,0 +1,27 @@
+{
+  "name": "xui-terms-and-conditions",
+  "version": "0.0.1",
+  "description": "Terms and Conditions Service",
+  "main": "index.js",
+  "repository": "git@github.com:hmcts/rpx-xui-terms-and-conditions.git",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "test": "NODE_PATH=. LOG_LEVEL=OFF mocha",
+    "lint": "eslint .",
+    "test:coverage": "echo 'not implemented'",
+    "test:a11y": "echo 'not implemented'",
+    "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "eslint": "^6.4.0",
+    "express": "^4.17.1",
+    "jwt-decode": "^2.2.0",
+    "mocha": "^6.2.0",
+    "otp": "^0.1.3",
+    "sonar-scanner": "^3.1.0",
+    "supertest": "^4.0.2"
+  }
+}
