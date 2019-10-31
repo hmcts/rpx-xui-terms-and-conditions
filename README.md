@@ -17,6 +17,8 @@ that works with the HMCTS pipeline ( to be tested in next few days ).
 `yarn run test:debug` - Runs Debugger that an IDE can connect to
 `yarn compile` - Transpile source code for a Production build which is contained with the /dist folder
 `yarn start` - Runs Production build /dist folder locally
+`yarn lint` - Runs ESLint
+`yarn lint --fix` - Prettier is installed this will normalise your code formatting with the rest of the project.
 
 # Swagger
 
