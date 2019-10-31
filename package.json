@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "nodemon server/index.ts | pino-pretty",
     "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
+    "compile": "ts-node build.ts && tsc",
+    "start:production": "node dist/index.js",
     "start": "node server.js",
     "test": "NODE_PATH=. LOG_LEVEL=OFF mocha",
     "lint": "eslint .",
