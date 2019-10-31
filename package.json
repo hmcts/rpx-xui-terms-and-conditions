@@ -11,8 +11,9 @@
     "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
     "compile": "ts-node build.ts && tsc",
     "start:production": "node dist/index.js",
-    "start": "node server.js",
-    "test": "NODE_PATH=. LOG_LEVEL=OFF mocha",
+    "test": "mocha test/**/*.ts --exit",
+    "start:legacy": "node server.js",
+    "test:legacy": "NODE_PATH=. LOG_LEVEL=OFF mocha",
     "lint": "eslint .",
     "test:coverage": "echo 'not implemented'",
     "test:a11y": "echo 'not implemented'",
@@ -28,8 +29,7 @@
     "axios": "^0.19.0",
     "jwt-decode": "^2.2.0",
     "otp": "^0.1.3",
-    "sonar-scanner": "^3.1.0",
-    "supertest": "^4.0.2"
+    "sonar-scanner": "^3.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",
