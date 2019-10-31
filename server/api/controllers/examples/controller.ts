@@ -3,23 +3,23 @@ import { Request, Response } from 'express';
 
 export class Controller {
   all(req: Request, res: Response): void {
-    ExamplesService.all().then(r => res.json(r));
+    ExamplesService.all().then(result => res.json(result));
   }
 
   byId(req: Request, res: Response): void {
     const id = Number.parseInt(req.params['id'])
-    ExamplesService.byId(id).then(r => {
-      if (r) res.json(r);
+    ExamplesService.byId(id).then(result => {
+      if (result) res.json(result);
       else res.status(404).end();
     });
   }
 
   create(req: Request, res: Response): void {
-    ExamplesService.create(req.body.name).then(r =>
+    ExamplesService.create(req.body.name).then(result =>
       res
         .status(201)
-        .location(`/api/v1/examples/${r.id}`)
-        .json(r),
+        .location(`/api/v1/examples/${result.id}`)
+        .json(result),
     );
   }
 }

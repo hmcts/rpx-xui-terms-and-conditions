@@ -16,7 +16,7 @@ export class ExamplesService {
 
     byId(id: number): Promise<Example> {
         L.info(`fetch example with id ${id}`);
-        return this.all().then(r => r[id]);
+        return this.all().then(result => result[id]);
     }
 
     create(name: string): Promise<Example> {
