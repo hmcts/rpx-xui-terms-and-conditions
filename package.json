@@ -10,14 +10,15 @@
     "dev": "nodemon server/index.ts | pino-pretty",
     "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
     "compile": "ts-node build.ts && tsc",
-    "start:production": "node dist/index.js",
+    "start": "node dist/index.js",
     "test": "mocha test/**/*.ts --exit",
-    "start:legacy": "node server.js",
-    "test:legacy": "NODE_PATH=. LOG_LEVEL=OFF mocha",
-    "lint": "eslint .",
+    "test:debug": "mocha --inspect-brk test/**/*.ts --exit",
     "test:coverage": "echo 'not implemented'",
     "test:a11y": "echo 'not implemented'",
-    "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner"
+    "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
+    "lint:legacy": "eslint .",
+    "start:legacy": "node server.js",
+    "test:legacy": "NODE_PATH=. LOG_LEVEL=OFF mocha"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
