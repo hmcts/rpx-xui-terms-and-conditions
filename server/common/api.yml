@@ -32,7 +32,7 @@ paths:
     get:
       tags:
         - Examples
-      description: Fetch all examples
+      description: Fetch all examples test
       responses:
         200:
           description: Returns all examples
