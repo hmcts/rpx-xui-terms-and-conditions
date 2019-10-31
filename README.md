@@ -22,4 +22,17 @@ that works with the HMCTS pipeline ( to be tested in next few days ).
 
 Swagger can be accessed on /api-explorer
 
-Documentation for the API is contained within server/common/api.yml file
+Documentation for the API is contained within server/common/api.yml file, and should be added to when a developer
+writes a new route.
+
+# API Validation
+
+API Validation is controlled within the server/common/api.yml file, and should be added to when a developer
+writes a new route.
+
+# Example requests
+
+GET http://localhost:8080/api/v1/examples
+GET http://localhost:8080/api/v1/examples/1
+POST http://localhost:8080/api/v1/examples
+
