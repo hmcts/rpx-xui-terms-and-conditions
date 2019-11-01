@@ -16,7 +16,7 @@ locals {
 
 module "db" {
   source                = "git@github.com:hmcts/cnp-module-postgres?ref=master"
-  product               = "${var.product}-${var.component}-db"
+  product               = "${var.product}-${var.component}"
   location              = "${var.location_db}"
   env                   = "${var.env}"
   database_name         = "xui_tc"
