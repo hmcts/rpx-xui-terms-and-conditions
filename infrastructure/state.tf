@@ -23,3 +23,5 @@ data "terraform_remote_state" "core_apps_compute" {
     key                  = "core-compute/${var.env}/terraform.tfstate"
   }
 }
+
+

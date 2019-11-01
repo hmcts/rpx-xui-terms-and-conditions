@@ -1,62 +1,45 @@
-locals {
-    app_full_name = "xui-${var.component}"
-    ase_name = "core-compute-${var.env}"
-    local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
-    shared_vault_name = "${var.shared_product_name}-${local.local_env}"
-}
-
-module "app" {
-    source = "git@github.com:hmcts/cnp-module-webapp?ref=master"
-    product = "${local.app_full_name}"
-    location = "${var.location}"
-    env = "${var.env}"
-    ilbIp = "${var.ilbIp}"
-    subscription = "${var.subscription}"
-    capacity     = "${var.capacity}"
-    is_frontend = "false"
-    additional_host_name = "${var.additional_host_name}"
-    https_only="false"
-    common_tags  = "${var.common_tags}"
-    asp_rg = "${local.app_full_name}-${var.env}"
-    asp_name = "${var.shared_product_name}-${var.env}"
-    #asp_name = "${var.env == "prod" ? "TBD" : "${var.shared_product_name}-${var.env}"}"
-
-    app_settings = {
-        # logging vars & healthcheck
-        REFORM_SERVICE_NAME = "${local.app_full_name}"
-        REFORM_TEAM = "${var.team_name}"
-        REFORM_SERVICE_TYPE = "${var.app_language}"
-        REFORM_ENVIRONMENT = "${var.env}"
-
-        PACKAGES_NAME = "${local.app_full_name}"
-        PACKAGES_PROJECT = "${var.team_name}"
-        PACKAGES_ENVIRONMENT = "${var.env}"
-        XUI_ENV = "${var.env}"
-
-        # Need to check these vault values - dont seem right here.
-        S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
-        IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
-
-
-    }
-}
-
-
-data "azurerm_key_vault" "key_vault" {
-    name = "${local.shared_vault_name}"
-    resource_group_name = "${local.shared_vault_name}"
-}
-
-data "azurerm_key_vault_secret" "s2s_secret" {
-    name = "xui-s2s-token"
-    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
-}
-
-data "azurerm_key_vault_secret" "oauth2_secret" {
-    name = "xui-oauth2-token"
-    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
-}
-
 provider "azurerm" {
-    version = "1.22.1"
+  version = "1.23.0"
+}
+
+# Make sure the resource group exists
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.product}-${var.component}-${var.env}"
+  location = "${var.location_app}"
+}
+
+locals {
+  local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
+
+}
+
+module "db" {
+  source          = "git@github.com:hmcts/cnp-module-postgres?ref=master"
+  product         = "${var.product}-${var.component}-db"
+  location        = "${var.location_db}"
+  env             = "${var.env}"
+  database_name   = "xui_tc"
+  postgresql_user = "xui_dbadmin"
+  sku_name        = "GP_Gen5_2"
+  sku_tier        = "GeneralPurpose"
+  common_tags     = "${var.common_tags}"
+  subscription    = "${var.subscription}"
+}
+
+
+data "azurerm_key_vault" "s2s_key_vault" {
+  name                = "s2s-${local.local_env}"
+  resource_group_name = "${local.s2s_rg}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES-USER" {
+  key_vault_id = "${module.send-letter-key-vault.key_vault_id}"
+  name         = "${var.component}-POSTGRES-USER"
+  value        = "${module.db.user_name}"
+}
+
+resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
+  key_vault_id = "${module.send-letter-key-vault.key_vault_id}"
+  name         = "${var.component}-POSTGRES-PASS"
+  value        = "${module.db.postgresql_password}"
 }
