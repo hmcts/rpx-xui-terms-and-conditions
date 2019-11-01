@@ -15,17 +15,18 @@ locals {
 }
 
 module "db" {
-  source          = "git@github.com:hmcts/cnp-module-postgres?ref=master"
-  product         = "${var.product}-${var.component}-db"
-  location        = "${var.location_db}"
-  env             = "${var.env}"
-  database_name   = "xui_tc"
-  postgresql_user = "${data.azurerm_key_vault_secret.db_admin.value}"
-  sku_name        = "GP_Gen5_4"
-  postgresql_version = "11"
-  sku_tier        = "GeneralPurpose"
-  common_tags     = "${var.common_tags}"
-  subscription    = "${var.subscription}"
+  source                = "git@github.com:hmcts/cnp-module-postgres?ref=master"
+  product               = "${var.product}-${var.component}-db"
+  location              = "${var.location_db}"
+  env                   = "${var.env}"
+  database_name         = "xui_tc"
+  postgresql_user       = "${data.azurerm_key_vault_secret.db_admin.value}"
+  sku_name              = "GP_Gen5_4"
+  sku_capacity          = "4"
+  postgresql_version    = "11"
+  sku_tier              = "GeneralPurpose"
+  common_tags           = "${var.common_tags}"
+  subscription          = "${var.subscription}"
 }
 
 data "azurerm_key_vault" "key_vault" {
