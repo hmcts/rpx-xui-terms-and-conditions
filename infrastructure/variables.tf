@@ -20,6 +20,10 @@ variable "location_db" {
   default = "UK South"
 }
 
+variable "shared_product_name" {
+    default = "rpx"
+}
+
 variable "appinsights_location" {
   type        = "string"
   default     = "West Europe"

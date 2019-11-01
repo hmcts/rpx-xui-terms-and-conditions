@@ -11,6 +11,8 @@ resource "azurerm_resource_group" "rg" {
 locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
 
+  shared_vault_name = "${var.shared_product_name}-${local.local_env}"
+
 }
 
 module "db" {
