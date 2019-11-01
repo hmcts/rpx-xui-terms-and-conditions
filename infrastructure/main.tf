@@ -21,25 +21,24 @@ module "db" {
   database_name   = "xui_tc"
   postgresql_user = "xui_dbadmin"
   sku_name        = "GP_Gen5_2"
+  postgresql_version = "11"
   sku_tier        = "GeneralPurpose"
   common_tags     = "${var.common_tags}"
   subscription    = "${var.subscription}"
 }
 
 
-data "azurerm_key_vault" "s2s_key_vault" {
-  name                = "s2s-${local.local_env}"
-  resource_group_name = "${local.s2s_rg}"
+data "azurerm_key_vault" "key_vault" {
+    name = "${local.shared_vault_name}"
+    resource_group_name = "${local.shared_vault_name}"
 }
 
-resource "azurerm_key_vault_secret" "POSTGRES-USER" {
-  key_vault_id = "${module.send-letter-key-vault.key_vault_id}"
-  name         = "${var.component}-POSTGRES-USER"
-  value        = "${module.db.user_name}"
+data "azurerm_key_vault_secret" "s2s_secret" {
+    name = "xui-s2s-token"
+    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 
-resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
-  key_vault_id = "${module.send-letter-key-vault.key_vault_id}"
-  name         = "${var.component}-POSTGRES-PASS"
-  value        = "${module.db.postgresql_password}"
+data "azurerm_key_vault_secret" "oauth2_secret" {
+    name = "xui-oauth2-token"
+    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
