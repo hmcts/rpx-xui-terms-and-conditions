@@ -11,7 +11,6 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
 
   shared_vault_name = "${var.shared_product_name}-${local.local_env}"
-
 }
 
 module "db" {
@@ -19,12 +18,12 @@ module "db" {
   product               = "${var.product}-${var.component}"
   location              = "${var.location_db}"
   env                   = "${var.env}"
-  database_name         = "xui_tc"
+  database_name         = "${var.database_name}"
   postgresql_user       = "${data.azurerm_key_vault_secret.db_admin.value}"
-  sku_name              = "GP_Gen5_4"
-  sku_capacity          = "4"
-  postgresql_version    = "11"
-  sku_tier              = "GeneralPurpose"
+  sku_name              = "${var.sku_name}"
+  sku_capacity          = "${var.capacity}"
+  postgresql_version    = "${var.postgresql_version}"
+  sku_tier              = "${var.sku_tier}"
   common_tags           = "${var.common_tags}"
   subscription          = "${var.subscription}"
 }
