@@ -67,7 +67,7 @@ module "send-dbinfo-key-vault" {
 */
 
 resource "azurerm_key_vault_secret" "postgresql-pw" {
-  key_vault_id = "${data.azurerm_key_vault.key_vault.key_vault_id}"
+  key_vault_id = "${data.azurerm_key_vault.key_vault.id}"
   name         = "postgresql-admin-pw"
   value        = "${module.db.postgresql_password}"
 }
