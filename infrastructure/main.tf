@@ -19,7 +19,7 @@ module "db" {
   location              = "${var.location_db}"
   env                   = "${var.env}"
   database_name         = "${var.database_name}"
-  postgresql_user       = "${data.azurerm_key_vault_secret.db_admin.value}"
+  postgresql_user       = "${var.postgresql-admin-username}"
   sku_name              = "${var.sku_name}"
   sku_capacity          = "${var.capacity}"
   postgresql_version    = "${var.postgresql_version}"
@@ -43,13 +43,14 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 
+/*
 data "azurerm_key_vault_secret" "db_admin" {
     name = "postgresql-admin-username"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
+*/
 
-# region save DB details to Azure Key Vault
-/*
+#save DB details to Azure Key Vault
 module "send-dbinfo-key-vault" {
   source              = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
   name                = "${local.shared_vault_name}"
@@ -61,10 +62,9 @@ module "send-dbinfo-key-vault" {
   managed_identity_object_id = "${var.managed_identity_object_id}"
 }
 
-resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
+resource "azurerm_key_vault_secret" "postgresql-pw" {
   key_vault_id = "${module.send-dbinfo-key-vaul.key_vault_id}"
-  name         = "${var.component}-POSTGRES-PASS"
+  name         = "postgresql-admin-pw"
   value        = "${module.db.postgresql_password}"
 }
 
-*/
