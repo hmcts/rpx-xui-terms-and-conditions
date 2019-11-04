@@ -26,6 +26,16 @@ definitions:
       name:
         type: string
         example: no_stress
+  
+  CopyBody:
+    type: object
+    title: copy
+    required:
+      - content
+    properties:
+      content:
+        type: string
+        example: no_stress
 
 paths:
   /examples:
@@ -66,6 +76,45 @@ paths:
           description: Return the example with the specified id
         404:
           description: Example not found
+
+  /termsAndConditions:
+    get:
+      tags:
+        - termsAndConditions
+      description: Fetch all copies
+      responses:
+        200:
+          description: Returns all copies
+    post:
+      tags:
+        - termsAndConditions
+      description: Create a new copy
+      parameters:
+        - name: content
+          in: body
+          description: a copy
+          required: true
+          schema: 
+            $ref: "#/definitions/CopyBody"
+      responses:
+        200:
+          description: Returns all copies
+
+  /termsAndConditions/{version}:
+    get:
+      tags:
+        - termsAndConditions
+      parameters:
+        - name: version
+          in: path
+          required: true
+          description: The version of the copy to retrieve
+          type: integer
+      responses:
+        200:
+          description: Returns the copy with the specified version
+        404:
+          description: Copy not found
 
   /spec:
     get:
