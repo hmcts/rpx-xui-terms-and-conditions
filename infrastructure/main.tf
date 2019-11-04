@@ -57,13 +57,15 @@ module "send-dbinfo-key-vault" {
   product             = "${var.product}"
   env                 = "${var.env}"
   tenant_id           = "${var.tenant_id}"
-  object_id           = "${var.jenkins_AAD_objectId}"
+  object_id           = "${var.object_id}"
+  product_group_object_id = "${var.product_group_object_id}"
   resource_group_name = "${azurerm_resource_group.rg.name}"
   managed_identity_object_id = "${var.managed_identity_object_id}"
+  common_tags             = "${var.common_tags}"
 }
 
 resource "azurerm_key_vault_secret" "postgresql-pw" {
-  key_vault_id = "${module.send-dbinfo-key-vaul.key_vault_id}"
+  key_vault_id = "${module.send-dbinfo-key-vault.key_vault_id}"
   name         = "postgresql-admin-pw"
   value        = "${module.db.postgresql_password}"
 }
