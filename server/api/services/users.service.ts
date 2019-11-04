@@ -1,6 +1,6 @@
 import L from '../../common/logger';
 import {User} from '../interfaces/users';
-import {ERROR_UNABLE_TO_REACH_DATABASE} from '../errors';
+import {ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS} from '../errors';
 
 // TODO: Let's get it to return mock data, using Promise
 export class UsersService {
@@ -22,6 +22,8 @@ export class UsersService {
      * TODO: Throw errors back up from this service to controller, to dispatch
      * errors to calling service
      * TODO: Return type
+     * TODO: Should we pass back the status code to the controller as well?
+     * Shouldn't this be up to the controller to set?
      *
      * @param appName - 'XUI-WEBAPP'
      * @param version - 2
@@ -47,13 +49,13 @@ export class UsersService {
      * @param version - 2
      * @param user - @see unit test
      */
-    user(appName: string, version: number, user: User) {
-        L.info(`User has already accepted T&C's ${user}`);
-        return {
-            appName,
-            version,
-            user,
-        };
+    user(appName: string, version: number, userId: string) {
+        L.info(`User has already accepted T&C's ${userId}`);
+
+        // throw Error(ERROR_USER_NOT_ACCEPTED_TCS);
+        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
+
+        return { userId };
     }
 
     /**
