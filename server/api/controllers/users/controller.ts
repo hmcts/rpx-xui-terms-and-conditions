@@ -33,11 +33,11 @@ export class Controller {
      */
     getUsers(req: Request, res: Response): void {
 
-        const app: string = req.params.app;
-        const version: number = parseInt(req.params.version);
+        const {app, version} = req.params;
+        const versionAsNumber: number = parseInt(version);
 
         try {
-            const users = UsersService.users(app, version);
+            const users = UsersService.users(app, versionAsNumber);
             res.status(200).send(users);
         } catch (error) {
             if (ERROR_UNABLE_TO_REACH_DATABASE) {

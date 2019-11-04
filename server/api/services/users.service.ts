@@ -1,6 +1,6 @@
 import L from '../../common/logger';
-import {User} from '../interfaces/users';
-import {ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS} from '../errors';
+import { User } from '../interfaces/users';
+import { ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS } from '../errors';
 
 // TODO: Let's get it to return mock data, using Promise
 export class UsersService {
@@ -35,7 +35,7 @@ export class UsersService {
         // to the controller catch to handle
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
 
-        return [{userId: 'jo'}, {userId: 'bob'}];
+        return [{ userId: 'jo' }, { userId: 'bob' }];
     }
 
     /**
