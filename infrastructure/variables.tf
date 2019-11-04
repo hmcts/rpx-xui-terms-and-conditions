@@ -70,8 +70,7 @@ variable "database_name" {
   default = "xui_tc"
 }
 
-
-
+variable "tenant_id" {}
 
 /*
 variable "ilbIp" {}
@@ -91,8 +90,10 @@ variable scheduling_lock_at_most_for {
 */
 variable "subscription" {}
 
-
-
 variable "common_tags" {
   type = "map"
+}
+
+variable "postgresql_user" {
+  default = "postgresql_admin"
 }
