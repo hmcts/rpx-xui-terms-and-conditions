@@ -1,7 +1,18 @@
 import L from '../../common/logger';
 import {User} from '../interfaces/users';
+import {ERROR_UNABLE_TO_REACH_DATABASE} from '../errors';
 
+// TODO: Let's get it to return mock data, using Promise
 export class UsersService {
+    // all(): Promise<Example[]> {
+    //     L.info(examples, 'fetch all examples');
+    //     return Promise.resolve(examples);
+    // }
+    //
+    // byId(id: number): Promise<Example> {
+    //     L.info(`fetch example with id ${id}`);
+    //     return this.all().then(result => result[id]);
+    // }
 
     /**
      * Get Users who have accepted Terms and Conditions for this version
@@ -10,16 +21,19 @@ export class UsersService {
      * TODO: Mock to test call to Postgres
      * TODO: Throw errors back up from this service to controller, to dispatch
      * errors to calling service
+     * TODO: Return type
      *
      * @param appName - 'XUI-WEBAPP'
      * @param version - 2
      */
     users(appName: string, version: number) {
         L.info(`Get all users for an app, with a particular version.`);
-        return {
-            appName,
-            version,
-        };
+
+        // You're able to throw errors here which will bubble up
+        // to the controller catch to handle
+        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
+
+        return [{userId: 'jo'}, {userId: 'bob'}];
     }
 
     /**
