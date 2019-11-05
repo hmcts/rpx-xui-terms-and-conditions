@@ -26,7 +26,15 @@ definitions:
       name:
         type: string
         example: no_stress
-
+  UsersBody:
+    type: array
+    title: users
+    required:
+      - userId
+    properties:
+      userId:
+        type: string
+        example: claire
 paths:
   /examples:
     get:
@@ -85,6 +93,24 @@ paths:
       responses:
         200:
           description: Return the Users
+    post:
+      tags:
+        - Users
+      description: Create new Users
+      parameters:
+        - name: app
+          in: path
+          description: Create new users
+          required: true
+          type: string
+        - name: version
+          in: path
+          required: true
+          description: Terms and Conditions version number
+          type: number
+      responses:
+        200:
+          description: Users added
 
   /users/{app}/{version}/users/{userId}:
     get:

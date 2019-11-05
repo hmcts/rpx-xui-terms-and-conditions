@@ -4,26 +4,22 @@ import {ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS} from '../..
 import {User} from '../../interfaces/users';
 
 export class Controller {
-    // all(req: Request, res: Response): void {
-    //   ExamplesService.all().then(result => res.json(result));
-    // }
-    //
-    // byId(req: Request, res: Response): void {
-    //   const id = Number.parseInt(req.params['id'])
-    //   ExamplesService.byId(id).then(result => {
-    //     if (result) res.json(result);
-    //     else res.status(404).end();
-    //   });
-    // }
-    //
-    // create(req: Request, res: Response): void {
-    //   ExamplesService.create(req.body.name).then(result =>
-    //     res
-    //       .status(201)
-    //       .location(`/api/v1/examples/${result.id}`)
-    //       .json(result),
-    //   );
-    // }
+
+    putUser(req: Request, res: Response): void {
+
+        const { app, version } = req.params;
+        const { userId } = req.body;
+
+        // try {
+        //     const users = UsersService.users(app, versionAsNumber);
+        //     res.status(200).send(users);
+        // } catch (error) {
+        //     if (ERROR_UNABLE_TO_REACH_DATABASE) {
+        //         res.status(500).send(error.message);
+        //     }
+        // }
+    }
+
 
     // TODO: Connect up these to the service
     // TODO: Unit test
@@ -49,6 +45,8 @@ export class Controller {
     /**
      * Get if the User has accepted a particular version of
      * Terms and Conditions copy.
+     *
+     * hasUserAcceptedTermsAndConditions
      */
     getUser(req: Request, res: Response): void {
 

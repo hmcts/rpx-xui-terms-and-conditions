@@ -18,3 +18,5 @@ export default express.Router()
      * version - The version of the Terms and Conditions
      */
     .get('/:app/:version/users/:userId', controller.getUser)
+
+    .post('/:app/:version/users', controller.putUser)
