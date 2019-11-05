@@ -12,9 +12,10 @@ that works with the HMCTS pipeline ( to be tested in next few days ).
 
 # Development commands
 
-`yarn dev` - Starts node in development mode
-`yarn test` - Runs unit tests
-`yarn run dev:debug` - Runs debugger that an IDE can connect to
+Set environment variables `APP_ID` and `LOG_LEVEL` as well as `PORT` <br />
+`yarn dev` - Starts node in development mode <br />
+`yarn test` - Runs unit tests <br />
+`yarn run dev:debug` - Runs debugger that an IDE can connect to <br />
 `yarn run test:debug` - Runs debugger that an IDE can connect to
 
 # Production commands
