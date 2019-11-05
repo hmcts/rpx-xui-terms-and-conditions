@@ -19,4 +19,4 @@ export default express.Router()
      */
     .get('/:app/:version/users/:userId', controller.getUser)
 
-    .post('/:app/:version/users', controller.putUser)
+    .post('/:app/:version/users', controller.postUser)

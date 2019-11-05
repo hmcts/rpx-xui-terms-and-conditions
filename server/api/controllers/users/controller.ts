@@ -5,11 +5,13 @@ import {User} from '../../interfaces/users';
 
 export class Controller {
 
-    putUser(req: Request, res: Response): void {
+    postUser(req: Request, res: Response): void {
 
         const { app, version } = req.params;
         const { userId } = req.body;
 
+        console.log(app);
+        console.log(version);
         // try {
         //     const users = UsersService.users(app, versionAsNumber);
         //     res.status(200).send(users);

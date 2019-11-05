@@ -29,12 +29,6 @@ definitions:
   UsersBody:
     type: array
     title: users
-    required:
-      - userId
-    properties:
-      userId:
-        type: string
-        example: claire
 paths:
   /examples:
     get:
@@ -108,6 +102,12 @@ paths:
           required: true
           description: Terms and Conditions version number
           type: number
+        - name: usersworkon
+          in: body
+          description: users
+          required: true
+          schema:
+            $ref: "#/definitions/UsersBody"
       responses:
         200:
           description: Users added
