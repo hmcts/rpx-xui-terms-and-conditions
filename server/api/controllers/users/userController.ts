@@ -1,33 +1,35 @@
-import UsersService from '../../services/users.service';
 import {Request, Response} from 'express';
+import UsersService from '../../services/users.service';
 import {ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS} from '../../errors';
 import {User} from '../../interfaces/users';
 
-export class Controller {
+// TODO: Unit test the following
+export class UserController {
 
-    postUser(req: Request, res: Response): void {
+    /**
+     * Add Users who have accepted the Terms and Conditions to the Database.
+     *
+     * Note that the POST body is currently defined within the api.yml file.
+     */
+    addUsers(req: Request, res: Response): void {
 
-        const { app, version } = req.params;
-        const { userId } = req.body;
+        const {app, version} = req.params;
 
-        console.log(app);
-        console.log(version);
-        // try {
-        //     const users = UsersService.users(app, versionAsNumber);
-        //     res.status(200).send(users);
-        // } catch (error) {
-        //     if (ERROR_UNABLE_TO_REACH_DATABASE) {
-        //         res.status(500).send(error.message);
-        //     }
-        // }
+        const users = req.body as Array<User>;
+        const versionAsNumber: number = parseInt(version);
+
+        try {
+            const addUsersResponse = UsersService.addUsers(app, versionAsNumber, users);
+            res.status(200).send(addUsersResponse);
+        } catch (error) {
+            if (ERROR_UNABLE_TO_REACH_DATABASE) {
+                res.status(500).send(error.message);
+            }
+        }
     }
 
-
-    // TODO: Connect up these to the service
-    // TODO: Unit test
-    // TODO: No result
     /**
-     * Get Users
+     * Get all Users who have accepted a specific version of T&C's.
      */
     getUsers(req: Request, res: Response): void {
 
@@ -45,10 +47,10 @@ export class Controller {
     }
 
     /**
-     * Get if the User has accepted a particular version of
-     * Terms and Conditions copy.
+     * Get all Users who have accepted a specific version of T&C's.
      *
-     * hasUserAcceptedTermsAndConditions
+     * Returns a 404 status code if the User has not accepted T&C's ie.
+     * The User is not within the T&C's database.
      */
     getUser(req: Request, res: Response): void {
 
@@ -71,4 +73,4 @@ export class Controller {
     }
 }
 
-export default new Controller();
+export default new UserController();

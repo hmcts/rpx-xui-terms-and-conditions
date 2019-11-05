@@ -1,12 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
-// Error handler to display the error as HTML
 /**
- * To get the nextFunction you will need next here, and to import NextFunction from Express
- *
- * <code>
- *     (err, req: Request, res: Response, next: NextFunction)
- * </code>
+ * Note that the next, NextFunction is required here.
  */
 // eslint-disable-next-line no-unused-vars, no-shadow,
 export default function errorHandler(err, req: Request, res: Response, next: NextFunction) {

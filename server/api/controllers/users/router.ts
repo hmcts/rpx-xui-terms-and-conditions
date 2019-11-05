@@ -1,22 +1,29 @@
 import express from 'express';
-import controller from './controller'
+import userController from './userController';
+
 export default express.Router()
-    // .post('/', controller.create)
-    // .get('/', controller.all)
+
     /**
-     * GET /:app/:version/users
+     * POST /:app/:version/users
+     *
+     * Add Users who have accepted the Terms and Conditions to the Database.
      *
      * app - The application the Terms and Conditions relates to ie. 'manageorg', 'managecases'
      * version - The version of the Terms and Conditions
      */
-    .get('/:app/:version/users', controller.getUsers)
+    .post('/:app/:version/users', userController.addUsers)
+
+    /**
+     * GET /:app/:version/users
+     *
+     * Get all Users who have accepted a specific version of T&C's.
+     */
+    .get('/:app/:version/users', userController.getUsers)
 
     /**
      * GET /:app/:version/users/:userId
      *
-     * app - The application the Terms and Conditions relates to ie. 'manageorg', 'managecases'
-     * version - The version of the Terms and Conditions
+     * Get a User who has accepted a specific version of T&C's.
      */
-    .get('/:app/:version/users/:userId', controller.getUser)
+    .get('/:app/:version/users/:userId', userController.getUser)
 
-    .post('/:app/:version/users', controller.postUser)

@@ -29,6 +29,12 @@ definitions:
   UsersBody:
     type: array
     title: users
+    items:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: jo
 paths:
   /examples:
     get:
