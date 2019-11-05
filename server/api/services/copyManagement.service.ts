@@ -4,11 +4,12 @@ let version = 1;
 interface Copy {
     version: number;
     content: string;
+    mime: string;
 }
 
 const copies: Copy[] = [
-    { version: version++, content: `<h1>Version ${version - 1}</h1>` },
-    { version: version++, content: `<h1>Version ${version - 1}</h1>` }
+    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mime: 'text/html' },
+    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mime: 'text/html' }
 ];
 
 export class CopyManagementService {
@@ -22,11 +23,12 @@ export class CopyManagementService {
         return this.all().then(result => result[version]);
     }
 
-    create(content: string): Promise<Copy> {
+    create(content: string, mime: string): Promise<Copy> {
         L.info(`create copy with content ${content}`);
         const copy: Copy = {
             version: version++,
             content,
+            mime,
         };
         copies.push(copy);
         return Promise.resolve(copy);

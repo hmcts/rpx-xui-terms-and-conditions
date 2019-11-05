@@ -31,6 +31,7 @@ definitions:
     title: copy
     required:
       - content
+      - mime
     properties:
       content:
         type: string
@@ -124,6 +125,12 @@ paths:
         - name: content
           in: body
           description: a copy
+          required: true
+          schema:
+            $ref: "#/definitions/CopyBody"
+        - name: mime
+          in: body
+          description: mime type
           required: true
           schema:
             $ref: "#/definitions/CopyBody"

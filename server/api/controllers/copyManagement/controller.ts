@@ -15,7 +15,7 @@ export class Controller {
   }
 
   create(req: Request, res: Response): void {
-    CopyManagementService.create(req.body.content).then(result =>
+    CopyManagementService.create(req.body.content, req.body.mime).then(result =>
       res
         .status(201)
         .location(`/api/v1/termsAndConditions/${result.version}`)
