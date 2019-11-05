@@ -52,6 +52,7 @@ variable "common_tags" {
 
 variable "tenant_id" {}
 
+/*
 variable "object_id" {
   type        = "string"
   description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
@@ -63,6 +64,7 @@ variable "managed_identity_object_id" {
 
 variable "product_group_object_id" {
 }
+*/
 
 variable "postgresql-admin-username" {
   default="postgresql_admin"
