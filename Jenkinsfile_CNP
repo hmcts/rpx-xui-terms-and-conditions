@@ -20,7 +20,7 @@ def component = "terms-and-conditions"
 withPipeline("nodejs", product, component) {
 
     enableDockerBuild()
-    installCharts()
+    //installCharts()
     disableLegacyDeployment()
     
 }
