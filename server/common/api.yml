@@ -1,0 +1,151 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: terms-and-conditions
+  description: Terms and Conditions
+basePath: /api/v1
+tags:
+  - name: Examples
+    description: Simple example endpoints
+  - name: Specification
+    description: The swagger API specification
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+
+definitions:
+  ExampleBody:
+    type: object
+    title: example
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        example: no_stress
+  UsersBody:
+    type: array
+    title: users
+    items:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: jo
+paths:
+  /examples:
+    get:
+      tags:
+        - Examples
+      description: Fetch all examples test
+      responses:
+        200:
+          description: Returns all examples
+    post:
+      tags:
+        - Examples
+      description: Create a new example
+      parameters:
+        - name: example
+          in: body
+          description: an example
+          required: true
+          schema:
+            $ref: "#/definitions/ExampleBody"
+      responses:
+        200:
+          description: Returns all examples
+
+  /examples/{id}:
+    get:
+      tags:
+        - Examples
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the example to retrieve
+          type: integer
+      responses:
+        200:
+          description: Return the example with the specified id
+        404:
+          description: Example not found
+
+  /users/{app}/{version}/users:
+    get:
+      tags:
+        - Users
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: version
+          in: path
+          required: true
+          description: Terms and Conditions version number
+          type: number
+      responses:
+        200:
+          description: Return the Users
+    post:
+      tags:
+        - Users
+      description: Create new Users
+      parameters:
+        - name: app
+          in: path
+          description: Create new users
+          required: true
+          type: string
+        - name: version
+          in: path
+          required: true
+          description: Terms and Conditions version number
+          type: number
+        - name: usersworkon
+          in: body
+          description: users
+          required: true
+          schema:
+            $ref: "#/definitions/UsersBody"
+      responses:
+        200:
+          description: Users added
+
+  /users/{app}/{version}/users/{userId}:
+    get:
+      tags:
+        - User
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: version
+          in: path
+          required: true
+          description: Terms and Conditions version number
+          type: number
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          type: string
+      responses:
+        200:
+          description: Return if the User has an associated Terms and Conditions accepted
+
+  /spec:
+    get:
+      tags:
+        - Specification
+      responses:
+        200:
+          description: Return the API specification
