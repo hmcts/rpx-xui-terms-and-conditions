@@ -4,26 +4,32 @@ import userController from './userController';
 export default express.Router()
 
     /**
-     * POST /:app/:version/users
+     * POST /:version
      *
      * Add Users who have accepted the Terms and Conditions to the Database.
      *
      * app - The application the Terms and Conditions relates to ie. 'manageorg', 'managecases'
      * version - The version of the Terms and Conditions
+     *
+     * TODO: version needs to be optional
      */
-    .post('/:app/:version/users', userController.addUsers)
+    .post('/:version', userController.addUsers)
 
     /**
-     * GET /:app/:version/users
+     * GET /:version
+     *
+     * TODO: version needs to be optional
      *
      * Get all Users who have accepted a specific version of T&C's.
      */
-    .get('/:app/:version/users', userController.getUsers)
+    .get('/:version', userController.getUsers)
 
     /**
-     * GET /:app/:version/users/:userId
+     * GET /:userId/:version
+     *
+     * TODO: version needs to be optional
      *
      * Get a User who has accepted a specific version of T&C's.
      */
-    .get('/:app/:version/users/:userId', userController.getUser)
+    .get('/:userId/:version', userController.getUser)
 

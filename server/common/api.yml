@@ -87,10 +87,11 @@ paths:
         404:
           description: Example not found
 
-  /users/{app}/{version}/users:
+  /termsAndConditions/{app}/users/{version}:
     get:
       tags:
-        - Users
+        - Users routes
+      description: Get all Users who have accepted a specific version of Terms & Conditions.
       parameters:
         - name: app
           in: path
@@ -104,11 +105,11 @@ paths:
           type: number
       responses:
         200:
-          description: Return the Users
+          description: Returns an array of Users who have accepted a specific version of Terms & Conditions.
     post:
       tags:
-        - Users
-      description: Create new Users
+        - Users routes
+      description: Add Users who have accepted the Terms and Conditions.
       parameters:
         - name: app
           in: path
@@ -120,7 +121,7 @@ paths:
           required: true
           description: Terms and Conditions version number
           type: number
-        - name: usersworkon
+        - name: users
           in: body
           description: users
           required: true
@@ -128,12 +129,12 @@ paths:
             $ref: "#/definitions/UsersBody"
       responses:
         200:
-          description: Users added
+          description: Signals success of adding the Users to the datastore
 
-  /users/{app}/{version}/users/{userId}:
+  /termsAndConditions/{app}/users/{userId}/{version}:
     get:
       tags:
-        - User
+        - Users routes
       parameters:
         - name: app
           in: path
@@ -152,7 +153,9 @@ paths:
           type: string
       responses:
         200:
-          description: Return if the User has an associated Terms and Conditions accepted
+          description: Return 200 Success if the User has accepted the version of Terms and Conditions.
+        404:
+          description: Returns 404 if no User has been found.
 
   /termsAndConditions:
     get:
