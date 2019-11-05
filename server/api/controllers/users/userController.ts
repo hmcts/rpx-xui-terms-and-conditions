@@ -15,7 +15,7 @@ export class UserController {
 
         const {app, version} = req.params;
 
-        const users = req.body as Array<User>;
+        const users = req.body as User[];
         const versionAsNumber: number = parseInt(version);
 
         try {

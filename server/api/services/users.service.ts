@@ -36,7 +36,7 @@ export class UsersService {
     user(appName: string, version: number, userId: string) {
         L.info(`User has already accepted T&C's ${userId}`);
 
-        throw Error(ERROR_USER_NOT_ACCEPTED_TCS);
+        // throw Error(ERROR_USER_NOT_ACCEPTED_TCS);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
 
         return { userId };
@@ -49,7 +49,7 @@ export class UsersService {
      * @param version - 2
      * @param user - @see unit test
      */
-    addUsers(appName: string, version: number, users: Array<User>) {
+    addUsers(appName: string, version: number, users: User[]) {
         L.info(`Adding users ${users}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         return users;

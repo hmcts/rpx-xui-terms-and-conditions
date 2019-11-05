@@ -33,15 +33,13 @@ describe('UsersService', function () {
             'and a User.', () => {
             const appName: string = 'XUI-WEBAPP';
             const version: number = 42;
-            const user: User = {
+            const users = [{
                 userId: 'jo'
-            };
+            }];
 
-            expect(UsersService.addUser(appName, version, user)).to.deep.equal({
-                appName,
-                version,
-                user,
-            });
+            expect(UsersService.addUsers(appName, version, users)).to.deep.equal(
+                users,
+            );
         })
     });
 });
