@@ -20,8 +20,8 @@ def component = "terms-and-conditions"
 withPipeline("nodejs", product, component) {
 
     enableDockerBuild()
-
+    //installCharts()
     disableLegacyDeployment()
-    //after('checkout') {sh 'yarn cache clean'}
-
+    
 }
+
