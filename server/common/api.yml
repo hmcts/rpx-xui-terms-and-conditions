@@ -149,7 +149,7 @@ paths:
             $ref: "#/definitions/CopyBody"
       responses:
         200:
-          description: Returns all copies
+          description: Returns new copy
 
   /termsAndConditions/{app}/{version}:
     get:

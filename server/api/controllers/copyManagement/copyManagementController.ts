@@ -7,7 +7,7 @@ export class CopyManagementController {
     try {
       const { app } = req.params;
       const allResponse = CopyManagementService.all(app);
-      res.json(allResponse);
+      res.status(200).send(allResponse);
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);
@@ -23,7 +23,7 @@ export class CopyManagementController {
 
     try {
       const byVersionResponse = CopyManagementService.byVersion(app, version);
-      res.json(byVersionResponse);
+      res.status(200).send(byVersionResponse);
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);
@@ -39,7 +39,7 @@ export class CopyManagementController {
 
     try {
       const byVersionResponse = CopyManagementService.latest(app);
-      res.json(byVersionResponse);
+      res.status(200).send(byVersionResponse);
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);
@@ -56,9 +56,9 @@ export class CopyManagementController {
 
     try {
       const createResponse = CopyManagementService.create(app, content, mimeType);
-      res.status(201)
+      res.status(200)
         .location(`/api/v1/termsAndConditions/${createResponse.version}`)
-        .json(createResponse);
+        .send(createResponse);
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);
