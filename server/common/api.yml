@@ -109,19 +109,32 @@ paths:
         404:
           description: Returns 404 if no User has been found.
 
-  /termsAndConditions:
+  /termsAndConditions/{app}:
     get:
       tags:
         - termsAndConditions
-      description: Fetch all copies
+      description: Fetch all copies for app
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
       responses:
         200:
-          description: Returns all copies
+          description: Returns all copies for app
+        404:
+          description: App not found
     post:
       tags:
         - termsAndConditions
-      description: Create a new copy
+      description: Create a new copy for app
       parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
         - name: content
           in: body
           description: a copy
@@ -138,16 +151,21 @@ paths:
         200:
           description: Returns all copies
 
-  /termsAndConditions/{version}:
+  /termsAndConditions/{app}/{version}:
     get:
       tags:
         - termsAndConditions
       parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
         - name: version
           in: path
           required: true
           description: The version of the copy to retrieve
-          type: integer
+          type: string
       responses:
         200:
           description: Returns the copy with the specified version

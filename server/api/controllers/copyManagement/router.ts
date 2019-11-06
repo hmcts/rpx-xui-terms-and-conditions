@@ -1,6 +1,6 @@
 import express from 'express';
-import controller from './controller'
+import controller from './copyManagementController'
 export default express.Router()
-    .post('/', controller.create)
-    .get('/', controller.all)
-    .get('/:version', controller.byVersion);
+    .post('/:app/', controller.create)
+    .get('/:app/', controller.all)
+    .get('/:app/:version', controller.byVersion);
