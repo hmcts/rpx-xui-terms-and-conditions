@@ -34,6 +34,22 @@ export class CopyManagementController {
     }
   }
 
+  latest(req: Request, res: Response): void {
+    const { app } = req.params;
+
+    try {
+      const byVersionResponse = CopyManagementService.latest(app);
+      res.json(byVersionResponse);
+    } catch (error) {
+      if (ERROR_UNABLE_TO_REACH_DATABASE) {
+        res.status(500).send(error.message);
+      }
+      if (ERROR_COPY_NOT_FOUND) {
+        res.status(404).send(error.message);
+      }
+    }
+  }
+
   create(req: Request, res: Response): void {
     const { app } = req.params;
     const { content, mimeType } = req.body;

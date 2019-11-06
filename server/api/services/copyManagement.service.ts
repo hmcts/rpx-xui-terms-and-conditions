@@ -4,12 +4,12 @@ let version = 1;
 interface Copy {
     version: number;
     content: string;
-    mime: string;
+    mimeType: string;
 }
 
 const copies: Copy[] = [
-    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mime: 'text/html' },
-    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mime: 'text/html' }
+    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mimeType: 'text/html' },
+    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mimeType: 'text/html' }
 ];
 
 const apps = {
@@ -30,15 +30,23 @@ export class CopyManagementService {
         L.info(`fetch copy with version ${version}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         // throw Error(ERROR_COPY_NOT_FOUND);
-        return this.all(app)[version];
+        return apps[app].find(element => element.version.toString() === version);
     }
 
-    create(app: string, content: string, mime: string) {
+    latest(app: string) {
+        L.info(`fetch latest copy`);
+        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
+        // throw Error(ERROR_COPY_NOT_FOUND);
+        const selectedApp = apps[app];
+        return selectedApp[selectedApp.length - 1];
+    }
+
+    create(app: string, content: string, mimeType: string) {
         L.info(`create copy with content ${content}`);
         const copy: Copy = {
             version: version++,
             content,
-            mime,
+            mimeType,
         };
         apps[app].push(copy);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);

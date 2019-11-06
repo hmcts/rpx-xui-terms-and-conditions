@@ -31,7 +31,7 @@ definitions:
     title: copy
     required:
       - content
-      - mime
+      - mimeType
     properties:
       content:
         type: string
@@ -113,7 +113,7 @@ paths:
     get:
       tags:
         - termsAndConditions
-      description: Fetch all copies for app
+      description: Fetch latest copy for app
       parameters:
         - name: app
           in: path
@@ -122,7 +122,7 @@ paths:
           type: string
       responses:
         200:
-          description: Returns all copies for app
+          description: Returns latest copy for app
         404:
           description: App not found
     post:
@@ -141,7 +141,7 @@ paths:
           required: true
           schema:
             $ref: "#/definitions/CopyBody"
-        - name: mime
+        - name: mimeType
           in: body
           description: mime type
           required: true
@@ -171,6 +171,23 @@ paths:
           description: Returns the copy with the specified version
         404:
           description: Copy not found
+
+  /termsAndConditions/{app}/versions:
+    get:
+      tags:
+        - termsAndConditions
+      description: Fetch all copies for app
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+      responses:
+        200:
+          description: Returns all copies for app
+        404:
+          description: App not found
 
   /spec:
     get:
