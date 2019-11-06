@@ -14,12 +14,16 @@ const app = express();
 
 export default class ExpressServer {
     constructor() {
+        // const requestLimit = process.env.REQUEST_LIMIT;
+        const requestLimit = '100kb';
+        // const sessionSecret = process.env.SESSION_SECRET;
+        const sessionSecret = 'secret';
         const root = path.normalize(__dirname + '/../..');
         app.set('appPath', root + 'client');
-        app.use(bodyParser.json({ limit: process.env.REQUEST_LIMIT || '100kb' }));
-        app.use(bodyParser.urlencoded({ extended: true, limit: process.env.REQUEST_LIMIT || '100kb' }));
-        app.use(bodyParser.text({ limit: process.env.REQUEST_LIMIT || '100kb' }));
-        app.use(cookieParser(process.env.SESSION_SECRET));
+        app.use(bodyParser.json({ limit: requestLimit || '100kb' }));
+        app.use(bodyParser.urlencoded({ extended: true, limit: requestLimit || '100kb' }));
+        app.use(bodyParser.text({ limit: requestLimit || '100kb' }));
+        app.use(cookieParser(sessionSecret));
         app.use(express.static(`${root}/public`));
     }
 
@@ -28,7 +32,9 @@ export default class ExpressServer {
         return this;
     }
 
-    listen(p: string | number = process.env.PORT): Application {
+    // TODO: Hard-coded 8080 for now, until we have environmental
+    // variables in our pipeline.
+    listen(p: string | number = 8080): Application {
         const welcome = port => () =>
             l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${port}}`);
         http.createServer(app).listen(p, welcome(p));
