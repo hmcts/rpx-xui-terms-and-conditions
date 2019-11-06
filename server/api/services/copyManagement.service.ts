@@ -9,14 +9,14 @@ interface Copy {
 
 const copies: Copy[] = [
     { version: version++, content: `<h1>Version ${version - 1}</h1>`, mimeType: 'text/html' },
-    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mimeType: 'text/html' }
+    { version: version++, content: `<h1>Version ${version - 1}</h1>`, mimeType: 'text/html' },
 ];
 
 const apps = {
     app1: copies,
     app2: copies,
-    app3: copies
-}
+    app3: copies,
+};
 
 export class CopyManagementService {
     all(app: string) {
