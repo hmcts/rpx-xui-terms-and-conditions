@@ -8,7 +8,7 @@ interface Copy {
 
 const copies: Copy[] = [
     { version: version++, content: `<h1>Version ${version - 1}</h1>` },
-    { version: version++, content: `<h1>Version ${version - 1}</h1>` }
+    { version: version++, content: `<h1>Version ${version - 1}</h1>` },
 ];
 
 export class CopyManagementService {
