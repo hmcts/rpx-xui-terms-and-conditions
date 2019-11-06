@@ -13,17 +13,20 @@ const copies: Copy[] = [
 ];
 
 export class CopyManagementService {
-    all(): Promise<Copy[]> {
+    all() {
         L.info(copies, 'fetch all versions');
-        return Promise.resolve(copies);
+        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
+        return copies;
     }
 
-    byVersion(version: number): Promise<Copy> {
+    byVersion(version: number) {
         L.info(`fetch copy with version ${version}`);
-        return this.all().then(result => result[version]);
+        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
+        // throw Error(ERROR_COPY_NOT_FOUND);
+        return this.all()[version];
     }
 
-    create(content: string, mime: string): Promise<Copy> {
+    create(content: string, mime: string) {
         L.info(`create copy with content ${content}`);
         const copy: Copy = {
             version: version++,
@@ -31,7 +34,8 @@ export class CopyManagementService {
             mime,
         };
         copies.push(copy);
-        return Promise.resolve(copy);
+        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
+        return copy;
     }
 }
 
