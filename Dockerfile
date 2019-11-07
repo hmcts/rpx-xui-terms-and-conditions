@@ -11,11 +11,9 @@ COPY package.json .
 COPY package-lock.json .
 COPY yarn.lock .
 
-RUN yarn
-
 COPY . .
 
-RUN yarn compile
+RUN yarn
 
 EXPOSE 8080
 CMD [ "yarn", "start" ]
