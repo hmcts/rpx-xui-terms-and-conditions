@@ -14,6 +14,7 @@ COPY yarn.lock .
 COPY . .
 
 RUN yarn
+RUN yarn compile
 
 EXPOSE 8080
 CMD [ "yarn", "start" ]
