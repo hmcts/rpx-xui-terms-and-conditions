@@ -4,7 +4,7 @@ Terms and Conditions Microservice
 # Initial Setup
 
 Made by taking the share a case project, which has been integrated with the HMCTS pipeline and
-generator-express-no-stress-typescript scaffold, to create a well structured project
+generator-express-no-stress-typescript scaffold, too create a well structured project
 that works with the HMCTS pipeline ( to be tested in next few days ).
 
 @ref https://github.com/hmcts/rpx-xui-share-case
