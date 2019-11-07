@@ -17,6 +17,14 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "terms-and-conditions"
 
+def secrets = [
+  'rpx-${env}': [
+    secret('mc-s2s-client-secret', 'S2S_SECRET'),
+    secret('mc-idam-client-secret', 'IDAM_SECRET'),
+    secret('APPINSIGHTS-INSTRUMENTATIONKEY', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+  ]
+]
+
 withPipeline("nodejs", product, component) {
 
     enableDockerBuild()
