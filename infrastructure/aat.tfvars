@@ -1,3 +1,3 @@
-sku_name = "GP_Gen5_4"
+//sku_name = "GP_Gen5_4"
 
-capacity = "4"
+// capacity = "4"
