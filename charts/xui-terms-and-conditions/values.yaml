@@ -9,6 +9,8 @@ nodejs:
     UV_THREADPOOL_SIZE: 64
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     XUI_ENV: preview
+    S2S_SECRET: ${S2S_SECRET}
+    IDAM_SECRET: ${IDAM_SECRET}
   keyVaults:
     rpx:
       resourceGroup: rpx
