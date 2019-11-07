@@ -21,7 +21,7 @@ def secrets = [
   'rpx-${env}': [
     secret('mc-s2s-client-secret', 'S2S_SECRET'),
     secret('mc-idam-client-secret', 'IDAM_SECRET'),
-    secret('APPINSIGHTS-INSTRUMENTATIONKEY', 'APPINSIGHTS_INSTRUMENTATIONKEY')
+    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY')
   ],
   ]
 
