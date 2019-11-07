@@ -1,7 +1,7 @@
 import L from '../../common/logger';
 
 let version = 1;
-interface Copy {
+export interface Copy {
     version: number;
     content: string;
     mimeType: string;
@@ -19,21 +19,21 @@ const apps = {
 };
 
 export class CopyManagementService {
-    all(app: string) {
+    all(app: string): Copy[] {
         L.info(apps[app], `fetch all versions for ${app}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         // throw Error(ERROR_APP_NOT_FOUND);
         return apps[app];
     }
 
-    byVersion(app: string, version: string) {
+    byVersion(app: string, version: string): Copy {
         L.info(`fetch copy with version ${version}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         // throw Error(ERROR_COPY_NOT_FOUND);
         return apps[app].find(element => element.version.toString() === version);
     }
 
-    latest(app: string) {
+    latest(app: string): Copy {
         L.info(`fetch latest copy`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         // throw Error(ERROR_COPY_NOT_FOUND);
@@ -41,7 +41,7 @@ export class CopyManagementService {
         return selectedApp[selectedApp.length - 1];
     }
 
-    create(app: string, content: string, mimeType: string) {
+    create(app: string, content: string, mimeType: string): Copy {
         L.info(`create copy with content ${content}`);
         const copy: Copy = {
             version: version++,
