@@ -4,4 +4,6 @@ nodejs:
   environment:
        S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
+       S2S_SECRET: ${S2S_SECRET}
+       IDAM_SECRET: ${IDAM_SECRET}
        
