@@ -15,6 +15,7 @@
     "test:debug": "mocha --inspect-brk test/**/*.ts --exit",
     "test:coverage": "echo 'not implemented'",
     "test:a11y": "echo 'not implemented'",
+    "test:smoke": "echo 'not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "lint": "eslint server/api/**/*.ts",
     "lint:fix": "eslint server/api/**/*.ts --fix",
