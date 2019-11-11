@@ -9,7 +9,7 @@ describe('UsersService', function () {
         it('should take in an application name and terms and conditions version', () => {
             const appName: string = 'XUI-WEBAPP';
             const version: number = 42;
-            expect(UsersService.users(appName, version)).to.deep.equal(
+            expect(UsersService.getUserAgreements(appName, version)).to.deep.equal(
                 [{userId: 'jo'}, {userId: 'bob'}
                 ]);
         })
@@ -22,7 +22,7 @@ describe('UsersService', function () {
             const version: number = 42;
             const userId: string = 'bob';
 
-            expect(UsersService.user(appName, version, userId)).to.deep.equal({
+            expect(UsersService.getUserAgreement(appName, version, userId)).to.deep.equal({
                 userId,
             });
         })
@@ -33,12 +33,12 @@ describe('UsersService', function () {
             'and a User.', () => {
             const appName: string = 'XUI-WEBAPP';
             const version: number = 42;
-            const users = [{
+            const user = {
                 userId: 'jo'
-            }];
+            };
 
-            expect(UsersService.addUsers(appName, version, users)).to.deep.equal(
-                users,
+            expect(UsersService.userAgreement(appName, user, version)).to.deep.equal(
+                user,
             );
         })
     });
