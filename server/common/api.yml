@@ -31,6 +31,7 @@ definitions:
     title: copy
     required:
       - content
+      - mimeType
     properties:
       content:
         type: string
@@ -108,44 +109,85 @@ paths:
         404:
           description: Returns 404 if no User has been found.
 
-  /termsAndConditions:
+  /termsAndConditions/{app}:
     get:
       tags:
         - termsAndConditions
-      description: Fetch all copies
+      description: Fetch latest copy for app
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
       responses:
         200:
-          description: Returns all copies
+          description: Returns latest copy for app
+        404:
+          description: App not found
     post:
       tags:
         - termsAndConditions
-      description: Create a new copy
+      description: Create a new copy for app
       parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
         - name: content
           in: body
           description: a copy
           required: true
           schema:
             $ref: "#/definitions/CopyBody"
+        - name: mimeType
+          in: body
+          description: mime type
+          required: true
+          schema:
+            $ref: "#/definitions/CopyBody"
       responses:
         200:
-          description: Returns all copies
+          description: Returns new copy
 
-  /termsAndConditions/{version}:
+  /termsAndConditions/{app}/{version}:
     get:
       tags:
         - termsAndConditions
       parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
         - name: version
           in: path
           required: true
           description: The version of the copy to retrieve
-          type: integer
+          type: string
       responses:
         200:
           description: Returns the copy with the specified version
         404:
           description: Copy not found
+
+  /termsAndConditions/{app}/versions:
+    get:
+      tags:
+        - termsAndConditions
+      description: Fetch all copies for app
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+      responses:
+        200:
+          description: Returns all copies for app
+        404:
+          description: App not found
 
   /spec:
     get:

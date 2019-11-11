@@ -1,6 +1,20 @@
-FROM node:10.15.3-slim
+FROM node:10.14.2-slim
+
 MAINTAINER "HMCTS Team <https://github.com/hmcts>"
 LABEL maintainer = "HMCTS Team <https://github.com/hmcts>"
-COPY hello.js .
+
+RUN mkdir -p /usr/src/app
+RUN chmod 777 /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package.json .
+COPY package-lock.json .
+COPY yarn.lock .
+
+COPY . .
+
+RUN yarn
+RUN yarn compile
+
 EXPOSE 8080
-CMD [ "node", "hello.js" ]
+CMD [ "yarn", "start" ]
