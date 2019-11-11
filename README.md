@@ -35,6 +35,24 @@ Swagger can be accessed on /api-explorer
 Documentation for the API is contained within server/common/api.yml file, and should be added to when a developer
 writes a new route.
 
+# Docker
+
+To run the Terms and Conditions Service using Docker do the following:
+
+1. Build the Docker image
+`docker build -t terms-and-conditions .`
+
+2. Run the Docker Image inside a Container
+`docker run -8080:3000 terms-and-conditions`
+
+3. The Docker container with the Terms and Conditions service is now up and running 
+on `http://localhost:8080` you can test it using the following GET requests:
+
+`http://localhost:8080/health
+http://localhost:8080/health/liveness`
+
+See Swagger documentation for more route information.
+
 # API Validation
 
 API Validation is controlled within the server/common/api.yml file, and should be added to when a developer
