@@ -9,12 +9,12 @@ import { ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS } from '../
  */
 export class UsersService {
     /**
+     * getUserAgreements
+     *
      * Get Users who have accepted Terms and Conditions for this version
      *
      * TODO: Async call to Postgres
      * TODO: Mock to test call to Postgres
-     * TODO: Throw errors back up from this service to controller, to dispatch
-     * errors to calling service
      * TODO: Return Promise<Example[]>
      *
      * @param appName - 'XUI-WEBAPP'
@@ -29,6 +29,8 @@ export class UsersService {
     }
 
     /**
+     * getUserAgreement
+     *
      * @param appName - 'XUI-WEBAPP'
      * @param version - 2
      * @param user - @see unit test
