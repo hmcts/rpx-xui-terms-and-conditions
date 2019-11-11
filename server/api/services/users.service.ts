@@ -20,7 +20,7 @@ export class UsersService {
      * @param appName - 'XUI-WEBAPP'
      * @param version - 2
      */
-    users(appName: string, version: number) {
+    public users(appName: string, version: number) {
         L.info(`Get all users for an app, with a particular version.`);
 
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
@@ -33,7 +33,7 @@ export class UsersService {
      * @param version - 2
      * @param user - @see unit test
      */
-    user(appName: string, version: number, userId: string) {
+    public user(appName: string, version: number, userId: string) {
         L.info(`User has already accepted T&C's ${userId}`);
 
         // throw Error(ERROR_USER_NOT_ACCEPTED_TCS);
@@ -49,7 +49,7 @@ export class UsersService {
      * @param version - 2
      * @param user - @see unit test
      */
-    addUsers(appName: string, version: number, users: User[]) {
+    public addUsers(appName: string, version: number, users: User[]) {
         L.info(`Adding users ${users}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         return users;

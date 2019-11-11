@@ -10,6 +10,7 @@
     "dev": "nodemon server/index.ts | pino-pretty",
     "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
     "compile": "ts-node build.ts && tsc",
+    "create:schema": "ts-node -r dotenv/config database/scripts/create_db.ts",
     "start": "node dist/index.js",
     "test": "mocha test/**/*.ts --exit",
     "test:debug": "mocha --inspect-brk test/**/*.ts --exit",
@@ -32,6 +33,8 @@
     "express": "^4.17.1",
     "jwt-decode": "^2.2.0",
     "otp": "^0.1.3",
+    "pg-monitor": "^1.3.1",
+    "pg-promise": "^9.3.3",
     "pino": "^5.13.4",
     "sonar-scanner": "^3.1.0",
     "swagger-express-middleware": "^2.0.3"

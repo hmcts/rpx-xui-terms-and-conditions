@@ -1,7 +1,8 @@
-import {Request, Response} from 'express';
+import { Request, Response } from 'express';
+import { ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS } from '../../errors';
+import { User } from '../../interfaces/users';
+import { UserDto } from '../../models/user.dto';
 import UsersService from '../../services/users.service';
-import {ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS} from '../../errors';
-import {User} from '../../interfaces/users';
 
 // TODO: Unit test the following
 export class UserController {
@@ -20,7 +21,7 @@ export class UserController {
 
         try {
             const addUsersResponse = UsersService.addUsers(app, versionAsNumber, users);
-            res.status(200).send(addUsersResponse);
+            res.status(200).send(addUsersResponse.map(u => UserDto.fromModel(u)));
         } catch (error) {
             if (ERROR_UNABLE_TO_REACH_DATABASE) {
                 res.status(500).send(error.message);
@@ -38,7 +39,7 @@ export class UserController {
 
         try {
             const users = UsersService.users(app, versionAsNumber);
-            res.status(200).send(users);
+            res.status(200).send(users.map(u => UserDto.fromModel(u)));
         } catch (error) {
             if (ERROR_UNABLE_TO_REACH_DATABASE) {
                 res.status(500).send(error.message);
@@ -59,7 +60,7 @@ export class UserController {
 
         try {
             const user = UsersService.user(app, versionAsNumber, userId);
-            res.status(200).send(user);
+            res.status(200).send(UserDto.fromModel(user));
         } catch (error) {
             switch (error.message) {
                 case ERROR_UNABLE_TO_REACH_DATABASE:
