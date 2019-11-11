@@ -1,20 +1,13 @@
 import { Request, Response } from 'express';
+import { SERVER_UP_AND_RUNNING, LIVENESS_UP_AND_RUNNING } from '../../messages';
 
 export class HealthController {
   health(req: Request, res: Response): void {
-    try {
-      res.status(200).send('Terms and Conditions is up');
-    } catch (error) {
-        res.status(error.status).send(error.message);
-    }
+    res.status(200).send(SERVER_UP_AND_RUNNING);
   }
 
   liveness(req: Request, res: Response): void {
-    try {
-      res.status(200).send('Terms and Conditions Liveness is up');
-    } catch (error) {
-        res.status(error.status).send(error.message);
-    }
+    res.status(200).send(LIVENESS_UP_AND_RUNNING);
   }
 }
 
