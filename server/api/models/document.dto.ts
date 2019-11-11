@@ -1,4 +1,4 @@
-import { Copy } from "../services/copyManagement.service";
+import { Copy } from '../services/copyManagement.service';
 
 export class TCDocumentDTO {
     public version: number;
@@ -17,7 +17,7 @@ export class TCDocumentDTO {
         return {
             version: this.version,
             content: this.content,
-            mimeType: this.mimeType
+            mimeType: this.mimeType,
         };
     }
 }

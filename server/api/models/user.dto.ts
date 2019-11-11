@@ -1,4 +1,4 @@
-import { User } from "../interfaces/users";
+import { User } from '../interfaces/users';
 
 export class UserDto {
     public userId: string;
@@ -11,7 +11,7 @@ export class UserDto {
 
     public toModel(): User {
         return {
-            userId: this.userId
+            userId: this.userId,
         };
     }
 }
