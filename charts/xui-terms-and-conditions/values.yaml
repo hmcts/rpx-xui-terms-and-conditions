@@ -11,6 +11,8 @@ nodejs:
     XUI_ENV: preview
     S2S_SECRET: ${S2S_SECRET}
     IDAM_SECRET: ${IDAM_SECRET}
+    POSTGRE_SERVER_PORT: 5432
+    POSTGRE_DB_NAME: xui_tc
   keyVaults:
     rpx:
       resourceGroup: rpx
