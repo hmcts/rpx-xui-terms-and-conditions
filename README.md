@@ -28,6 +28,11 @@ Set environment variables `APP_ID` and `LOG_LEVEL` as well as `PORT` <br />
 `yarn lint` - Runs ESLint
 `yarn lint --fix` - Prettier is installed. Prettier will normalise your code formatting to a project standard formatting.
 
+# Routes for Production
+
+On the pipeline /health and /health/liveness must be returned as 200 from any HMCTS micro service for the
+service to get through the pipelines.
+
 # Swagger
 
 Swagger can be accessed on /api-explorer
@@ -46,3 +51,4 @@ GET http://localhost:8080/api/v1/examples
 GET http://localhost:8080/api/v1/examples/1
 POST http://localhost:8080/api/v1/examples
 
+Test PR.
