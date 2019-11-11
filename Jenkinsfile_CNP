@@ -44,7 +44,7 @@ withPipeline("nodejs", product, component) {
     
     installCharts()
     
-    //disableLegacyDeployment()
+    disableLegacyDeployment()
 
 }
 
