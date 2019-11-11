@@ -34,7 +34,7 @@ export default class ExpressServer {
 
     // TODO: Hard-coded 8080 for now, until we have environmental
     // variables in our pipeline.
-    listen(p: string | number = 8080): Application {
+    listen(p: string | number = 3000): Application {
         const welcome = port => () =>
             l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${port}}`);
         http.createServer(app).listen(p, welcome(p));
