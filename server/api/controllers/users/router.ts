@@ -1,7 +1,14 @@
 import express from 'express';
 import userController from './userController';
 
-export default express.Router()
+/**
+ * User Routes
+ *
+ * We have /:app as a parameter within our middleware call (app.use).
+ *
+ * mergeParams allows us to access parameters in the parent routes.
+ */
+export default express.Router({ mergeParams: true })
 
     /**
      * POST /:version
