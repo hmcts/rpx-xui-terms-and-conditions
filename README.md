@@ -53,10 +53,20 @@ http://localhost:8080/health/liveness`
 
 See Swagger documentation for more route information.
 
+# API Versioning 
+
+We're keeping the version number within the path ie. /v1 as it comes with the scaffolding,
+it's been discussed within the team - we've agreed to keep it in.
+
 # API Validation
 
 API Validation is controlled within the server/common/api.yml file, and should be added to when a developer
 writes a new route.
+
+# Postman
+
+We have a Postman file with all the endpoints within the team for ease of testing
+the API.
 
 # Example requests
 
