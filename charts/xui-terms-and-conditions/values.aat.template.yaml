@@ -3,5 +3,9 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   environment:
        S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+       NODE_TLS_REJECT_UNAUTHORIZED: '0'
        S2S_SECRET: ${S2S_SECRET}
-       NODE_TLS_REJECT_UNAUTHORIZED: '1'
+       IDAM_SECRET: ${IDAM_SECRET}
+       POSTGRE_SERVER_NAME: xui-terms-and-conditions-aat.postgres.database.azure.com
+       POSTGRE_USERNAME: ${POSTGRE_USERNAME}
+       POSTGRE_USER_PW: ${POSTGRE_USER_PW}
