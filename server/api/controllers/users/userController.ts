@@ -18,9 +18,6 @@ export class UserController {
 
         const {app, version} = req.params;
 
-        console.log('app');
-        console.log(app);
-
         const user = req.body as User;
         const versionAsNumber: number = parseInt(version);
 
@@ -68,9 +65,6 @@ export class UserController {
 
         const {app, version, userId} = req.params;
         const versionAsNumber: number = parseInt(version);
-
-        // TODO: If there is no version then it should get if the User has accepted the latest
-        // document
 
         try {
             const user = UsersService.getUserAgreement(app, userId, versionAsNumber);

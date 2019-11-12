@@ -17,7 +17,7 @@ export class UsersService {
      * TODO: Mock to test call to Postgres
      * TODO: Return Promise<Example[]>
      *
-     * @param appName - 'XUI-WEBAPP'
+     * @param appName - 'xui_webapp'
      * @param version - 2
      */
     public getUserAgreements(appName: string, version: number) {
@@ -31,7 +31,7 @@ export class UsersService {
     /**
      * getUserAgreement
      *
-     * @param appName - 'XUI-WEBAPP'
+     * @param appName - 'xui_webapp'
      * @param userId - ''
      * @param version (optional) - 1
      */
@@ -57,7 +57,7 @@ export class UsersService {
      * If the version is supplied then we query against that version, if no version
      * is supplied we query against the latest version
      *
-     * @param appName - 'managecases'
+     * @param appName - 'xui_webapp'
      * @param version - 2
      * @param user - @see unit test
      */
