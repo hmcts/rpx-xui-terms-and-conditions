@@ -62,7 +62,6 @@ export class UsersService {
      * @param user - @see unit test
      */
     public userAgreement(appName: string, user: User, version: number) {
-
         L.info(`Adding users ${user}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         return user;

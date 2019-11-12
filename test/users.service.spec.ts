@@ -22,7 +22,7 @@ describe('UsersService', function () {
             const version: number = 42;
             const userId: string = 'bob';
 
-            expect(UsersService.getUserAgreement(appName, version, userId)).to.deep.equal({
+            expect(UsersService.getUserAgreement(appName, userId, version)).to.deep.equal({
                 userId,
             });
         })
