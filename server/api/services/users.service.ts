@@ -32,10 +32,10 @@ export class UsersService {
      * getUserAgreement
      *
      * @param appName - 'XUI-WEBAPP'
-     * @param version - 2
-     * @param user - @see unit test
+     * @param userId - ''
+     * @param version (optional) - 1
      */
-    public getUserAgreement(appName: string, version: number, userId: string) {
+    public getUserAgreement(appName: string, userId: string, version: number) {
         L.info(`User has already accepted T&C's ${userId}`);
 
         // throw Error(ERROR_USER_NOT_ACCEPTED_TCS);
@@ -51,12 +51,18 @@ export class UsersService {
      * version of the T&Cs.
      *
      * TODO: version is optional, if there is no version it defaults to the latest.
+     * Happening on the DB side where it will automatically get the latest version,
+     * if the latest version is not passed in.
      *
-     * @param appName - 'XUI-WEBAPP'
+     * If the version is supplied then we query against that version, if no version
+     * is supplied we query against the latest version
+     *
+     * @param appName - 'managecases'
      * @param version - 2
      * @param user - @see unit test
      */
     public userAgreement(appName: string, user: User, version: number) {
+
         L.info(`Adding users ${user}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         return user;

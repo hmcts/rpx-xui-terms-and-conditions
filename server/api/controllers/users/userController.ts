@@ -18,6 +18,9 @@ export class UserController {
 
         const {app, version} = req.params;
 
+        console.log('app');
+        console.log(app);
+
         const user = req.body as User;
         const versionAsNumber: number = parseInt(version);
 
@@ -33,6 +36,8 @@ export class UserController {
 
     /**
      * getAcceptedUsers
+     *
+     * TODO: Need to pass in documentId or roles.
      *
      * Gets all UUID's who have accepted a specific version of T&C's.
      */
@@ -64,8 +69,11 @@ export class UserController {
         const {app, version, userId} = req.params;
         const versionAsNumber: number = parseInt(version);
 
+        // TODO: If there is no version then it should get if the User has accepted the latest
+        // document
+
         try {
-            const user = UsersService.getUserAgreement(app, versionAsNumber, userId);
+            const user = UsersService.getUserAgreement(app, userId, versionAsNumber);
             res.status(200).send(UserDto.fromModel(user));
         } catch (error) {
             switch (error.message) {
