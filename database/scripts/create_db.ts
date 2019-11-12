@@ -23,7 +23,7 @@ async function createSchema() {
             ];
             const docsInsert = await task.documents.insert(arr);
             const docInsert = await task.documents.add({document: '<h1>TEST</h1>', app: 'xui-mo-webapp', mimetype: 'text/plain'});*/
-            return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate };
+            return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate, appsInsert };
         });
     } catch (e) {
         console.log(e)

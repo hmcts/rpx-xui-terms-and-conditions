@@ -40,7 +40,7 @@ export class TCDocumentRepository {
      * Insert multi
      * @param values
      */
-    async insert(values: { document: string, app: string, mimetype: string }[]): Promise<IResult> {
+    async insert(values: { document: string, mimetype: string }[]): Promise<IResult> {
         const helpers = this.pgp.helpers;
         const insert = helpers.insert(values, TCDocumentRepository.cs.insert);
         return this.db.result(insert)

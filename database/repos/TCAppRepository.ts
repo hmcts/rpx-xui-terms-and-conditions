@@ -21,8 +21,8 @@ export class TCAppRepository {
     }
 
     // Adds a document app
-    async add(documentId: number, app: string): Promise<TCDocumentApp> {
-        return this.db.one(sql.add, name);
+    async add(app: string): Promise<TCDocumentApp> {
+        return this.db.one(sql.add, app);
     }
 
     // Tries to delete a user by id, and returns the number of records deleted;

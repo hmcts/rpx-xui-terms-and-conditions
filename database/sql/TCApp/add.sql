@@ -1,6 +1,6 @@
 /*
     Adds a new Document App
 */
-INSERT INTO "TCApp"("documentId", app)
-VALUES(${documentId}, ${app})
+INSERT INTO "TCApp"(app)
+VALUES(${app})
 RETURNING *
