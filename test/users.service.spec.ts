@@ -16,7 +16,7 @@ describe('UsersService', function () {
     });
 
     describe('user ', function () {
-        it('should take in an application name, terms and conditions version, ' +
+        it('should take in an application name, terms and conditions sversion, ' +
             'and a User.', () => {
             const appName: string = 'XUI-WEBAPP';
             const version: number = 42;
