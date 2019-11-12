@@ -46,5 +46,7 @@ withPipeline("nodejs", product, component) {
     
     disableLegacyDeployment()
 
+    enableAKSStagingDeployment()
+
 }
 
