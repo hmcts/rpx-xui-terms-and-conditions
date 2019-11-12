@@ -44,9 +44,10 @@ withPipeline("nodejs", product, component) {
     
     installCharts()
     
-    disableLegacyDeployment()
+    enableAKSStagingDeployment() 
+    //disableLegacyDeployment()
 
-    enableAKSStagingDeployment()
+    
 
 }
 
