@@ -1,7 +1,7 @@
 import {TCDocumentRepository} from './TCDocumentRepository';
 import {TCUserAgreementRepository} from './TCUserAgreementRepository';
 import {TCDocumentAppRepository} from './TCDocumentAppRepository';
-import {TCAppRepository} from "./TCAppRepository";
+import {TCAppRepository} from './TCAppRepository';
 
 // Database Interface Extensions:
 interface IExtensions {

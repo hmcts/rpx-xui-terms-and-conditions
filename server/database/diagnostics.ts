@@ -1,6 +1,6 @@
 import * as pgMonitor from 'pg-monitor';
 import {IInitOptions} from 'pg-promise';
-import l from '../server/common/logger';
+import l from '../common/logger';
 
 // Flag to indicate whether we are in a DEV environment:
 const $DEV = process.env.NODE_ENV === 'development';
