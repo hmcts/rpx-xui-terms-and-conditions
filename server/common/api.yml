@@ -189,6 +189,27 @@ paths:
         404:
           description: App not found
 
+  /health:
+    get:
+      tags:
+        - health
+      description: Get health
+      responses:
+        200:
+          description: Terms and Conditions is up 
+        404:
+          description: Server down
+
+  /health/liveness:
+    get:
+      tags:
+        - liveness
+      description: Get liveness
+      responses:
+        200:
+          description: Terms and Conditions Liveness is up 
+        404:
+          description: Server down
   /spec:
     get:
       tags:
