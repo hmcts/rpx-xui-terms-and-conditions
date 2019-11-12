@@ -1,5 +1,7 @@
 /*
-    Finds a document agreement by userId and documentId
+    Finds a document agreement by userId and documentAppId
 */
-SELECT * FROM tcuseragreement
-WHERE userId = ${userId} AND documentid = ${documentid}
+SELECT *
+FROM "TCUserAgreement"
+WHERE "userId" = ${userId}
+  AND "documentAppId" = ${documentAppId}

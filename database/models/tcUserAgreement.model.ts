@@ -1,6 +1,6 @@
 export interface TCUserAgreement {
     id: number;
     userId: string;
-    documentAppRoleId: number;
+    documentAppId: number;
     agreementDate: string;
 }

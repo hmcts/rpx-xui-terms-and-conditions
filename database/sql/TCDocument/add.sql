@@ -1,6 +1,6 @@
 /*
     Adds a new Document version
 */
-INSERT INTO tcdocument(document, app, mimetype)
-VALUES(${document}, ${app}, ${mimetype})
+INSERT INTO "TCDocument"(document, mimeType)
+VALUES (${document}, ${mimeType})
 RETURNING *

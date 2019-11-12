@@ -1,7 +1,8 @@
-import {IDatabase, IMain, ColumnSet} from 'pg-promise';
+import {IDatabase, IMain} from 'pg-promise';
 import {IResult} from 'pg-promise/typescript/pg-subset';
 import {TCDocument} from '../models';
 import {documents as sql} from '../sql';
+import {TCColumnSets} from '../models/tcColumnSet.model';
 
 /**
  * TCDocumentRepository class - managed repository to the database table
@@ -12,10 +13,10 @@ export class TCDocumentRepository {
         this.createColumnSets();
     }
 
-    private static table = 'tcdocument';
+    private static table = 'TCDocument';
 
     // ColumnSet objects static namespace:
-    private static cs: ProductColumnSets;
+    private static cs: TCColumnSets;
 
     /**
      * Create the schema table
@@ -31,7 +32,7 @@ export class TCDocumentRepository {
      * It is also an example of mapping HTTP requests into query parameters;
      * @param values
      */
-    async add(values: { document: string, app: string, mimetype: string }): Promise<TCDocument> {
+    async add(values: { document: string, app: string, mimeType: string }): Promise<TCDocument> {
         return this.db.one(sql.add, values);
     }
 
@@ -67,7 +68,7 @@ export class TCDocumentRepository {
     private createColumnSets(): void {
         // create all ColumnSet objects only once:
         if (!TCDocumentRepository.cs) {
-            const helpers = this.pgp.helpers, cs: ProductColumnSets = {};
+            const helpers = this.pgp.helpers, cs: TCColumnSets = {};
 
             // Type TableName is useful when schema isn't default "public" ,
             // otherwise you can just pass in a string for the table name.
@@ -80,8 +81,3 @@ export class TCDocumentRepository {
         }
     }
 }
-
-type ProductColumnSets = {
-    insert?: ColumnSet,
-    update?: ColumnSet
-};

@@ -5,6 +5,8 @@ async function createSchema() {
     try {
         return await db.task('create-schema', async task => {
             const docsCreate = await task.documents.create();
+            const appsCreate = await task.apps.create();
+            const docAppsCreate = await task.documentApps.create();
             const userAgreementsCreate = await task.userAgreements.create();
             /*const arr = [
                 {
@@ -21,7 +23,7 @@ async function createSchema() {
             ];
             const docsInsert = await task.documents.insert(arr);
             const docInsert = await task.documents.add({document: '<h1>TEST</h1>', app: 'xui-mo-webapp', mimetype: 'text/plain'});*/
-            return { docsCreate, userAgreementsCreate };
+            return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate };
         });
     } catch (e) {
         console.log(e)
@@ -29,6 +31,6 @@ async function createSchema() {
 }
 
 createSchema().then( result => {
-    console.log('done');
+    console.log('done', result);
     db.$pool.end();
 });

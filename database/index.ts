@@ -1,7 +1,13 @@
 import pgPromise = require('pg-promise'); // pg-promise core library
 import process from 'process';
 import {IInitOptions, IDatabase, IMain} from 'pg-promise';
-import {IExtensions, TCDocumentRepository, TCUserAgreementRepository} from './repos';
+import {
+    IExtensions,
+    TCAppRepository,
+    TCDocumentAppRepository,
+    TCDocumentRepository,
+    TCUserAgreementRepository
+} from './repos';
 import {Diagnostics} from './diagnostics';
 
 type ExtendedProtocol = IDatabase<IExtensions> & IExtensions;
@@ -17,6 +23,8 @@ const initOptions: IInitOptions<IExtensions> = {
         // Do not use 'require()' here, because this event occurs for every task and transaction being executed,
         // which should be as fast as possible.
         obj.documents = new TCDocumentRepository(obj, pgp);
+        obj.apps = new TCAppRepository(obj, pgp);
+        obj.documentApps = new TCDocumentAppRepository(obj, pgp);
         obj.userAgreements = new TCUserAgreementRepository(obj, pgp);
     }
 };
