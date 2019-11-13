@@ -21,8 +21,18 @@ export class TCDocumentAppRepository {
     }
 
     // Adds a document app
-    async add(documentId: number, app: string): Promise<TCDocumentApp> {
-        return this.db.one(sql.add, name);
+    async add(values: {documentId: number, app: string}): Promise<TCDocumentApp> {
+        return this.db.one(sql.add, values);
+    }
+
+    /**
+     * Insert multi
+     * @param values
+     */
+    async insert(values: { documentId: number, appId: number }[]): Promise<IResult> {
+        const helpers = this.pgp.helpers;
+        const insert = helpers.insert(values, TCDocumentAppRepository.cs.insert);
+        return this.db.result(insert)
     }
 
     // Tries to delete a user by id, and returns the number of records deleted;
@@ -48,7 +58,7 @@ export class TCDocumentAppRepository {
 
             const table = new helpers.TableName({table: TCDocumentAppRepository.table, schema: 'public'});
 
-            cs.insert = new helpers.ColumnSet(['name'], {table});
+            cs.insert = new helpers.ColumnSet(['documentId', 'appId'], {table});
             cs.update = cs.insert.extend(['?id']);
 
             TCDocumentAppRepository.cs = cs;

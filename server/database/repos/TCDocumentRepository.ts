@@ -1,15 +1,15 @@
-import {IDatabase, IMain} from 'pg-promise';
-import {IResult} from 'pg-promise/typescript/pg-subset';
+import {IMain} from 'pg-promise';
 import {TCDocument} from '../models';
 import {documents as sql} from '../sql';
 import {TCColumnSets} from '../models/tcColumnSet.model';
+import {ExtendedProtocol} from '../index';
 
 /**
  * TCDocumentRepository class - managed repository to the database table
  */
 export class TCDocumentRepository {
 
-    constructor(private db: IDatabase<any>, private pgp: IMain) {
+    constructor(private db: ExtendedProtocol, private pgp: IMain) {
         this.createColumnSets();
     }
 
@@ -32,18 +32,26 @@ export class TCDocumentRepository {
      * It is also an example of mapping HTTP requests into query parameters;
      * @param values
      */
-    async add(values: { document: string, app: string, mimeType: string }): Promise<TCDocument> {
-        return this.db.one(sql.add, values);
-    }
+    async add(values: { document: string, mimeType: string, apps: string[] }): Promise<TCDocument> {
 
-    /**
-     * Insert multi
-     * @param values
-     */
-    async insert(values: { document: string, mimetype: string }[]): Promise<IResult> {
-        const helpers = this.pgp.helpers;
-        const insert = helpers.insert(values, TCDocumentRepository.cs.insert);
-        return this.db.result(insert)
+        const dbApps = await this.db.apps.find(values.apps);
+
+        if (!dbApps.length) {
+            throw new Error(`Unknown apps: ${values.apps.join(',')}`);
+        }
+
+        const documentValues = {...values };
+        delete documentValues.apps;
+
+        return this.db.task(async task => {
+            const document: TCDocument = await task.one(sql.add, documentValues);
+            const docAppsInsert = dbApps.map( dbApp => {
+                return { documentId: document.id, appId: dbApp.id }
+            });
+            await task.documentApps.insert(docAppsInsert);
+            document.apps = dbApps;
+            return Promise.resolve(document);
+        });
     }
 
     // Tries to find a user product from user id + product name;
@@ -74,7 +82,7 @@ export class TCDocumentRepository {
             // otherwise you can just pass in a string for the table name.
             const table = new helpers.TableName({table: TCDocumentRepository.table, schema: 'public'});
 
-            cs.insert = new helpers.ColumnSet(['document', 'app', 'mimetype'], {table});
+            cs.insert = new helpers.ColumnSet(['document', 'mimeType'], {table});
             cs.update = cs.insert.extend(['?id']);
 
             TCDocumentRepository.cs = cs;

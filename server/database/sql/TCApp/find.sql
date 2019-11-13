@@ -1,5 +1,5 @@
 /*
-    Finds a documentApp by the document and app
+    Finds a App by the app name
 */
-SELECT * FROM "TCDocumentApp"
-WHERE "documentId" = ${documentId} AND app = ${app}
+SELECT * FROM "TCApp"
+WHERE app IN (${apps:csv})

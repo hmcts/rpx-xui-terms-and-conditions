@@ -8,22 +8,17 @@ async function createSchema() {
             const appsCreate = await task.apps.create();
             const docAppsCreate = await task.documentApps.create();
             const userAgreementsCreate = await task.userAgreements.create();
-            /*const arr = [
-                {
-                    document: '<p>test1</p>',
-                    app: 'xui-webapp',
-                    mimetype: 'text/html'
-                },
-                {
-                    document: '<p>test2</p>',
-                    app: 'xui-ao-webapp',
-                    mimetype: 'application/pdf'
-                }
-
-            ];
-            const docsInsert = await task.documents.insert(arr);
-            const docInsert = await task.documents.add({document: '<h1>TEST</h1>', app: 'xui-mo-webapp', mimetype: 'text/plain'});*/
-            return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate };
+            const appsInit = await task.apps.init();
+            try {
+                return await task.documents.add({
+                    document: '<h1>Terms & Conditions</h1><p>Do you accept?</p>',
+                    mimeType: 'text/plain',
+                    apps: ['xuiwebapp', 'xuimowebapp']
+                });
+            } catch (e) {
+                console.log(e);
+            }
+            // return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate, appsInit, docInsert };
         });
     } catch (e) {
         console.log(e)
@@ -31,6 +26,7 @@ async function createSchema() {
 }
 
 createSchema().then( result => {
-    console.log('done', result);
+    console.log(result);
+    // console.log('done, inserted %d rows', result.appsInit.rowCount);
     db.$pool.end();
 });

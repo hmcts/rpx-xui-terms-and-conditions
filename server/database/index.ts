@@ -10,7 +10,7 @@ import {
 } from './repos';
 import {Diagnostics} from './diagnostics';
 
-type ExtendedProtocol = IDatabase<IExtensions> & IExtensions;
+export type ExtendedProtocol = IDatabase<IExtensions> & IExtensions;
 
 // pg-promise initialization options:
 const initOptions: IInitOptions<IExtensions> = {
@@ -29,25 +29,17 @@ const initOptions: IInitOptions<IExtensions> = {
     }
 };
 
-/*const dbConfig = {
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_HOST,
-    database: process.env.POSTGRES_HOST,
-    user: process.env.POSTGRES_HOST,
-    password: process.env.POSTGRES_HOST
-};*/
-
-
 const dbConfig = {
-    host: 'localhost',
-    port: 5432,
-    database: 'postgres',
-    user: 'postgres_user',
-    password: 'password'
+    host: process.env.POSTGRE_SERVER_NAME,
+    port: <number>parseInt(process.env.POSTGRE_SERVER_PORT),
+    database: process.env.POSTGRE_DB_NAME,
+    user: process.env.POSTGRE_USERNAME,
+    password: process.env.POSTGRE_PW
 };
 
 // Initializing the library:
 const pgp: IMain = pgPromise(initOptions);
+pgp.pg.defaults.ssl = true;
 
 // Creating the database instance with extensions:
 export const db: ExtendedProtocol = pgp(dbConfig);
