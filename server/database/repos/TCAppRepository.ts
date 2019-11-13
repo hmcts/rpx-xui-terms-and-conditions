@@ -1,6 +1,6 @@
 import {IDatabase, IMain} from 'pg-promise';
 import {IResult} from 'pg-promise/typescript/pg-subset';
-import {TCDocumentApp} from '../models';
+import {TCApp} from '../models';
 import {apps as sql} from '../sql';
 import {TCColumnSets} from '../models/tcColumnSet.model';
 
@@ -20,22 +20,43 @@ export class TCAppRepository {
         return this.db.none(sql.create);
     }
 
+    async init(): Promise<IResult> {
+        const values: { app: string }[] = [
+            {
+                app: 'xuiwebapp',
+            },
+            {
+                app: 'xuimowebapp',
+            },
+        ];
+        const helpers = this.pgp.helpers;
+        const insert = helpers.insert(values, TCAppRepository.cs.insert) + ' ON CONFLICT DO NOTHING';
+        return this.db.result(insert);
+    }
+
+    // Tries to find a user product from user id + product name;
+    async find(apps: string[]): Promise<TCApp[] | null> {
+        return this.db.manyOrNone(sql.find, {
+            apps: apps
+        });
+    }
+
     // Adds a document app
-    async add(app: string): Promise<TCDocumentApp> {
+    async add(app: string): Promise<TCApp> {
         return this.db.one(sql.add, app);
     }
 
-    // Tries to delete a user by id, and returns the number of records deleted;
+    // Tries to delete an app by id, and returns the number of records deleted;
     async remove(id: number): Promise<number> {
         return this.db.result(`DELETE FROM ${TCAppRepository.table} WHERE id = $1`, +id, (r: IResult) => r.rowCount);
     }
 
-    // Returns all user records;
-    async all(): Promise<TCDocumentApp[]> {
+    // Returns all app records;
+    async all(): Promise<TCApp[]> {
         return this.db.any(`SELECT * FROM ${TCAppRepository.table}`);
     }
 
-    // Returns the total number of users;
+    // Returns the total number of apps;
     async total(): Promise<number> {
         return this.db.one(`SELECT count(*) FROM ${TCAppRepository.table}`, [], (a: { count: string }) => +a.count);
     }
@@ -48,7 +69,7 @@ export class TCAppRepository {
 
             const table = new helpers.TableName({table: TCAppRepository.table, schema: 'public'});
 
-            cs.insert = new helpers.ColumnSet(['name'], {table});
+            cs.insert = new helpers.ColumnSet(['app'], {table});
             cs.update = cs.insert.extend(['?id']);
 
             TCAppRepository.cs = cs;
