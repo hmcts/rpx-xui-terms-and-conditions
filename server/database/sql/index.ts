@@ -22,6 +22,18 @@ export const documents = {
     add: sql('TCDocument/add.sql')
 };
 
+export const apps = {
+    create: sql('TCApp/create.sql'),
+    find: sql('TCApp/find.sql'),
+    add: sql('TCApp/add.sql')
+};
+
+export const documentApps = {
+    create: sql('TCDocumentApp/create.sql'),
+    find: sql('TCDocumentApp/find.sql'),
+    add: sql('TCDocumentApp/add.sql')
+};
+
 export const userAgreements = {
     create: sql('TCUserAgreement/create.sql'),
     find: sql('TCUserAgreement/find.sql'),

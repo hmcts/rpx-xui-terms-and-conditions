@@ -17,14 +17,14 @@ produces:
 definitions:
 
   UsersBody:
-    type: array
+    type: object
     title: users
     items:
       type: object
       properties:
         userId:
           type: string
-          example: jo
+          example: 123e4567-e89b-12d3-a456-426655440000
 
   CopyBody:
     type: object

@@ -1,7 +1,8 @@
-import {IDatabase, IMain, ColumnSet} from 'pg-promise';
+import {IDatabase, IMain} from 'pg-promise';
 import {IResult} from 'pg-promise/typescript/pg-subset';
 import {TCUserAgreement} from '../models';
 import {userAgreements as sql} from '../sql';
+import {TCColumnSets} from '../models/tcColumnSet.model';
 
 export class TCUserAgreementRepository {
 
@@ -9,10 +10,10 @@ export class TCUserAgreementRepository {
         this.createColumnSets();
     }
 
-    private static table = 'tcuseragreement';
+    private static table = 'TCUserAgreement';
 
     // ColumnSet objects static namespace:
-    private static cs: UserColumnSets;
+    private static cs: TCColumnSets;
 
     // Creates the table;
     async create(): Promise<null> {
@@ -43,7 +44,7 @@ export class TCUserAgreementRepository {
     private createColumnSets(): void {
         // create all ColumnSet objects only once:
         if (!TCUserAgreementRepository.cs) {
-            const helpers = this.pgp.helpers, cs: UserColumnSets = {};
+            const helpers = this.pgp.helpers, cs: TCColumnSets = {};
 
             const table = new helpers.TableName({table: TCUserAgreementRepository.table, schema: 'public'});
 
@@ -55,8 +56,3 @@ export class TCUserAgreementRepository {
     }
 
 }
-
-type UserColumnSets = {
-    insert?: ColumnSet,
-    update?: ColumnSet
-};

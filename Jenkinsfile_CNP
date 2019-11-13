@@ -43,8 +43,10 @@ withPipeline("nodejs", product, component) {
     enableDockerBuild()
     
     installCharts()
-    
-    disableLegacyDeployment()
 
+    disableLegacyDeployment()
+    
+    enableAksStagingDeployment() 
+    
 }
 

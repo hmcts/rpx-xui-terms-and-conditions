@@ -4,5 +4,4 @@ export interface TCDocument {
     mimeType: string;
     creationDate: string;
     version: number;
-    app: string;
 }

@@ -21,18 +21,15 @@ describe('Users controller', () => {
   it('should be able to add Users', () =>
     request(Server)
       .post('/api/v1/termsAndConditions/managecases/users/1')
-      .send([
+      .send(
           {
-              "userId": "james"
+              "userId": "123e4567-e89b-12d3-a456-426655440000"
           },
-          {
-              "userId": "claire"
-          }
-      ])
+      )
       .expect('Content-Type', /json/)
       .then(response => {
         expect(response.body)
-          .to.be.an('array')
+          .to.be.an('object')
           // .that.has.property('name')
           // .equal('test');
       }));
