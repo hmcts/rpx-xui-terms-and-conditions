@@ -2,7 +2,7 @@ import axios, { AxiosResponse, AxiosInstance } from 'axios'
 
 const http: AxiosInstance = axios.create({})
 
-export async function validateS2sToken(url: string, s2sToken: any) {
+export async function validateUserToken(url: string, s2sToken: any) {
     const options = {
         headers: { Authorization: `${s2sToken}` },
         //remove proxy after local testing is finished
