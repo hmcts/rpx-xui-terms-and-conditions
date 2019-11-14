@@ -39,7 +39,7 @@ export class UsersService {
      */
     public getUserAgreement(appName: string, userId: string, version?: number): Promise<Agreement> {
         L.info(`User has already accepted T&C's ${userId}`);
-        return db.userAgreements.get({ user: userId, app: appName, version});
+        return db.userAgreements.get({ user: userId, app: appName, version });
     }
 
     /**

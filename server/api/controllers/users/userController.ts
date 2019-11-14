@@ -6,7 +6,6 @@ import UsersService from '../../services/users.service';
 
 // TODO: Unit test the following
 export class UserController {
-
     /**
      * acceptTermsConditions
      *
@@ -15,8 +14,7 @@ export class UserController {
      * Note that the POST body is currently defined within the api.yml file.
      */
     public async acceptTermsConditions(req: Request, res: Response): Promise<void> {
-
-        const {app, version} = req.params;
+        const { app, version } = req.params;
 
         const user = req.body as User;
         const versionAsNumber: number = parseInt(version);
@@ -39,8 +37,7 @@ export class UserController {
      * Gets all UUID's who have accepted a specific version of T&C's.
      */
     getAcceptedUsers(req: Request, res: Response): void {
-
-        const {app, version} = req.params;
+        const { app, version } = req.params;
         const versionAsNumber: number = parseInt(version);
 
         try {
@@ -60,8 +57,7 @@ export class UserController {
      *
      */
     hasUserAccepted(req: Request, res: Response): void {
-
-        const {app, version, userId} = req.params;
+        const { app, version, userId } = req.params;
         const versionAsNumber: number = parseInt(version);
 
         try {
