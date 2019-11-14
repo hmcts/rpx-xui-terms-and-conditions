@@ -41,7 +41,9 @@ export const documentApps = {
 export const userAgreements = {
     create: sql('TCUserAgreement/create.sql'),
     find: sql('TCUserAgreement/find.sql'),
-    add: sql('TCUserAgreement/add.sql')
+    add: sql('TCUserAgreement/add.sql'),
+    getWithVersion: sql('TCUserAgreement/getWithVersion.sql'),
+    getForLatestVersion: sql('TCUserAgreement/getForLatestVersion.sql')
 };
 
 ///////////////////////////////////////////////

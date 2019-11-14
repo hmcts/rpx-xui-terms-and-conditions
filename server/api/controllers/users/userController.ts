@@ -6,7 +6,6 @@ import UsersService from '../../services/users.service';
 
 // TODO: Unit test the following
 export class UserController {
-
     /**
      * acceptTermsConditions
      *
@@ -14,16 +13,15 @@ export class UserController {
      *
      * Note that the POST body is currently defined within the api.yml file.
      */
-    acceptTermsConditions(req: Request, res: Response): void {
-
-        const {app, version} = req.params;
+    public async acceptTermsConditions(req: Request, res: Response): Promise<void> {
+        const { app, version } = req.params;
 
         const user = req.body as User;
         const versionAsNumber: number = parseInt(version);
 
         try {
-            const userAgreementResponse = UsersService.userAgreement(app, user, versionAsNumber);
-            res.status(200).send(UserDto.fromModel(userAgreementResponse));
+            const userAgreementResponse = await UsersService.userAgreement(app, user, versionAsNumber);
+            res.status(200).send(userAgreementResponse);
         } catch (error) {
             if (ERROR_UNABLE_TO_REACH_DATABASE) {
                 res.status(500).send(error.message);
@@ -39,8 +37,7 @@ export class UserController {
      * Gets all UUID's who have accepted a specific version of T&C's.
      */
     getAcceptedUsers(req: Request, res: Response): void {
-
-        const {app, version} = req.params;
+        const { app, version } = req.params;
         const versionAsNumber: number = parseInt(version);
 
         try {
@@ -58,17 +55,14 @@ export class UserController {
      *
      * Gets if a UUID has accepted a specific version of T&C's.
      *
-     * Returns a 404 status code if the User has not accepted T&C's ie.
-     * The User is not within the T&C's database.
      */
     hasUserAccepted(req: Request, res: Response): void {
-
-        const {app, version, userId} = req.params;
+        const { app, version, userId } = req.params;
         const versionAsNumber: number = parseInt(version);
 
         try {
-            const user = UsersService.getUserAgreement(app, userId, versionAsNumber);
-            res.status(200).send(UserDto.fromModel(user));
+            const agreement = UsersService.getUserAgreement(app, userId, versionAsNumber);
+            res.status(200).send(agreement);
         } catch (error) {
             switch (error.message) {
                 case ERROR_UNABLE_TO_REACH_DATABASE:
