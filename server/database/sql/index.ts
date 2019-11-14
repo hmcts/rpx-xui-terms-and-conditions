@@ -19,7 +19,11 @@ import * as path from 'path';
 export const documents = {
     create: sql('TCDocument/create.sql'),
     find: sql('TCDocument/find.sql'),
-    add: sql('TCDocument/add.sql')
+    findLatest: sql('TCDocument/findLatest.sql'),
+    findByVersion: sql('TCDocument/findByVersion.sql'),
+    add: sql('TCDocument/add.sql'),
+    all: sql('TCDocument/all.sql'),
+    total: sql('TCDocument/total.sql'),
 };
 
 export const apps = {
