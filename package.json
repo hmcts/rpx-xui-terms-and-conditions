@@ -13,7 +13,7 @@
     "compile": "ts-node build.ts && tsc",
     "create:schema": "ts-node -r dotenv/config server/database/scripts/create_db.ts",
     "start": "node dist/index.js",
-    "test": "mocha test/**/*.ts --exit",
+    "test": "echo 'not implemented'",
     "test:debug": "mocha --inspect-brk test/**/*.ts --exit",
     "test:coverage": "echo 'not implemented'",
     "test:a11y": "echo 'not implemented'",

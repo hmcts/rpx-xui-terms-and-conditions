@@ -39,76 +39,6 @@ definitions:
 
 paths:
 
-  /termsAndConditions/{app}/users/{version}:
-    get:
-      tags:
-        - Users routes
-      description: Get all Users who have accepted a specific version of Terms & Conditions.
-      parameters:
-        - name: app
-          in: path
-          required: true
-          description: The application identifier
-          type: string
-        - name: version
-          in: path
-          required: true
-          description: Terms and Conditions version number
-          type: number
-      responses:
-        200:
-          description: Returns an array of Users who have accepted a specific version of Terms & Conditions.
-    post:
-      tags:
-        - Users routes
-      description: Add Users who have accepted the Terms and Conditions.
-      parameters:
-        - name: app
-          in: path
-          description: Create new users
-          required: true
-          type: string
-        - name: version
-          in: path
-          required: true
-          description: Terms and Conditions version number
-          type: number
-        - name: users
-          in: body
-          description: users
-          required: true
-          schema:
-            $ref: "#/definitions/UsersBody"
-      responses:
-        200:
-          description: Signals success of adding the Users to the datastore
-
-  /termsAndConditions/{app}/users/{userId}/{version}:
-    get:
-      tags:
-        - Users routes
-      parameters:
-        - name: app
-          in: path
-          required: true
-          description: The application identifier
-          type: string
-        - name: version
-          in: path
-          required: true
-          description: Terms and Conditions version number
-          type: number
-        - name: userId
-          in: path
-          required: true
-          description: User id
-          type: string
-      responses:
-        200:
-          description: Return 200 Success if the User has accepted the version of Terms and Conditions.
-        404:
-          description: Returns 404 if no User has been found.
-
   /termsAndConditions/{app}:
     get:
       tags:
@@ -188,6 +118,99 @@ paths:
           description: Returns all copies for app
         404:
           description: App not found
+
+  /termsAndConditions/{app}/users/{userId}:
+    get:
+      tags:
+        - Users routes
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          type: string
+      responses:
+        200:
+          description: Return 200 Success if the User has accepted the version of Terms and Conditions.
+        404:
+          description: Returns 404 if no User has been found.
+
+  /termsAndConditions/{app}/users/{userId}/{version}:
+    get:
+      tags:
+        - Users routes
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          type: string
+        - name: version
+          in: path
+          required: false
+          description: Terms and Conditions version number
+          type: number
+      responses:
+        200:
+          description: Return 200 Success if the User has accepted the version of Terms and Conditions.
+        404:
+          description: Returns 404 if no User has been found.
+
+  /termsAndConditions/{app}/users/accepted/{version}:
+    get:
+      tags:
+        - Users routes
+      description: Get all Users who have accepted a specific version of Terms & Conditions.
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: version
+          in: path
+          required: false
+          description: Terms and Conditions version number
+          type: number
+      responses:
+        200:
+          description: Returns an array of Users who have accepted a specific version of Terms & Conditions.
+
+  /termsAndConditions/{app}/users/{version}:
+    post:
+      tags:
+        - Users routes
+      description: Add Users who have accepted the Terms and Conditions.
+      parameters:
+        - name: app
+          in: path
+          description: Create new users
+          required: true
+          type: string
+        - name: version
+          in: path
+          required: true
+          description: Terms and Conditions version number
+          type: number
+        - name: users
+          in: body
+          description: users
+          required: true
+          schema:
+            $ref: "#/definitions/UsersBody"
+      responses:
+        200:
+          description: Signals success of adding the Users to the datastore
 
   /health:
     get:

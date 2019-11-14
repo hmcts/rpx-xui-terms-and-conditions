@@ -1,22 +1,22 @@
-import { Copy } from '../services/copyManagement.service';
+import { Document } from '../interfaces/documents';
 
 export class TCDocumentDTO {
     public version: number;
-    public content: string;
+    public document: string;
     public mimeType: string;
 
-    public static fromModel(model: Copy): TCDocumentDTO {
+    public static fromModel(model: Document): TCDocumentDTO {
         const d = new TCDocumentDTO();
         d.version = model.version;
-        d.content = model.content;
+        d.document = model.document;
         d.mimeType = model.mimeType;
         return d;
     }
 
-    public toModel(): Copy {
+    public toModel(): Document {
         return {
             version: this.version,
-            content: this.content,
+            document: this.document,
             mimeType: this.mimeType,
         };
     }

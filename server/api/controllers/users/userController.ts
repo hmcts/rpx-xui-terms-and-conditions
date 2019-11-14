@@ -57,8 +57,9 @@ export class UserController {
      *
      */
     hasUserAccepted(req: Request, res: Response): void {
-        const { app, version, userId } = req.params;
-        const versionAsNumber: number = parseInt(version);
+
+        const {app, version, userId} = req.params;
+        const versionAsNumber: number = version ? parseInt(version) : null;
 
         try {
             const agreement = UsersService.getUserAgreement(app, userId, versionAsNumber);
