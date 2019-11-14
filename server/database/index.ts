@@ -22,7 +22,7 @@ const initOptions: IInitOptions<IExtensions> = {
 
         // Do not use 'require()' here, because this event occurs for every task and transaction being executed,
         // which should be as fast as possible.
-        obj.documents = new TCDocumentRepository(obj, pgp);
+        obj.documents = new TCDocumentRepository(obj);
         obj.apps = new TCAppRepository(obj, pgp);
         obj.documentApps = new TCDocumentAppRepository(obj, pgp);
         obj.userAgreements = new TCUserAgreementRepository(obj, pgp);
@@ -34,12 +34,12 @@ const dbConfig = {
     port: <number>parseInt(process.env.POSTGRE_SERVER_PORT),
     database: process.env.POSTGRE_DB_NAME,
     user: process.env.POSTGRE_USERNAME,
-    password: process.env.POSTGRE_PW
+    password: process.env.POSTGRE_PW,
+    ssl: true
 };
 
 // Initializing the library:
 const pgp: IMain = pgPromise(initOptions);
-pgp.pg.defaults.ssl = true;
 
 // Creating the database instance with extensions:
 export const db: ExtendedProtocol = pgp(dbConfig);

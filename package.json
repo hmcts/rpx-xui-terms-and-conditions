@@ -7,7 +7,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon server/index.ts | pino-pretty",
+    "dev": "nodemon -r dotenv/config server/index.ts | pino-pretty",
+    "dev:start": "node -r dotenv/config dist/index.js",
     "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
     "compile": "ts-node build.ts && tsc",
     "create:schema": "ts-node -r dotenv/config server/database/scripts/create_db.ts",

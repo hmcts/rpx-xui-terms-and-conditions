@@ -9,7 +9,7 @@ async function createSchema() {
             const docAppsCreate = await task.documentApps.create();
             const userAgreementsCreate = await task.userAgreements.create();
             const appsInit = await task.apps.init();
-            try {
+            /*try {
                 return await task.documents.add({
                     document: '<h1>Terms & Conditions</h1><p>Do you accept?</p>',
                     mimeType: 'text/plain',
@@ -17,7 +17,10 @@ async function createSchema() {
                 });
             } catch (e) {
                 console.log(e);
-            }
+            }*/
+            // return db.documents.findLatest({ app: 'xuiwebapp' });
+            // return db.documents.findByVersion({ app: 'xuiwebapp', version: 4 });
+            return db.documents.total( { app: 'xuimowebapp' });
             // return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate, appsInit, docInsert };
         });
     } catch (e) {
