@@ -56,13 +56,13 @@ export class UserController {
      * Gets if a UUID has accepted a specific version of T&C's.
      *
      */
-    hasUserAccepted(req: Request, res: Response): void {
+    async hasUserAccepted(req: Request, res: Response): Promise<void> {
 
         const {app, version, userId} = req.params;
         const versionAsNumber: number = version ? parseInt(version) : null;
 
         try {
-            const agreement = UsersService.getUserAgreement(app, userId, versionAsNumber);
+            const agreement = await UsersService.getUserAgreement(app, userId, versionAsNumber);
             res.status(200).send(agreement);
         } catch (error) {
             switch (error.message) {

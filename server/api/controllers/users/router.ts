@@ -22,7 +22,7 @@ export default express
      * POST /termsAndConditions/<app>/users/<?version>
      * TODO: version needs to be optional
      */
-    .post('/:version', userController.acceptTermsConditions)
+    .post('/accept/version/:version', userController.acceptTermsConditions)
 
     /**
      * GET /:version

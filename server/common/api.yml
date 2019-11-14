@@ -186,7 +186,7 @@ paths:
         200:
           description: Returns an array of Users who have accepted a specific version of Terms & Conditions.
 
-  /termsAndConditions/{app}/users/{version}:
+  /termsAndConditions/{app}/users/accept/version/{version}:
     post:
       tags:
         - Users routes
