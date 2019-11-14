@@ -14,7 +14,7 @@ export class UserController {
      *
      * Note that the POST body is currently defined within the api.yml file.
      */
-    acceptTermsConditions(req: Request, res: Response): void {
+    public async acceptTermsConditions(req: Request, res: Response): Promise<void> {
 
         const {app, version} = req.params;
 
@@ -22,8 +22,8 @@ export class UserController {
         const versionAsNumber: number = parseInt(version);
 
         try {
-            const userAgreementResponse = UsersService.userAgreement(app, user, versionAsNumber);
-            res.status(200).send(UserDto.fromModel(userAgreementResponse));
+            const userAgreementResponse = await UsersService.userAgreement(app, user, versionAsNumber);
+            res.status(200).send(userAgreementResponse);
         } catch (error) {
             if (ERROR_UNABLE_TO_REACH_DATABASE) {
                 res.status(500).send(error.message);
@@ -58,8 +58,6 @@ export class UserController {
      *
      * Gets if a UUID has accepted a specific version of T&C's.
      *
-     * Returns a 404 status code if the User has not accepted T&C's ie.
-     * The User is not within the T&C's database.
      */
     hasUserAccepted(req: Request, res: Response): void {
 
@@ -67,8 +65,8 @@ export class UserController {
         const versionAsNumber: number = parseInt(version);
 
         try {
-            const user = UsersService.getUserAgreement(app, userId, versionAsNumber);
-            res.status(200).send(UserDto.fromModel(user));
+            const agreement = UsersService.getUserAgreement(app, userId, versionAsNumber);
+            res.status(200).send(agreement);
         } catch (error) {
             switch (error.message) {
                 case ERROR_UNABLE_TO_REACH_DATABASE:
