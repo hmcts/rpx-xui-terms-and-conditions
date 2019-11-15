@@ -19,11 +19,12 @@ export class DocumentManagementController {
     }
   }
 
-  byVersion(req: Request, res: Response): void {
+  async byVersion(req: Request, res: Response): Promise<void> {
     const { app, version } = req.params;
+    const versionAsNumber: number = version ? parseInt(version) : null;
 
     try {
-      const byVersionResponse = DocumentManagementService.byVersion(app, version);
+      const byVersionResponse = await DocumentManagementService.byVersion(app, versionAsNumber);
       res.status(200).send(TCDocumentDTO.fromModel(byVersionResponse));
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
@@ -35,11 +36,11 @@ export class DocumentManagementController {
     }
   }
 
-  latest(req: Request, res: Response): void {
+  async latest(req: Request, res: Response): Promise<void> {
     const { app } = req.params;
 
     try {
-      const byVersionResponse = DocumentManagementService.latest(app);
+      const byVersionResponse = await DocumentManagementService.latest(app);
       res.status(200).send(TCDocumentDTO.fromModel(byVersionResponse));
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
@@ -51,14 +52,14 @@ export class DocumentManagementController {
     }
   }
 
-  create(req: Request, res: Response): void {
+  async create(req: Request, res: Response): Promise<void> {
     const { app } = req.params;
     const { content, mimeType } = req.body;
 
     try {
-      const createResponse = DocumentManagementService.create(app, content, mimeType);
+      const createResponse = await DocumentManagementService.create(app, content, mimeType);
       res.status(200)
-        .location(`/api/v1/termsAndConditions/${createResponse.version}`)
+        .location(`/api/v1/termsAndConditions/${app}/${createResponse.version}`)
         .send(TCDocumentDTO.fromModel(createResponse));
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {

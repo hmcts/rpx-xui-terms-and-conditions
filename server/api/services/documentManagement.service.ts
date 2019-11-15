@@ -17,40 +17,32 @@ const apps = {
 };
 
 export class DocumentManagementService {
-    async all(app: string): Promise<TCDocument[]> {
+    all(app: string): Promise<TCDocument[]> {
         L.info(apps[app], `fetch all versions for ${app}`);
-        const documents = await db.documents.all({app: app});
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-        if (documents.length === 0) {
-            throw Error(ERROR_APP_NOT_FOUND);
-        }
-        return documents;
+        // throw Error(ERROR_APP_NOT_FOUND);
+        return db.documents.all({app});
     }
 
-    byVersion(app: string, version: string): Document {
+    byVersion(app: string, version: number): Promise<Document> {
         L.info(`fetch document with version ${version}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         // throw Error(ERROR_COPY_NOT_FOUND);
-        return apps[app].find(element => element.version.toString() === version);
+        // return apps[app].find(element => element.version.toString() === version);
+        return db.documents.findByVersion({app, version});
     }
 
-    latest(app: string): Document {
+    latest(app: string): Promise<Document> {
         L.info(`fetch latest document`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         // throw Error(ERROR_COPY_NOT_FOUND);
-        const selectedApp = apps[app];
-        return selectedApp[selectedApp.length - 1];
+        return db.documents.findLatest({app});
     }
 
-    create(app: string, document: string, mimeType: string): Document {
+    create(app: string, document: string, mimeType: string): Promise<Document> {
         L.info(`create document with content ${document}`);
-        const copy: Document = {
-            document,
-            mimeType,
-        };
-        apps[app].push(copy);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-        return copy;
+        return db.documents.add({document: document, mimeType: mimeType, apps:[app]});
     }
 }
 

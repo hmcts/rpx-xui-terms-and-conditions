@@ -38,7 +38,7 @@ export class UsersService {
      * @param version (optional) - 1
      */
     public getUserAgreement(appName: string, userId: string, version?: number): Promise<Agreement> {
-        L.info(`User has already accepted T&C's ${userId}`);
+        L.info(`Has user ${userId} accepted T&C's ${version ? 'version ' + version : 'latest version'}?`);
         return db.userAgreements.get({ user: userId, app: appName, version });
     }
 
