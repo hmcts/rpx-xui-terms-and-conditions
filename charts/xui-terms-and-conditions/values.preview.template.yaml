@@ -9,6 +9,8 @@ nodejs:
        POSTGRE_SERVER_NAME: xui-terms-and-conditions-aat.postgres.database.azure.com
        POSTGRE_USERNAME: ${POSTGRE_USERNAME}
        POSTGRE_USER_PW: ${POSTGRE_USER_PW}
+       NODE_ENV: preview
+       XUI_ENV: preview
        
 
        
