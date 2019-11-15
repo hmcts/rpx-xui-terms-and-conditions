@@ -40,12 +40,15 @@ export class UserController {
      *
      * Gets all UUID's who have accepted a specific version of T&C's.
      */
-    getAcceptedUsers(req: Request, res: Response): void {
+    public async getAcceptedUsers(req: Request, res: Response): Promise<void> {
         const { app, version } = req.params;
-        const versionAsNumber: number = parseInt(version);
+        let versionAsNumber: number = version ? parseInt(version) : undefined;
+        if (isNaN(versionAsNumber)) {
+            versionAsNumber = undefined;
+        }
 
         try {
-            const users = UsersService.getUserAgreements(app, versionAsNumber);
+            const users = await UsersService.getUserAgreements(app, versionAsNumber);
             res.status(200).send(users.map(user => UserDto.fromModel(user)));
         } catch (error) {
             if (ERROR_UNABLE_TO_REACH_DATABASE) {
