@@ -11,4 +11,4 @@ export default express.Router({ mergeParams: true })
      *
      * Get all user names.
      */
-    .get('/all', appsController.allApps);
+    .get('/', appsController.allApps);

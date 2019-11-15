@@ -4,7 +4,7 @@ import AppsService from '../../services/apps.service';
 
 export class AppsController {
     /**
-     * allApss
+     * allApps
      *
      * Gets all app names.
      *

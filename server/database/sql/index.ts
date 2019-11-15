@@ -29,7 +29,8 @@ export const documents = {
 export const apps = {
     create: sql('TCApp/create.sql'),
     find: sql('TCApp/find.sql'),
-    add: sql('TCApp/add.sql')
+    add: sql('TCApp/add.sql'),
+    all: sql('TCApp/all.sql')
 };
 
 export const documentApps = {
