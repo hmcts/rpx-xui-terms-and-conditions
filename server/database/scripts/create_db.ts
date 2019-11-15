@@ -1,7 +1,6 @@
-import {db} from '../index'
+import { db } from '../index';
 
 async function createSchema() {
-
     try {
         return await db.task('create-schema', async task => {
             const docsCreate = await task.documents.create();
@@ -20,15 +19,15 @@ async function createSchema() {
             }*/
             // return db.documents.findLatest({ app: 'xuiwebapp' });
             // return db.documents.findByVersion({ app: 'xuiwebapp', version: 4 });
-            return db.documents.total( { app: 'xuimowebapp' });
+            return db.documents.total({ app: 'xuimowebapp' });
             // return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate, appsInit, docInsert };
         });
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
 }
 
-createSchema().then( result => {
+createSchema().then(result => {
     console.log(result);
     // console.log('done, inserted %d rows', result.appsInit.rowCount);
     db.$pool.end();

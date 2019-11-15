@@ -1,4 +1,4 @@
-import {TCApp} from './tcApp.model';
+import { TCApp } from './tcApp.model';
 
 export interface TCDocument {
     id: number;
@@ -6,5 +6,5 @@ export interface TCDocument {
     mimeType: string;
     creationDate: string;
     version: number;
-    apps: TCApp[]
+    apps: TCApp[];
 }
