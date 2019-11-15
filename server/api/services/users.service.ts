@@ -45,10 +45,6 @@ export class UsersService {
     /**
      * userAgreement
      *
-     * TODO: version is optional, if there is no version it defaults to the latest.
-     * Happening on the DB side where it will automatically get the latest version,
-     * if the latest version is not passed in.
-     *
      * If the version is supplied then we query against that version, if no version
      * is supplied we query against the latest version
      *
@@ -56,7 +52,7 @@ export class UsersService {
      * @param version - 2
      * @param user - @see unit test
      */
-    public userAgreement(appName: string, user: User, version: number): Promise<TCUserAgreement> {
+    public userAgreement(appName: string, user: User, version?: number): Promise<TCUserAgreement> {
         L.info(`Adding users ${user}`);
         return db.userAgreements.add({ user: user.userId, app: appName, version });
     }

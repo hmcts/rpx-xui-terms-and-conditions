@@ -17,7 +17,11 @@ export class UserController {
         const { app, version } = req.params;
 
         const user = req.body as User;
-        const versionAsNumber: number = parseInt(version);
+
+        let versionAsNumber = version ? parseInt(version) : undefined;
+        if (isNaN(versionAsNumber)) {
+            versionAsNumber = undefined;
+        }
 
         try {
             const userAgreementResponse = await UsersService.userAgreement(app, user, versionAsNumber);
