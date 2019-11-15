@@ -119,6 +119,53 @@ paths:
         404:
           description: App not found
 
+  /termsAndConditions/{app}/users/accept/version:
+    post:
+      tags:
+        - Users routes
+      description: Add Users who have accepted the Terms and Conditions.
+      parameters:
+        - name: app
+          in: path
+          description: Create new users
+          required: true
+          type: string
+        - name: users
+          in: body
+          description: users
+          required: true
+          schema:
+            $ref: "#/definitions/UsersBody"
+      responses:
+        200:
+          description: Signals success of adding the Users to the datastore
+
+  /termsAndConditions/{app}/users/accept/version/{version}:
+    post:
+      tags:
+        - Users routes
+      description: Add Users who have accepted the Terms and Conditions.
+      parameters:
+        - name: app
+          in: path
+          description: Create new users
+          required: true
+          type: string
+        - name: version
+          in: path
+          required: false
+          description: Terms and Conditions version number
+          type: number
+        - name: users
+          in: body
+          description: users
+          required: true
+          schema:
+            $ref: "#/definitions/UsersBody"
+      responses:
+        200:
+          description: Signals success of adding the Users to the datastore
+
   /termsAndConditions/{app}/users/{userId}:
     get:
       tags:
@@ -186,31 +233,16 @@ paths:
         200:
           description: Returns an array of Users who have accepted a specific version of Terms & Conditions.
 
-  /termsAndConditions/{app}/users/accept/version/{version}:
-    post:
+  /termsAndConditions/apps/all:
+    get:
       tags:
-        - Users routes
-      description: Add Users who have accepted the Terms and Conditions.
-      parameters:
-        - name: app
-          in: path
-          description: Create new users
-          required: true
-          type: string
-        - name: version
-          in: path
-          required: true
-          description: Terms and Conditions version number
-          type: number
-        - name: users
-          in: body
-          description: users
-          required: true
-          schema:
-            $ref: "#/definitions/UsersBody"
+        - termsAndConditions
+      description: Fetch all apps
       responses:
         200:
-          description: Signals success of adding the Users to the datastore
+          description: Returns all apps
+        404:
+          description: Apps not found
 
   /health:
     get:
@@ -233,6 +265,7 @@ paths:
           description: Terms and Conditions Liveness is up 
         404:
           description: Server down
+
   /spec:
     get:
       tags:

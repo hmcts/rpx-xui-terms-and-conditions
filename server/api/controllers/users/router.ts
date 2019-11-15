@@ -22,7 +22,7 @@ export default express
      * POST /termsAndConditions/<app>/users/<?version>
      * TODO: version needs to be optional
      */
-    .post('/accept/version/:version', userController.acceptTermsConditions)
+    .post('/accept/version/:version?', userController.acceptTermsConditions)
 
     /**
      * GET /:version
@@ -31,7 +31,7 @@ export default express
      *
      * Get all Users who have accepted a specific version of T&C's.
      */
-    .get('/accepted/:version', userController.getAcceptedUsers)
+    .get('/accepted/:version?', userController.getAcceptedUsers)
 
     /**
      * GET /:userId/:version
@@ -40,4 +40,4 @@ export default express
      *
      * Get a User who has accepted a specific version of T&C's.
      */
-    .get('/:userId/:version?', userController.hasUserAccepted)
+    .get('/:userId/:version?', userController.hasUserAccepted);

@@ -66,7 +66,10 @@ export class UserController {
     async hasUserAccepted(req: Request, res: Response): Promise<void> {
 
         const {app, version, userId} = req.params;
-        const versionAsNumber: number = version ? parseInt(version) : null;
+        let versionAsNumber: number = version ? parseInt(version) : undefined;
+        if (isNaN(versionAsNumber)) {
+            versionAsNumber = undefined;
+        }
 
         try {
             const agreement = await UsersService.getUserAgreement(app, userId, versionAsNumber);
