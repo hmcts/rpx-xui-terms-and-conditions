@@ -11,7 +11,7 @@ FROM
         LEFT JOIN "TCDocument" as d on (da."documentId" = d.id)
         LEFT JOIN "TCApp" as app on (da."appId" = app.id)
     WHERE
-        AND app.app = ${app}
+        app.app = ${app}
         AND ua."userId" = ${user}
         AND d.version = (
             SELECT doc.version
