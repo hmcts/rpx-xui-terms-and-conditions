@@ -17,7 +17,11 @@ export class UserController {
         const { app, version } = req.params;
 
         const user = req.body as User;
-        const versionAsNumber: number = parseInt(version);
+
+        let versionAsNumber = version ? parseInt(version) : undefined;
+        if (isNaN(versionAsNumber)) {
+            versionAsNumber = undefined;
+        }
 
         try {
             const userAgreementResponse = await UsersService.userAgreement(app, user, versionAsNumber);
@@ -36,12 +40,15 @@ export class UserController {
      *
      * Gets all UUID's who have accepted a specific version of T&C's.
      */
-    getAcceptedUsers(req: Request, res: Response): void {
+    public async getAcceptedUsers(req: Request, res: Response): Promise<void> {
         const { app, version } = req.params;
-        const versionAsNumber: number = parseInt(version);
+        let versionAsNumber: number = version ? parseInt(version) : undefined;
+        if (isNaN(versionAsNumber)) {
+            versionAsNumber = undefined;
+        }
 
         try {
-            const users = UsersService.getUserAgreements(app, versionAsNumber);
+            const users = await UsersService.getUserAgreements(app, versionAsNumber);
             res.status(200).send(users.map(user => UserDto.fromModel(user)));
         } catch (error) {
             if (ERROR_UNABLE_TO_REACH_DATABASE) {
@@ -56,12 +63,16 @@ export class UserController {
      * Gets if a UUID has accepted a specific version of T&C's.
      *
      */
-    hasUserAccepted(req: Request, res: Response): void {
-        const { app, version, userId } = req.params;
-        const versionAsNumber: number = parseInt(version);
+    async hasUserAccepted(req: Request, res: Response): Promise<void> {
+
+        const {app, version, userId} = req.params;
+        let versionAsNumber: number = version ? parseInt(version) : undefined;
+        if (isNaN(versionAsNumber)) {
+            versionAsNumber = undefined;
+        }
 
         try {
-            const agreement = UsersService.getUserAgreement(app, userId, versionAsNumber);
+            const agreement = await UsersService.getUserAgreement(app, userId, versionAsNumber);
             res.status(200).send(agreement);
         } catch (error) {
             switch (error.message) {

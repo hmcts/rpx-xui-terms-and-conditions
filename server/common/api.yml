@@ -26,93 +26,57 @@ definitions:
           type: string
           example: 123e4567-e89b-12d3-a456-426655440000
 
-  CopyBody:
+  TCDocumentBody:
     type: object
-    title: copy
+    title: document
     required:
       - content
       - mimeType
     properties:
       content:
         type: string
-        example: no_stress
+        example: <h1>Test Header</h1>
+      mimeType:
+        type: string
+        example: text/html
+  
+  AgreementBody:
+    type: object
+    title: agreement
+    required:
+      - userId
+      - version
+      - accepted
+    properties:
+      userId:
+        type: string
+        example: 123e4567-e89b-12d3-a456-426655440000
+      version:
+        type: number
+        example: 2
+      accepted:
+        type: boolean
+        example: true
+
+
 
 paths:
 
-  /termsAndConditions/{app}/users/{version}:
+  /termsAndConditions/apps:
     get:
       tags:
-        - Users routes
-      description: Get all Users who have accepted a specific version of Terms & Conditions.
-      parameters:
-        - name: app
-          in: path
-          required: true
-          description: The application identifier
-          type: string
-        - name: version
-          in: path
-          required: true
-          description: Terms and Conditions version number
-          type: number
+        - apps
+      description: Fetch all apps
       responses:
         200:
-          description: Returns an array of Users who have accepted a specific version of Terms & Conditions.
-    post:
-      tags:
-        - Users routes
-      description: Add Users who have accepted the Terms and Conditions.
-      parameters:
-        - name: app
-          in: path
-          description: Create new users
-          required: true
-          type: string
-        - name: version
-          in: path
-          required: true
-          description: Terms and Conditions version number
-          type: number
-        - name: users
-          in: body
-          description: users
-          required: true
-          schema:
-            $ref: "#/definitions/UsersBody"
-      responses:
-        200:
-          description: Signals success of adding the Users to the datastore
-
-  /termsAndConditions/{app}/users/{userId}/{version}:
-    get:
-      tags:
-        - Users routes
-      parameters:
-        - name: app
-          in: path
-          required: true
-          description: The application identifier
-          type: string
-        - name: version
-          in: path
-          required: true
-          description: Terms and Conditions version number
-          type: number
-        - name: userId
-          in: path
-          required: true
-          description: User id
-          type: string
-      responses:
-        200:
-          description: Return 200 Success if the User has accepted the version of Terms and Conditions.
+          description: Returns all apps
         404:
-          description: Returns 404 if no User has been found.
+          description: Apps not found
 
-  /termsAndConditions/{app}:
+  /termsAndConditions/{app}/documents:
     get:
       tags:
-        - termsAndConditions
+        - documents
       description: Fetch latest copy for app
       parameters:
         - name: app
@@ -127,7 +91,7 @@ paths:
           description: App not found
     post:
       tags:
-        - termsAndConditions
+        - documents
       description: Create a new copy for app
       parameters:
         - name: app
@@ -135,26 +99,20 @@ paths:
           required: true
           description: The application identifier
           type: string
-        - name: content
+        - name: document
           in: body
           description: a copy
-          required: true
+          required: true          
           schema:
-            $ref: "#/definitions/CopyBody"
-        - name: mimeType
-          in: body
-          description: mime type
-          required: true
-          schema:
-            $ref: "#/definitions/CopyBody"
+            $ref: "#/definitions/TCDocumentBody"
       responses:
         200:
           description: Returns new copy
 
-  /termsAndConditions/{app}/{version}:
+  /termsAndConditions/{app}/documents/{version}:
     get:
       tags:
-        - termsAndConditions
+        - documents
       parameters:
         - name: app
           in: path
@@ -172,10 +130,10 @@ paths:
         404:
           description: Copy not found
 
-  /termsAndConditions/{app}/versions:
+  /termsAndConditions/{app}/documents/versions:
     get:
       tags:
-        - termsAndConditions
+        - documents
       description: Fetch all copies for app
       parameters:
         - name: app
@@ -188,6 +146,124 @@ paths:
           description: Returns all copies for app
         404:
           description: App not found
+
+  /termsAndConditions/{app}/users/accept/version:
+    post:
+      tags:
+        - users
+      description: Add Users who have accepted the Terms and Conditions.
+      parameters:
+        - name: app
+          in: path
+          description: Create new users
+          required: true
+          type: string
+        - name: users
+          in: body
+          description: users
+          required: true
+          schema:
+            $ref: "#/definitions/UsersBody"
+      responses:
+        200:
+          description: Signals success of adding the Users to the datastore
+
+  /termsAndConditions/{app}/users/accept/version/{version}:
+    post:
+      tags:
+        - users
+      description: Add Users who have accepted the Terms and Conditions.
+      parameters:
+        - name: app
+          in: path
+          description: Create new users
+          required: true
+          type: string
+        - name: version
+          in: path
+          required: false
+          description: Terms and Conditions version number
+          type: number
+        - name: users
+          in: body
+          description: users
+          required: true
+          schema:
+            $ref: "#/definitions/UsersBody"
+      responses:
+        200:
+          description: Signals success of adding the Users to the datastore
+
+  /termsAndConditions/{app}/users/{userId}:
+    get:
+      tags:
+        - users
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          type: string
+      responses:
+        200:
+          description: Return 200 Success if the User has accepted the version of Terms and Conditions.
+          schema:
+            $ref:  "#/definitions/AgreementBody"
+        404:
+          description: Returns 404 if no User has been found.
+
+  /termsAndConditions/{app}/users/{userId}/{version}:
+    get:
+      tags:
+        - users
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: userId
+          in: path
+          required: true
+          description: User id
+          type: string
+        - name: version
+          in: path
+          required: false
+          description: Terms and Conditions version number
+          type: number
+      responses:
+        200:
+          description: Return 200 Success if the User has accepted the version of Terms and Conditions.
+          schema:
+            $ref:  "#/definitions/AgreementBody"
+        404:
+          description: Returns 404 if no User has been found.
+
+  /termsAndConditions/{app}/users/accepted/{version}:
+    get:
+      tags:
+        - users
+      description: Get all Users who have accepted a specific version of Terms & Conditions.
+      parameters:
+        - name: app
+          in: path
+          required: true
+          description: The application identifier
+          type: string
+        - name: version
+          in: path
+          required: false
+          description: Terms and Conditions version number
+          type: number
+      responses:
+        200:
+          description: Returns an array of Users who have accepted a specific version of Terms & Conditions.
 
   /health:
     get:
@@ -203,13 +279,14 @@ paths:
   /health/liveness:
     get:
       tags:
-        - liveness
+        - health
       description: Get liveness
       responses:
         200:
           description: Terms and Conditions Liveness is up 
         404:
           description: Server down
+
   /spec:
     get:
       tags:
