@@ -6,6 +6,8 @@ nodejs:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        S2S_SECRET: ${S2S_SECRET}
        IDAM_SECRET: ${IDAM_SECRET}
+       NODE_ENV: preview
+       XUI_ENV: preview
        POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
        POSTGRE_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
        POSTGRE_USER_PW: "{{ .Values.postgresql.postgresqlPassword}}"
@@ -22,5 +24,9 @@ postgresql:
       postgresqlUsername: xui_tc
       postgresqlPassword: xui_tc
       postgresqlDatabase: xui_tc
+       POSTGRE_SERVER_NAME: xui-terms-and-conditions-aat.postgres.database.azure.com
+       POSTGRE_USERNAME: ${POSTGRE_USERNAME}
+       POSTGRE_USER_PW: ${POSTGRE_USER_PW}
+
 
 

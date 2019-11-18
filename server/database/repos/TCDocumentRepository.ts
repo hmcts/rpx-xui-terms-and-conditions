@@ -1,22 +1,12 @@
-import {IDatabase, IMain} from 'pg-promise';
-import {IResult} from 'pg-promise/typescript/pg-subset';
-import {TCDocument} from '../models';
-import {documents as sql} from '../sql';
-import {TCColumnSets} from '../models/tcColumnSet.model';
+import { TCDocument } from '../models';
+import { documents as sql } from '../sql';
+import { ExtendedProtocol } from '../index';
 
 /**
  * TCDocumentRepository class - managed repository to the database table
  */
 export class TCDocumentRepository {
-
-    constructor(private db: IDatabase<any>, private pgp: IMain) {
-        this.createColumnSets();
-    }
-
-    private static table = 'TCDocument';
-
-    // ColumnSet objects static namespace:
-    private static cs: TCColumnSets;
+    constructor(private db: ExtendedProtocol) {}
 
     /**
      * Create the schema table
@@ -26,58 +16,69 @@ export class TCDocumentRepository {
         return this.db.none(sql.create);
     }
 
-
     /**
-     * Adds a new record and returns the full object;
-     * It is also an example of mapping HTTP requests into query parameters;
+     * Create a new version of a document for the specific apps
      * @param values
      */
-    async add(values: { document: string, app: string, mimeType: string }): Promise<TCDocument> {
-        return this.db.one(sql.add, values);
-    }
+    async add(values: { document: string; mimeType: string; apps: string[] }): Promise<TCDocument> {
+        const dbApps = await this.db.apps.find(values.apps);
 
-    /**
-     * Insert multi
-     * @param values
-     */
-    async insert(values: { document: string, mimetype: string }[]): Promise<IResult> {
-        const helpers = this.pgp.helpers;
-        const insert = helpers.insert(values, TCDocumentRepository.cs.insert);
-        return this.db.result(insert)
-    }
+        if (!dbApps.length) {
+            throw new Error(`Unknown apps: ${values.apps.join(',')}`);
+        }
 
-    // Tries to find a user product from user id + product name;
-    async find(values: { userId: number, name: string }): Promise<TCDocument | null> {
-        return this.db.oneOrNone(sql.find, {
-            userId: +values.userId,
-            productName: values.name
+        const documentValues = { ...values };
+        delete documentValues.apps;
+
+        return this.db.task(async task => {
+            const document: TCDocument = await task.one(sql.add, documentValues);
+            const docAppsInsert = dbApps.map(dbApp => {
+                return { documentId: document.id, appId: dbApp.id };
+            });
+            await task.documentApps.insert(docAppsInsert);
+            document.apps = dbApps;
+            return Promise.resolve(document);
         });
     }
 
-    // Returns all product records;
-    async all(): Promise<TCDocument[]> {
-        return this.db.any(`SELECT * FROM ${TCDocumentRepository.table}`);
+    /**
+     * Retrieve a document by it's unique id
+     * @param values: { documentId: number }
+     */
+    async find(values: { documentId: number }): Promise<TCDocument | null> {
+        return this.db.oneOrNone(sql.find, {
+            id: +values.documentId,
+        });
     }
 
-    // Returns the total number of products;
-    async total(): Promise<number> {
-        return this.db.one(`SELECT count(*) FROM ${TCDocumentRepository.table}`, [], (data: { count: string }) => +data.count);
+    /**
+     * Retrieve the latest version of a document for the specified app
+     * @param values: { app: string }
+     */
+    async findLatest(values: { app: string }) {
+        return this.db.oneOrNone(sql.findLatest, values);
     }
 
-    // example of setting up ColumnSet objects:
-    private createColumnSets(): void {
-        // create all ColumnSet objects only once:
-        if (!TCDocumentRepository.cs) {
-            const helpers = this.pgp.helpers, cs: TCColumnSets = {};
+    /**
+     * Retrieve a specific version of a document for the specified app
+     * @param values
+     */
+    async findByVersion(values: { app: string; version: number }) {
+        return this.db.oneOrNone(sql.findByVersion, values);
+    }
 
-            // Type TableName is useful when schema isn't default "public" ,
-            // otherwise you can just pass in a string for the table name.
-            const table = new helpers.TableName({table: TCDocumentRepository.table, schema: 'public'});
+    /**
+     * Retrieve all documents
+     * @returns Promise<TCDocument[]>
+     */
+    async all(values: { app: string }): Promise<TCDocument[]> {
+        return this.db.any(sql.all, values);
+    }
 
-            cs.insert = new helpers.ColumnSet(['document', 'app', 'mimetype'], {table});
-            cs.update = cs.insert.extend(['?id']);
-
-            TCDocumentRepository.cs = cs;
-        }
+    /**
+     * @returns number the total count of documents
+     */
+    async total(values: { app: string }): Promise<number> {
+        return this.db.one(sql.total, values, (data: { count: string }) => +data.count);
     }
 }

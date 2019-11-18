@@ -1,6 +1,8 @@
 import L from '../../common/logger';
+import { db } from '../../database';
+import { TCUserAgreement } from '../../database/models';
 import { User } from '../interfaces/users';
-import { ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS } from '../errors';
+import { Agreement } from '../../database/models/agreement.model';
 
 /**
  * Users Service
@@ -20,12 +22,10 @@ export class UsersService {
      * @param appName - 'xui_webapp'
      * @param version - 2
      */
-    public getUserAgreements(appName: string, version: number) {
+    public getUserAgreements(appName: string, version?: number): Promise<User[]> {
         L.info(`Get all users for an app, with a particular version.`);
 
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-
-        return [{ userId: 'jo' }, { userId: 'bob' }];
+        return db.userAgreements.getAll({ app: appName, version });
     }
 
     /**
@@ -35,20 +35,13 @@ export class UsersService {
      * @param userId - ''
      * @param version (optional) - 1
      */
-    public getUserAgreement(appName: string, userId: string, version: number) {
+    public getUserAgreement(appName: string, userId: string, version?: number): Promise<Agreement> {
         L.info(`User has already accepted T&C's ${userId}`);
-
-        // throw Error(ERROR_USER_NOT_ACCEPTED_TCS);
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-
-        return { userId };
+        return db.userAgreements.get({ user: userId, app: appName, version });
     }
 
     /**
      * userAgreement
-     *
-     * TODO: Calls the repository to add a row to TCUserAgreement indicating that the user has agreed to the specified
-     * version of the T&Cs.
      *
      * TODO: version is optional, if there is no version it defaults to the latest.
      * Happening on the DB side where it will automatically get the latest version,
@@ -61,10 +54,9 @@ export class UsersService {
      * @param version - 2
      * @param user - @see unit test
      */
-    public userAgreement(appName: string, user: User, version: number) {
+    public userAgreement(appName: string, user: User, version: number): Promise<TCUserAgreement> {
         L.info(`Adding users ${user}`);
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-        return user;
+        return db.userAgreements.add({ user: user.userId, app: appName, version });
     }
 }
 

@@ -1,36 +1,34 @@
-import {db} from '../index'
+import { db } from '../index';
 
 async function createSchema() {
-
     try {
         return await db.task('create-schema', async task => {
             const docsCreate = await task.documents.create();
             const appsCreate = await task.apps.create();
             const docAppsCreate = await task.documentApps.create();
             const userAgreementsCreate = await task.userAgreements.create();
-            /*const arr = [
-                {
-                    document: '<p>test1</p>',
-                    app: 'xui-webapp',
-                    mimetype: 'text/html'
-                },
-                {
-                    document: '<p>test2</p>',
-                    app: 'xui-ao-webapp',
-                    mimetype: 'application/pdf'
-                }
-
-            ];
-            const docsInsert = await task.documents.insert(arr);
-            const docInsert = await task.documents.add({document: '<h1>TEST</h1>', app: 'xui-mo-webapp', mimetype: 'text/plain'});*/
-            return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate };
+            const appsInit = await task.apps.init();
+            /*try {
+                return await task.documents.add({
+                    document: '<h1>Terms & Conditions</h1><p>Do you accept?</p>',
+                    mimeType: 'text/plain',
+                    apps: ['xuiwebapp', 'xuimowebapp']
+                });
+            } catch (e) {
+                console.log(e);
+            }*/
+            // return db.documents.findLatest({ app: 'xuiwebapp' });
+            // return db.documents.findByVersion({ app: 'xuiwebapp', version: 4 });
+            return db.documents.total({ app: 'xuimowebapp' });
+            // return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate, appsInit, docInsert };
         });
     } catch (e) {
-        console.log(e)
+        console.log(e);
     }
 }
 
-createSchema().then( result => {
-    console.log('done', result);
+createSchema().then(result => {
+    console.log(result);
+    // console.log('done, inserted %d rows', result.appsInit.rowCount);
     db.$pool.end();
 });
