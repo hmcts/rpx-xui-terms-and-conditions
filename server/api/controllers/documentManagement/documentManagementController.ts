@@ -21,7 +21,10 @@ export class DocumentManagementController {
 
   async byVersion(req: Request, res: Response): Promise<void> {
     const { app, version } = req.params;
-    const versionAsNumber: number = version ? parseInt(version) : null;
+    let versionAsNumber: number = version ? parseInt(version) : undefined;
+    if (isNaN(versionAsNumber)) {
+        versionAsNumber = undefined;
+    }
 
     try {
       const byVersionResponse = await DocumentManagementService.byVersion(app, versionAsNumber);
@@ -58,7 +61,7 @@ export class DocumentManagementController {
 
     try {
       const createResponse = await DocumentManagementService.create(app, content, mimeType);
-      res.status(200)
+      res.status(201)
         .location(`/api/v1/termsAndConditions/${app}/${createResponse.version}`)
         .send(TCDocumentDTO.fromModel(createResponse));
     } catch (error) {
