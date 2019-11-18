@@ -1,6 +1,7 @@
+import { User } from '../../api/interfaces/users';
 import { TCUserAgreement } from '../models';
-import { userAgreements as sql } from '../sql';
 import { Agreement } from '../models/agreement.model';
+import { userAgreements as sql } from '../sql';
 import { ExtendedProtocol } from '../index';
 
 export class TCUserAgreementRepository {
@@ -23,6 +24,14 @@ export class TCUserAgreementRepository {
             return this.db.one(sql.getWithVersion, values);
         } else {
             return this.db.one(sql.getForLatestVersion, values);
+        }
+    }
+
+    public getAll(values: { app: string; version?: number }): Promise<User[]> {
+        if (values.version) {
+            return this.db.manyOrNone<User>(sql.getAllAcceptedWithVersion, values);
+        } else {
+            return this.db.manyOrNone<User>(sql.getAllAcceptedWithoutVersion, values);
         }
     }
 }

@@ -22,12 +22,10 @@ export class UsersService {
      * @param appName - 'xui_webapp'
      * @param version - 2
      */
-    public getUserAgreements(appName: string, version: number) {
+    public getUserAgreements(appName: string, version?: number): Promise<User[]> {
         L.info(`Get all users for an app, with a particular version.`);
 
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-
-        return [{ userId: 'jo' }, { userId: 'bob' }];
+        return db.userAgreements.getAll({ app: appName, version });
     }
 
     /**
