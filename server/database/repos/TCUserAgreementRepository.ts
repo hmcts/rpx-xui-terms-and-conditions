@@ -13,7 +13,7 @@ export class TCUserAgreementRepository {
     }
 
     // Adds a new user, and returns the new object;
-    public add(values: { user: string, app: string, version?: number }): Promise<TCUserAgreement> {
+    public add(values: { user: string; app: string; version?: number }): Promise<TCUserAgreement> {
         if (values.version) {
             return this.db.one(sql.add, values);
         } else {

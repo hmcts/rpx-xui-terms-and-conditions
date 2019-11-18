@@ -7,7 +7,7 @@ import { TCApp } from '../../database/models';
  *
  */
 export class AppsService {
-     /**
+    /**
      * getAllApps
      *
      * Get All app names
@@ -18,7 +18,7 @@ export class AppsService {
         L.info(`Get all app names.`);
 
         return db.apps.all();
-    } 
+    }
 }
 
 export default new AppsService();
