@@ -23,17 +23,3 @@ nodejs:
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-
-## Postgres chart configuration
-## https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
-
-postgresql:
-  ## Whether to deploy the Postgres Chart or not
-  enabled: true
-  ## Disable Postgres Persistence
-  persistence:
-    enabled: false
-  ## Default Postgres Configuration parameters
-  postgresqlUsername: xuipostgres
-  postgresqlPassword: xuipassword
-  postgresqlDatabase: xuidatabase

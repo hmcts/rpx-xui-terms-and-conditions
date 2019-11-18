@@ -2,24 +2,24 @@ nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-    S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-    NODE_TLS_REJECT_UNAUTHORIZED: '0'
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
-    NODE_ENV: preview
-    XUI_ENV: preview
-    POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
-    POSTGRE_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
-    POSTGRE_USER_PW: "{{ .Values.postgresql.postgresqlPassword}}"
-    POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
+       S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+       NODE_TLS_REJECT_UNAUTHORIZED: '0'
+       S2S_SECRET: ${S2S_SECRET}
+       IDAM_SECRET: ${IDAM_SECRET}
+       NODE_ENV: preview
+       XUI_ENV: preview
+       POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
+       POSTGRE_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
+       POSTGRE_USER_PW: "{{ .Values.postgresql.postgresqlPassword}}"
+       POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc
   postgresqlPassword: xui_tc
   postgresqlDatabase: xui_tc
   environment:
-    POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
-    POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
-    POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
-    POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
-    POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
+      POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
+      POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
+      POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
+      POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+      POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"

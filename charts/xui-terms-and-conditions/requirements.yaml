@@ -3,6 +3,6 @@ dependencies:
     version: 1.4.1
     repository: '@hmctspublic'
   - name: postgresql
-     version: ~6.3.5
-     repository: '@stable'
-     condition: postgresql.enabled
+    version: ~6.3.5
+    repository: '@stable'
+    condition: postgresql.enabled
