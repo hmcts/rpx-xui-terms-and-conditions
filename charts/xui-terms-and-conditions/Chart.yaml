@@ -4,3 +4,7 @@ version: 0.0.1
 description: Terms and Conditions
 maintainers:
   - name: HMCTS RPX XUI
+keywords:
+- nodejs
+- postgres
+- postgresql

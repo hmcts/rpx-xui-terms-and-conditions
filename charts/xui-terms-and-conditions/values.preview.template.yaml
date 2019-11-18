@@ -9,6 +9,17 @@ nodejs:
        POSTGRE_SERVER_NAME: xui-terms-and-conditions-aat.postgres.database.azure.com
        POSTGRE_USERNAME: ${POSTGRE_USERNAME}
        POSTGRE_USER_PW: ${POSTGRE_USER_PW}
-       
-
+postgresql:
+  enabled: true
+  environment:
+    POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
+    POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
+    POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
+    POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
+    POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
+    postgresql:
+      postgresqlUsername: xui_tc
+      postgresqlPassword: xui_tc
+      postgresqlDatabase: xui_tc     
+  
        
