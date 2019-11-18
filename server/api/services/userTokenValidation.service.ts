@@ -1,6 +1,6 @@
-import axios, { AxiosResponse, AxiosInstance } from 'axios'
+import axios, { AxiosResponse, AxiosInstance } from 'axios';
 
-export const http: AxiosInstance = axios.create({})
+export const http: AxiosInstance = axios.create({});
 
 export async function validateUserToken(url: string, s2sToken: any) {
     const options = {
@@ -10,7 +10,7 @@ export async function validateUserToken(url: string, s2sToken: any) {
             host: 'proxyout.reform.hmcts.net',
             port: 8080,
         },
-    }
-    const response = await http.get(`${url}/details`, options)
-    return response.data
+    };
+    const response = await http.get(`${url}/details`, options);
+    return response.data;
 }
