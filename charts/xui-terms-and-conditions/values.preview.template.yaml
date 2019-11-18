@@ -2,16 +2,16 @@ nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-       S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-       NODE_TLS_REJECT_UNAUTHORIZED: '0'
-       S2S_SECRET: ${S2S_SECRET}
-       IDAM_SECRET: ${IDAM_SECRET}
-       NODE_ENV: preview
-       XUI_ENV: preview
-       POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
-       POSTGRE_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
-       POSTGRE_USER_PW: "{{ .Values.postgresql.postgresqlPassword}}"
-       POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
+    S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
+    NODE_TLS_REJECT_UNAUTHORIZED: '0'
+    S2S_SECRET: ${S2S_SECRET}
+    IDAM_SECRET: ${IDAM_SECRET}
+    NODE_ENV: preview
+    XUI_ENV: preview
+    POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
+    POSTGRE_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
+    POSTGRE_USER_PW: "{{ .Values.postgresql.postgresqlPassword}}"
+    POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
 postgresql:
   enabled: true
   environment:
@@ -24,9 +24,3 @@ postgresql:
       postgresqlUsername: xui_tc
       postgresqlPassword: xui_tc
       postgresqlDatabase: xui_tc
-       POSTGRE_SERVER_NAME: xui-terms-and-conditions-aat.postgres.database.azure.com
-       POSTGRE_USERNAME: ${POSTGRE_USERNAME}
-       POSTGRE_USER_PW: ${POSTGRE_USER_PW}
-
-
-
