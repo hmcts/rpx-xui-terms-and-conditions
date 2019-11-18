@@ -1,12 +1,12 @@
-import {IDatabase, IMain} from 'pg-promise';
-import {IResult} from 'pg-promise/typescript/pg-subset';
-import {TCApp} from '../models';
-import {apps as sql} from '../sql';
-import {TCColumnSets} from '../models/tcColumnSet.model';
+import { IMain } from 'pg-promise';
+import { IResult } from 'pg-promise/typescript/pg-subset';
+import { TCApp } from '../models';
+import { apps as sql } from '../sql';
+import { TCColumnSets } from '../models/tcColumnSet.model';
+import { ExtendedProtocol } from '../index';
 
 export class TCAppRepository {
-
-    constructor(private db: IDatabase<any>, private pgp: IMain) {
+    constructor(private db: ExtendedProtocol, private pgp: IMain) {
         this.createColumnSets();
     }
 
@@ -37,7 +37,7 @@ export class TCAppRepository {
     // Tries to find a user product from user id + product name;
     async find(apps: string[]): Promise<TCApp[] | null> {
         return this.db.manyOrNone(sql.find, {
-            apps: apps
+            apps: apps,
         });
     }
 
@@ -65,15 +65,15 @@ export class TCAppRepository {
     private createColumnSets(): void {
         // create all ColumnSet objects only once:
         if (!TCAppRepository.cs) {
-            const helpers = this.pgp.helpers, cs: TCColumnSets = {};
+            const helpers = this.pgp.helpers,
+                cs: TCColumnSets = {};
 
-            const table = new helpers.TableName({table: TCAppRepository.table, schema: 'public'});
+            const table = new helpers.TableName({ table: TCAppRepository.table, schema: 'public' });
 
-            cs.insert = new helpers.ColumnSet(['app'], {table});
+            cs.insert = new helpers.ColumnSet(['app'], { table });
             cs.update = cs.insert.extend(['?id']);
 
             TCAppRepository.cs = cs;
         }
     }
-
 }

@@ -2,7 +2,7 @@ import pgPromise = require('pg-promise'); // pg-promise core library
 import process from 'process';
 import {IInitOptions, IDatabase, IMain} from 'pg-promise';
 import {
-    IExtensions,
+    Extensions,
     TCAppRepository,
     TCDocumentAppRepository,
     TCDocumentRepository,
@@ -10,10 +10,10 @@ import {
 } from './repos';
 import {Diagnostics} from './diagnostics';
 
-export type ExtendedProtocol = IDatabase<IExtensions> & IExtensions;
+export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
 // pg-promise initialization options:
-const initOptions: IInitOptions<IExtensions> = {
+const initOptions: IInitOptions<Extensions> = {
 
     // Extending the database protocol with our custom repositories;
     // API: http://vitaly-t.github.io/pg-promise/global.html#event:extend
@@ -25,7 +25,7 @@ const initOptions: IInitOptions<IExtensions> = {
         obj.documents = new TCDocumentRepository(obj);
         obj.apps = new TCAppRepository(obj, pgp);
         obj.documentApps = new TCDocumentAppRepository(obj, pgp);
-        obj.userAgreements = new TCUserAgreementRepository(obj, pgp);
+        obj.userAgreements = new TCUserAgreementRepository(obj);
     }
 };
 
