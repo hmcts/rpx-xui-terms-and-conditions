@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosInstance } from 'axios'
 
-const http: AxiosInstance = axios.create({})
+export const http: AxiosInstance = axios.create({})
 
 export async function validateUserToken(url: string, s2sToken: any) {
     const options = {
