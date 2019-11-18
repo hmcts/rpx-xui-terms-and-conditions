@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { validateS2sToken } from '../services/s2sTokenValidation.service';
 import { validateUserToken } from '../services/userTokenValidation.service';
+import * as process from 'process';
 
 export async function validateIncomingRequest(req: Request, res: Response, next: NextFunction) {
     let clientServiceName
-    const urlS2s = 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal'
+    const urlS2s = process.env.S2S_TOKEN_URL
     let rawS2sToken:any = req.headers.serviceauthorization
     let s2sToken
 
@@ -24,14 +25,14 @@ export async function validateIncomingRequest(req: Request, res: Response, next:
 
     // Start S2S token verification
     try {
-      const validateToken = await validateS2sToken(urlS2s, s2sToken)
+        const validateToken = await validateS2sToken(urlS2s, s2sToken);
         if (validateToken) {
             // Set service name we need it later for whitelist check
             clientServiceName = validateToken
 
             // Check if the service name is whitelisted
             if (clientServiceName === 'xui_webapp') {
-                const urlUser = 'https://idam-api.aat.platform.hmcts.net'
+                const urlUser = process.env.IDAM_SERVICE_URL
                 const userToken: any = req.headers.authorization
                 // Verify user token
                 try {
@@ -42,7 +43,6 @@ export async function validateIncomingRequest(req: Request, res: Response, next:
                 } catch (e) {
                     res.status(e.response.status).send(e.response.status);
                 }
-
             } else {
                 res.status(403).send('Not whitelisted')
             }

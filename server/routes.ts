@@ -7,6 +7,6 @@ import { validateIncomingRequest } from './api/middlewares/validateClientSecurit
 
 export default function routes(app: Application): void {
   app.use('/api/v1/termsAndConditions', validateIncomingRequest, copyManagementRouter);
-  app.use('/api/v1/termsAndConditions/:app/users', usersRouter);
+  app.use('/api/v1/termsAndConditions/:app/users',validateIncomingRequest, usersRouter);
   app.use('/health', healthRouter);
 };
