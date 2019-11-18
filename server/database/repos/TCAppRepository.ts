@@ -53,7 +53,7 @@ export class TCAppRepository {
 
     // Returns all app records;
     async all(): Promise<TCApp[]> {
-        return this.db.any(`SELECT * FROM ${TCAppRepository.table}`);
+        return this.db.any(sql.all);
     }
 
     // Returns the total number of apps;

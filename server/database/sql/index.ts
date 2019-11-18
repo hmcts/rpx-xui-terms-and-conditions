@@ -36,6 +36,7 @@ export const apps = {
     create: sql('TCApp/create.sql'),
     find: sql('TCApp/find.sql'),
     add: sql('TCApp/add.sql'),
+    all: sql('TCApp/all.sql'),
 };
 
 export const documentApps = {
@@ -48,6 +49,7 @@ export const userAgreements = {
     create: sql('TCUserAgreement/create.sql'),
     find: sql('TCUserAgreement/find.sql'),
     add: sql('TCUserAgreement/add.sql'),
+    addNoVersion: sql('TCUserAgreement/addNoVersion.sql'),
     getWithVersion: sql('TCUserAgreement/getWithVersion.sql'),
     getForLatestVersion: sql('TCUserAgreement/getForLatestVersion.sql'),
     getAllAcceptedWithVersion: sql('TCUserAgreement/getAllAcceptedWithVersion.sql'),
