@@ -27,7 +27,7 @@ export class TCUserAgreementRepository {
         }
     }
 
-    public getAll(values: { app: string, version?: number }): Promise<User[]> {
+    public getAll(values: { app: string; version?: number }): Promise<User[]> {
         if (values.version) {
             return this.db.manyOrNone<User>(sql.getAllAcceptedWithVersion, values);
         } else {
