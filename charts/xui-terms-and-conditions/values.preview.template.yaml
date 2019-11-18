@@ -10,7 +10,7 @@ nodejs:
        XUI_ENV: preview
        POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
        POSTGRE_USERNAME: xui_tc
-       POSTGRE_USER_PW: xui_tc
+       POSTGRE_PW: xui_tc
        POSTGRE_DB_NAME: xui_tc
 postgresql:
   enabled: true
