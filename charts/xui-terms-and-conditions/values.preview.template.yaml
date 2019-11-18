@@ -20,7 +20,7 @@ postgresql:
     POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
     POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
-    postgresql:
-      postgresqlUsername: xui_tc
-      postgresqlPassword: xui_tc
-      postgresqlDatabase: xui_tc
+  postgresql:
+    postgresqlUsername: xui_tc
+    postgresqlPassword: xui_tc
+    postgresqlDatabase: xui_tc
