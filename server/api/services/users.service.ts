@@ -24,7 +24,6 @@ export class UsersService {
      */
     public getUserAgreements(appName: string, version?: number): Promise<User[]> {
         L.info(`Get all users for an app, with a particular version.`);
-
         return db.userAgreements.getAll({ app: appName, version });
     }
 

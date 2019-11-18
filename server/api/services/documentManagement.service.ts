@@ -4,21 +4,9 @@ import { Document } from '../interfaces/documents';
 import { TCDocument } from '../../database/models';
 import { ERROR_APP_NOT_FOUND } from '../errors';
 
-let version = 1;
-const documents: Document[] = [
-    { version: version++, document: `<h1>Version ${version - 1}</h1>`, mimeType: 'text/html' },
-    { version: version++, document: `<h1>Version ${version - 1}</h1>`, mimeType: 'text/html' },
-];
-
-const apps = {
-    app1: documents,
-    app2: documents,
-    app3: documents,
-};
-
 export class DocumentManagementService {
     all(app: string): Promise<TCDocument[]> {
-        L.info(apps[app], `fetch all versions for ${app}`);
+        L.info(`fetch all versions for ${app}`);
         // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         // throw Error(ERROR_APP_NOT_FOUND);
         return db.documents.all({app});

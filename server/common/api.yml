@@ -32,17 +32,13 @@ definitions:
     required:
       - content
       - mimeType
-      - version
     properties:
       content:
         type: string
-        example: no_stress
+        example: <h1>Test Header</h1>
       mimeType:
         type: string
         example: text/html
-      version:
-        type: number
-        example: 2
   
   AgreementBody:
     type: object
@@ -103,16 +99,12 @@ paths:
           required: true
           description: The application identifier
           type: string
-        - name: content
+        - name: document
           in: body
           description: a copy
-          required: true
-          type: string
-        - name: mimeType
-          in: body
-          description: mime type
-          required: true
-          type: string
+          required: true          
+          schema:
+            $ref: "#/definitions/TCDocumentBody"
       responses:
         200:
           description: Returns new copy
