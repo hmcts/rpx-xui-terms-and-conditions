@@ -53,5 +53,5 @@ export const userAgreements = {
     getWithVersion: sql('TCUserAgreement/getWithVersion.sql'),
     getForLatestVersion: sql('TCUserAgreement/getForLatestVersion.sql'),
     getAllAcceptedWithVersion: sql('TCUserAgreement/getAllAcceptedWithVersion.sql'),
-    getAllAcceptedWithoutVersion: sql('TCUserAgreement/getAllAcceptedWithoutVersion.sql')
+    getAllAcceptedWithoutVersion: sql('TCUserAgreement/getAllAcceptedWithoutVersion.sql'),
 };
