@@ -14,13 +14,12 @@ nodejs:
     POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
 postgresql:
   enabled: true
+  postgresqlUsername: xui_tc
+  postgresqlPassword: xui_tc
+  postgresqlDatabase: xui_tc
   environment:
     POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
     POSTGRES_NAME: "{{ .Values.postgresql.postgresqlDatabase}}"
     POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername}}"
     POSTGRES_PASSWORD: "{{ .Values.postgresql.postgresqlPassword}}"
     POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
-  postgresql:
-    postgresqlUsername: xui_tc
-    postgresqlPassword: xui_tc
-    postgresqlDatabase: xui_tc
