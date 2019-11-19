@@ -35,7 +35,6 @@ const dbConfig = {
     database: process.env.POSTGRE_DB_NAME,
     user: process.env.POSTGRE_USERNAME,
     password: process.env.POSTGRE_PW,
-    ssl: true
 };
 
 // Initializing the library:

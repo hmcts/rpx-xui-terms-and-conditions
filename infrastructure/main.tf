@@ -51,7 +51,7 @@ data "azurerm_key_vault_secret" "db_admin" {
 */
 
 #save DB details to Azure Key Vault
-
+/*
 module "key-vault" {
   source                      = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
   name                        = "${local.shared_vault_name}"
@@ -64,6 +64,7 @@ module "key-vault" {
   managed_identity_object_id  = "${var.managed_identity_object_id}"
   common_tags                 = "${var.common_tags}"
 }
+*/
 
 resource "azurerm_key_vault_secret" "postgresql-pw" {
   key_vault_id = "${data.azurerm_key_vault.key_vault.id}"
