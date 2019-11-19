@@ -8,7 +8,8 @@ import userController from './userController';
  *
  * mergeParams allows us to access parameters in the parent routes.
  */
-export default express.Router({ mergeParams: true })
+export default express
+    .Router({ mergeParams: true })
 
     /**
      * POST /:version
@@ -21,7 +22,7 @@ export default express.Router({ mergeParams: true })
      * POST /termsAndConditions/<app>/users/<?version>
      * TODO: version needs to be optional
      */
-    .post('/:version', userController.acceptTermsConditions)
+    .post('/accept/version/:version?', userController.acceptTermsConditions)
 
     /**
      * GET /:version
@@ -30,7 +31,7 @@ export default express.Router({ mergeParams: true })
      *
      * Get all Users who have accepted a specific version of T&C's.
      */
-    .get('/:version', userController.getAcceptedUsers)
+    .get('/accepted/:version?', userController.getAcceptedUsers)
 
     /**
      * GET /:userId/:version
@@ -39,5 +40,4 @@ export default express.Router({ mergeParams: true })
      *
      * Get a User who has accepted a specific version of T&C's.
      */
-    .get('/:userId/:version', userController.hasUserAccepted)
-
+    .get('/:userId/:version?', userController.hasUserAccepted);

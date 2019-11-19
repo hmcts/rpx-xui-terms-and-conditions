@@ -2,7 +2,7 @@ import pgPromise = require('pg-promise'); // pg-promise core library
 import process from 'process';
 import {IInitOptions, IDatabase, IMain} from 'pg-promise';
 import {
-    IExtensions,
+    Extensions,
     TCAppRepository,
     TCDocumentAppRepository,
     TCDocumentRepository,
@@ -10,10 +10,10 @@ import {
 } from './repos';
 import {Diagnostics} from './diagnostics';
 
-type ExtendedProtocol = IDatabase<IExtensions> & IExtensions;
+export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
 // pg-promise initialization options:
-const initOptions: IInitOptions<IExtensions> = {
+const initOptions: IInitOptions<Extensions> = {
 
     // Extending the database protocol with our custom repositories;
     // API: http://vitaly-t.github.io/pg-promise/global.html#event:extend
@@ -22,28 +22,19 @@ const initOptions: IInitOptions<IExtensions> = {
 
         // Do not use 'require()' here, because this event occurs for every task and transaction being executed,
         // which should be as fast as possible.
-        obj.documents = new TCDocumentRepository(obj, pgp);
+        obj.documents = new TCDocumentRepository(obj);
         obj.apps = new TCAppRepository(obj, pgp);
         obj.documentApps = new TCDocumentAppRepository(obj, pgp);
-        obj.userAgreements = new TCUserAgreementRepository(obj, pgp);
+        obj.userAgreements = new TCUserAgreementRepository(obj);
     }
 };
 
-/*const dbConfig = {
-    host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_HOST,
-    database: process.env.POSTGRES_HOST,
-    user: process.env.POSTGRES_HOST,
-    password: process.env.POSTGRES_HOST
-};*/
-
-
 const dbConfig = {
-    host: 'localhost',
-    port: 5432,
-    database: 'postgres',
-    user: 'postgres_user',
-    password: 'password'
+    host: process.env.POSTGRE_SERVER_NAME,
+    port: <number>parseInt(process.env.POSTGRE_SERVER_PORT),
+    database: process.env.POSTGRE_DB_NAME,
+    user: process.env.POSTGRE_USERNAME,
+    password: process.env.POSTGRE_PW,
 };
 
 // Initializing the library:
