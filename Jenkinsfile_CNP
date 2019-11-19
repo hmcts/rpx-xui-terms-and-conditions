@@ -23,7 +23,7 @@ def secrets = [
     secret('mc-idam-client-secret', 'IDAM_SECRET'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
     secret('postgre-tc-username', 'POSTGRE_USERNAME'),
-    secret('postgre-tc-pw', 'POSTGRE_USER_PW')
+    secret('postgre-tc-pw', 'POSTGRE_PW')
   ],
 ]
 
@@ -41,12 +41,12 @@ withPipeline("nodejs", product, component) {
     loadVaultSecrets(secrets)
 
     enableDockerBuild()
-    
+
     installCharts()
 
     disableLegacyDeployment()
-    
-    enableAksStagingDeployment() 
-    
+
+    enableAksStagingDeployment()
+
 }
 
