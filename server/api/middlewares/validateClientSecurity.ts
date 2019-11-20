@@ -34,7 +34,12 @@ export async function validateIncomingRequest(req: Request, res: Response, next:
             // Check if the service name is whitelisted
             if (clientServiceName === 'xui_webapp') {
                 const urlUser = process.env.IDAM_SERVICE_URL;
-                const userToken = String(req.headers.authorization);
+                let userToken: string;
+                if (req.headers.authorization) {
+                    userToken = String(req.headers.authorization);
+                } else {
+                    userToken = 'invalid token';
+                }
                 // Verify user token
                 try {
                     const userTokenValidate = await validateUserToken(urlUser, userToken);
