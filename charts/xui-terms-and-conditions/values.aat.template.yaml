@@ -12,3 +12,5 @@ nodejs:
        POSTGRE_PW: ${POSTGRE_PW}
        NODE_ENV: aat
        XUI_ENV: aat
+postgresql:
+  enabled: false
