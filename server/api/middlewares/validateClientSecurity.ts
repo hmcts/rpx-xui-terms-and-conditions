@@ -6,8 +6,8 @@ import * as process from 'process';
 export async function validateIncomingRequest(req: Request, res: Response, next: NextFunction) {
     let clientServiceName;
     const urlS2s = process.env.S2S_TOKEN_URL;
-    let rawS2sToken: string | string[] | undefined;
-    let s2sToken: string | string[] | undefined;
+    let rawS2sToken: string;
+    let s2sToken: string;
 
     // Check if authorisation header exists, if not add dummy value
     if (req.headers.serviceauthorization) {
@@ -34,7 +34,7 @@ export async function validateIncomingRequest(req: Request, res: Response, next:
             // Check if the service name is whitelisted
             if (clientServiceName === 'xui_webapp') {
                 const urlUser = process.env.IDAM_SERVICE_URL;
-                const userToken: string | string[] | undefined = req.headers.authorization;
+                const userToken = String(req.headers.authorization);
                 // Verify user token
                 try {
                     const userTokenValidate = await validateUserToken(urlUser, userToken);
