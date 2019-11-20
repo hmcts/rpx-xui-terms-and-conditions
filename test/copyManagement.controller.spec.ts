@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import request from 'supertest';
 import Server from '../server';
 
-describe('Copy Management controller', () => {
+xdescribe('Copy Management controller', () => {
   it('should get all versions for app', () =>
     request(Server)
       .get('/api/v1/termsAndConditions/app1/versions')

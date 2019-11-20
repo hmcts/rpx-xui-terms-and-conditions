@@ -8,7 +8,7 @@ import Server from '../server';
  *
  * TODO: To be hardened once we know the data
  */
-describe('Users controller', () => {
+xdescribe('Users controller', () => {
   it('should get all Users', () =>
     request(Server)
       .get('/api/v1/termsAndConditions/managecases/users/1')

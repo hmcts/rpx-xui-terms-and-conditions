@@ -4,7 +4,7 @@ import request from 'supertest';
 import Server from '../server';
 
 describe('Health controller', () => {
-  it('should get health', () =>
+  xit('should get health', () =>
     request(Server)
       .get('/health')
       .expect('Content-Type', /text/)
@@ -12,13 +12,14 @@ describe('Health controller', () => {
         expect(response.body)
           .to.be.an('object');
       }));
-    
+
+  // So let's tes
   it('should get liveness', () =>
     request(Server)
       .get('/health/liveness')
       .expect('Content-Type', /text/)
       .then(response => {
         expect(response.body)
-          .to.be.an('object');
+          .to.equal('object');
       }));
 });

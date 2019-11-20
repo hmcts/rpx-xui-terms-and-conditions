@@ -3,7 +3,7 @@ import {expect} from 'chai';
 import UsersService from '../server/api/services/users.service';
 import {User} from '../server/api/interfaces/users';
 
-describe('UsersService', function () {
+xdescribe('UsersService', function () {
 
     describe('users ', function () {
         it('should take in an application name and terms and conditions version', () => {
