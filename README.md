@@ -53,7 +53,7 @@ http://localhost:8080/health/liveness`
 
 See Swagger documentation for more route information.
 
-# API Versioning 
+# API Versioning
 
 We're keeping the version number within the path ie. /v1 as it comes with the scaffolding,
 it's been discussed within the team - we've agreed to keep it in.
@@ -73,4 +73,6 @@ the API.
 GET http://localhost:8080/api/v1/examples
 GET http://localhost:8080/api/v1/examples/1
 POST http://localhost:8080/api/v1/examples
+
+
 
