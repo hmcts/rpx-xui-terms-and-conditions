@@ -12,14 +12,11 @@ nodejs:
        POSTGRE_USERNAME: xui_tc
        POSTGRE_PW: xui_tc
        POSTGRE_DB_NAME: xui_tc
+       SWAGGER_API_SPEC: /api/v1/spec
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc
   postgresqlPassword: xui_tc
   postgresqlDatabase: xui_tc
-  environment:
-      POSTGRES_HOST: "{{ .Release.Name }}-postgresql"
-      POSTGRES_NAME: xui_tc
-      POSTGRES_USERNAME: xui_tc
-      POSTGRES_PASSWORD: xui_tc
-      POSTGRES_CONNECTION_OPTIONS: "?sslmode=allow"
+  persistence:
+    enabled: false
