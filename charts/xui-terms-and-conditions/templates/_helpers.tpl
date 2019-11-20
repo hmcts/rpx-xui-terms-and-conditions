@@ -1,56 +1,114 @@
-{{/* vim: set filetype=mustache: */}}
 {{/*
-Expand the name of the chart.
-*/}}
-{{- define "rpx-xui-terms-and-conditions.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
+ref: https://github.com/helm/charts/blob/master/stable/postgresql/templates/_helpers.tpl
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
 */}}
-{{- define "rpx-xui-terms-and-conditions.fullname" -}}
-{{- if .Values.fullnameOverride -}}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- define "hmcts.releaseName" -}}
+{{- if .Values.releaseNameOverride -}}
+{{- tpl .Values.releaseNameOverride $ | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- if contains $name .Release.Name -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
+{{- printf "%s-%s" .Release.Name .Chart.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
 
+---
 {{/*
-Create chart name and version as used by the chart label.
+All the common labels needed for the labels sections of the definitions.
 */}}
-{{- define "rpx-xui-terms-and-conditions.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
-Common labels
-*/}}
-{{- define "rpx-xui-terms-and-conditions.labels" -}}
-app.kubernetes.io/name: {{ include "rpx-xui-terms-and-conditions.name" . }}
-helm.sh/chart: {{ include "rpx-xui-terms-and-conditions.chart" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
+{{- define "labels" }}
+app.kubernetes.io/name: {{ template "hmcts.releaseName" . }}
+helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/instance: {{ template "hmcts.releaseName" . }}
+{{- if .Values.aadIdentityName }}
+aadpodidbinding: {{ .Values.aadIdentityName }}
+{{- end }}
+{{- if .Values.draft }}
+draft: {{ .Values.draft }}
+{{- end }}
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+All the common annotations needed for the annotations sections of the definitions.
 */}}
-{{- define "rpx-xui-terms-and-conditions.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "rpx-xui-terms-and-conditions.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
+{{- define "annotations" }}
+{{- if .Values.prometheus.enabled }}
+prometheus.io/scrape: "true"
+prometheus.io/path: {{ .Values.prometheus.path | quote }}
+prometheus.io/port: {{ .Values.applicationPort | quote }}
+{{- end }}
+{{- if .Values.buildID }}
+buildID: {{ .Values.buildID }}
+{{- end }}
 {{- end -}}
-{{- end -}}
+
+{{/*
+The bit of templating needed to create the flex-Volume keyvault for mounting
+*/}}
+{{- define "secretVolumes" }}
+{{- if and .Values.keyVaults .Values.global.enableKeyVaults }}
+{{- $globals := .Values.global }}
+{{- $keyVaults := .Values.keyVaults }}
+{{- $aadIdentityName := .Values.aadIdentityName }}
+volumes:
+{{- range $vault, $info := .Values.keyVaults }}
+- name: {{ $vault }}
+  flexVolume:
+    driver: "azure/kv"
+    {{- if not $aadIdentityName }}
+    secretRef:
+      name: {{ default "kvcreds" $keyVaults.secretRef }}
+    {{- end}}
+    options:
+      usepodidentity: "{{ if $aadIdentityName }}true{{ else }}false{{ end}}"
+      tenantid: {{ $globals.tenantId | quote }}
+      keyvaultname: "{{ $vault }}{{ if not (default $info.excludeEnvironmentSuffix false) }}-{{ $globals.environment }}{{ end }}"
+      keyvaultobjectnames: "{{range $index, $secret := $info.secrets }}{{if $index}};{{end}}{{ $secret }}{{ end }}"
+      keyvaultobjecttypes: "{{range $index, $secret := $info.secrets }}{{if $index}};{{end}}secret{{ end }}"
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Mount the Key vaults on /mnt/secrets
+*/}}
+{{- define "secretMounts" -}}
+{{- if and .Values.keyVaults .Values.global.enableKeyVaults }}
+volumeMounts:
+{{- range $vault, $info := .Values.keyVaults }}
+  - name: {{ $vault | quote }}
+    mountPath: "/mnt/secrets/{{ $vault }}"
+    readOnly: true
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{/*
+Adding in the helper here where we can use a secret object to include secrets to for the deployed service.
+The key or "environment variable" must be uppercase and contain only numbers or "_".
+Example format:
+"
+ ENVIRONMENT_VAR:
+    secretRef: secret-vault
+    key: connectionString
+    disabled: false
+"
+*/}}
+{{- define "nodejs.secrets" -}}
+
+  {{- if .Values.secrets -}}
+    {{- range $key, $val := .Values.secrets }}
+      {{- if and $val (not $val.disabled) }}
+- name: {{ if $key | regexMatch "^[^.-]+$" -}}
+          {{- $key }}
+        {{- else -}}
+            {{- fail (join "Environment variables can not contain '.' or '-' Failed key: " ($key|quote)) -}}
+        {{- end }}
+  valueFrom:
+    secretKeyRef:
+      name: {{  tpl (required "Each item in \"secrets:\" needs a secretRef member" $val.secretRef) $ }}
+      key: {{ required "Each item in \"secrets:\" needs a key member" $val.key }}
+      {{- end }}
+    {{- end }}
+  {{- end -}}
+{{- end }}
