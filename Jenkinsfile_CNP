@@ -23,7 +23,7 @@ def secrets = [
     secret('mc-idam-client-secret', 'IDAM_SECRET'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
     secret('postgre-tc-username', 'POSTGRES_USERNAME'),
-    secret('postgre-tc-pw', 'POSTGRES_PW')
+    secret('postgre-tc-pw', 'POSTGRES_PASSWORD')
   ],
 ]
 
