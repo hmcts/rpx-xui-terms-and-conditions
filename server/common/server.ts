@@ -14,9 +14,7 @@ const app = express();
 
 export default class ExpressServer {
     constructor() {
-        // const requestLimit = process.env.REQUEST_LIMIT;
         const requestLimit = '100kb';
-        // const sessionSecret = process.env.SESSION_SECRET;
         const sessionSecret = 'secret';
         const root = path.normalize(__dirname + '/../..');
         app.set('appPath', root + 'client');
@@ -36,7 +34,7 @@ export default class ExpressServer {
     // variables in our pipeline.
     listen(p: string | number = 3000): Application {
         const welcome = port => () =>
-            l.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${port}}`);
+            l.info(`up and running in @: ${os.hostname()} on port: ${port}}`);
         http.createServer(app).listen(p, welcome(p));
         return app;
     }
