@@ -9,6 +9,7 @@ import {
     TCUserAgreementRepository
 } from './repos';
 import {Diagnostics} from './diagnostics';
+import config from 'config';
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
@@ -30,11 +31,11 @@ const initOptions: IInitOptions<Extensions> = {
 };
 
 const dbConfig = {
-    host: process.env.POSTGRE_SERVER_NAME,
-    port: <number>parseInt(process.env.POSTGRE_SERVER_PORT),
-    database: process.env.POSTGRE_DB_NAME,
-    user: process.env.POSTGRE_USERNAME,
-    password: process.env.POSTGRE_PW,
+    host: config.get('database.host'),
+    port: <number>parseInt(config.get('database.port')),
+    database: config.get('database.name'),
+    user: config.get('database.username'),
+    password: config.get('secrets.rpx.postgresql-pw'),
 };
 
 // Initializing the library:

@@ -43,7 +43,7 @@ To run the Terms and Conditions Service using Docker do the following:
 `docker build -t terms-and-conditions .`
 
 2. Run the Docker Image inside a Container
-`docker run -8080:3000 terms-and-conditions`
+`docker run -p 8080:3000 terms-and-conditions`
 
 3. The Docker container with the Terms and Conditions service is now up and running 
 on `http://localhost:8080` you can test it using the following GET requests:
