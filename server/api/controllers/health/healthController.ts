@@ -32,7 +32,12 @@ export class HealthController {
     }
 
     public liveness(req: Request, res: Response): void {
+        this.shouldReturnFalse();
         res.status(200).send(LIVENESS_UP_AND_RUNNING);
+    }
+
+    public shouldReturnFalse(): boolean {
+        return false;
     }
 }
 
