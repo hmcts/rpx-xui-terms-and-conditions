@@ -1,0 +1,4 @@
+database:
+  port: 5432
+swagger:
+  path: /api/v1/spec

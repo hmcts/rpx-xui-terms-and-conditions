@@ -5,10 +5,10 @@ nodejs:
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview
-       POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
-       POSTGRE_USERNAME: "{{ .Values.postgresql.postgresqlUsername }}"
-       POSTGRE_PW: "{{ .Values.postgresql.postgresqlPassword }}"
-       POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase }}"
+       POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
+       POSTGRES_USERNAME: "{{ .Values.postgresql.postgresqlUsername }}"
+       POSTGRES_PW: "{{ .Values.postgresql.postgresqlPassword }}"
+       POSTGRES_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase }}"
   keyVaults:
     rpx:
       secrets:

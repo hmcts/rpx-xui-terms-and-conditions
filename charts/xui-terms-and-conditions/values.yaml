@@ -8,12 +8,9 @@ nodejs:
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
     XUI_ENV: production
-    POSTGRE_SERVER_PORT: 5432
-    POSTGRE_DB_NAME: xui_tc
-    POSTGRE_SERVER_NAME: "xui-terms-and-conditions-{{ .Values.global.environment }}.postgres.database.azure.com"
-    POSTGRE_USERNAME: "postgresql_admin@xui-terms-and-conditions-{{ .Values.global.environment }}"
-    POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase }}"
-    SWAGGER_API_SPEC: /api/v1/spec
+    POSTGRES_DB_NAME: xui_tc
+    POSTGRES_SERVER_NAME: "xui-terms-and-conditions-{{ .Values.global.environment }}.postgres.database.azure.com"
+    POSTGRES_USERNAME: "postgresql_admin@xui-terms-and-conditions-{{ .Values.global.environment }}"
   keyVaults:
     rpx:
       secrets:
