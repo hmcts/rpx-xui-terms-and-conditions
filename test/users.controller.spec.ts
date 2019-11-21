@@ -1,47 +1,33 @@
+import chai from 'chai'
+import {expect} from 'chai';
 import 'mocha';
-import { expect } from 'chai';
 import request from 'supertest';
 import Server from '../server';
 
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
+import {mockReq, mockRes} from 'sinon-express-mock';
+import userController from '../server/api/controllers/users/userController';
+import UsersService from '../server/api/services/users.service';
+
+chai.use(sinonChai);
+
 /**
- * Users controller tests
- *
- * TODO: To be hardened once we know the data
+ * Example Unit test spying on User Controller to check if it calls User Service.
  */
-xdescribe('Users controller', () => {
-  it('should get all Users', () =>
-    request(Server)
-      .get('/api/v1/termsAndConditions/managecases/users/1')
-      .expect('Content-Type', /json/)
-      .then(response => {
-        expect(response.body)
-          .to.be.an('array');
-      }));
+describe('Users controller', () => {
+    it('should be able to accept Terms & Conditions by calling UserService.userAgreement', () => {
 
-  it('should be able to add Users', () =>
-    request(Server)
-      .post('/api/v1/termsAndConditions/managecases/users/1')
-      .send(
-          {
-              "userId": "123e4567-e89b-12d3-a456-426655440000"
-          },
-      )
-      .expect('Content-Type', /json/)
-      .then(response => {
-        expect(response.body)
-          .to.be.an('object')
-          // .that.has.property('name')
-          // .equal('test');
-      }));
+        const req = mockReq();
+        const res = mockRes();
 
-  it('should get a User by id', () =>
-    request(Server)
-      .get('/api/v1/termsAndConditions/managecases/users/userId/1')
-      .expect('Content-Type', /json/)
-      .then(response => {
-        expect(response.body)
-          .to.be.an('object')
-          .that.has.property('userId')
-          .equal('userId');
-      }));
+        const spyOn = sinon.spy(UsersService, 'userAgreement');
+
+        userController.acceptTermsConditions(req, res);
+
+        sinon.assert.called(spyOn);
+    });
 });
+
+
+
