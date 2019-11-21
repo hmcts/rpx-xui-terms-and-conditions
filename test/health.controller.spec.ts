@@ -1,65 +1,46 @@
-import chai from 'chai'
-import {expect} from 'chai';
-import 'mocha';
-import request from 'supertest';
-import Server from '../server';
-
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
-import {mockReq, mockRes} from 'sinon-express-mock';
-
-chai.use(sinonChai);
-// chai.use(sinon);
-
+import {
+    LIVENESS_UP_AND_RUNNING,
+} from '../server/api/messages';
 import healthController from '../server/api/controllers/health/healthController';
 
-describe('Health controller', () => {
-    xit('should get health', () =>
-        request(Server)
-            .get('/health')
-            .expect('Content-Type', /text/)
-            .then(response => {
-                expect(response.body)
-                    .to.equal('hello')
-            }));
+/**
+ * Mock Express Request Object using Jest
+ */
+const mockRequest = () => {
+  return {
+      session: {data: 'sessionData'}
+  }
+};
 
-    xit('should return false', () => {
+/**
+ * Mock Express Response Object using Jest
+ *
+ * We mock the status and send so that we can test the response of
+ * <code>
+ *     res.status(200).send(LIVENESS_UP_AND_RUNNING);
+ * </code>
+ */
+const mockResponse = () => {
+    return {
+        status: jest.fn().mockReturnValue({
+            send: jest.fn().mockReturnValue({})
+        })
+    };
+};
 
-        expect(healthController.shouldReturnFalse()).to.be.false;
-    });
+describe('Health Controller', () => {
 
-    // We want to check that status is called on
-    // res with 200
-    it('should get liveness', () => {
+    /**
+     * Note that the Jenkins pipeline requires health liveness to available for a successful build.
+     */
+    it('should return a 200 for health liveness, so that the build passes through the Jenkins pipeline.', () => {
 
-        const request = {
-            status: () => {
-                return 200;
-            }
-        };
-
-        const response = {};
-
-        const req = mockReq(request);
-        const res = mockRes();
-
-        const spyOn = sinon.spy(req, 'status');
+        const req = mockRequest();
+        const res = mockResponse();
 
         healthController.liveness(req, res);
 
-
-
-        // expect(res.status).to.be.calledWith(302, '/')
-        // expect(true).to.equal(false);
-        sinon.assert.called(spyOn);
-
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.status().send).toHaveBeenCalledWith(LIVENESS_UP_AND_RUNNING);
     })
-    //
-    // request(Server)
-    //   .get('/health/liveness')
-    //   .expect('Content-Type', /text/)
-    //   .then(response => {
-    //     expect(response.body)
-    //       .to.equal('object');
-    //   }));
 });

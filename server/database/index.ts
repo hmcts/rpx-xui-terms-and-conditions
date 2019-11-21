@@ -40,6 +40,9 @@ const dbConfig = {
 // Initializing the library:
 const pgp: IMain = pgPromise(initOptions);
 
+// so over here we are passing in the dbConfig object
+// to pgp to initialise the db.
+
 // Creating the database instance with extensions:
 export const db: ExtendedProtocol = pgp(dbConfig);
 
