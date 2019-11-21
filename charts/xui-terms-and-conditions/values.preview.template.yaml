@@ -1,18 +1,18 @@
 nodejs:
+  aadIdentityName:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   environment:
-       S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
-       S2S_SECRET: ${S2S_SECRET}
-       IDAM_SECRET: ${IDAM_SECRET}
-       NODE_ENV: preview
        XUI_ENV: preview
        POSTGRE_SERVER_NAME: "{{ .Release.Name }}-postgresql"
-       POSTGRE_USERNAME: xui_tc
-       POSTGRE_PW: xui_tc
-       POSTGRE_DB_NAME: xui_tc
-       SWAGGER_API_SPEC: /api/v1/spec
+       POSTGRE_USERNAME: "{{ .Values.postgresql.postgresqlUsername }}"
+       POSTGRE_PW: "{{ .Values.postgresql.postgresqlPassword }}"
+       POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase }}"
+  keyVaults:
+    rpx:
+      secrets:
+        - mc-s2s-client-secret
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc

@@ -1,25 +1,27 @@
 nodejs:
+  aadIdentityName: xui
   applicationPort: 3000
-  memoryLimits: 1024Mi
-  cpuLimits: 1000m
   environment:
+    S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     REFORM_TEAM: rpx
     REFORM_SERVICE_NAME: xui-terms-and-conditions
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
-    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
     XUI_ENV: production
-    S2S_SECRET: ${S2S_SECRET}
-    IDAM_SECRET: ${IDAM_SECRET}
     POSTGRE_SERVER_PORT: 5432
     POSTGRE_DB_NAME: xui_tc
+    POSTGRE_SERVER_NAME: "xui-terms-and-conditions-{{ .Values.global.environment }}.postgres.database.azure.com"
+    POSTGRE_USERNAME: "postgresql_admin@xui-terms-and-conditions-{{ .Values.global.environment }}"
+    POSTGRE_DB_NAME: "{{ .Values.postgresql.postgresqlDatabase }}"
+    SWAGGER_API_SPEC: /api/v1/spec
   keyVaults:
     rpx:
-      resourceGroup: rpx
       secrets:
         - mc-s2s-client-secret
-        - mc-idam-client-secret
+        - postgresql-pw
         - AppInsightsInstrumentationKey
   # Don't modify below here
-  image: ${IMAGE_NAME}
-  ingressHost: ${SERVICE_FQDN}
+  image: 'hmctspublic.azurecr.io/xui/terms-and-conditions:latest'
+  ingressHost: xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+postgresql:
+  enabled: false
