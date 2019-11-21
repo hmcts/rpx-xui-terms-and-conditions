@@ -7,9 +7,7 @@ import healthController from '../server/api/controllers/health/healthController'
  * Mock Express Request Object using Jest
  */
 const mockRequest = () => {
-  return {
-      session: {data: 'sessionData'}
-  }
+  return {}
 };
 
 /**
@@ -28,7 +26,7 @@ const mockResponse = () => {
     };
 };
 
-describe('Health Controller', () => {
+describe('Health controller', () => {
 
     /**
      * Note that the Jenkins pipeline requires health liveness to available for a successful build.
@@ -38,7 +36,7 @@ describe('Health Controller', () => {
         const req = mockRequest();
         const res = mockResponse();
 
-        healthController.liveness(req, res);
+        healthController.liveness(req as any, res as any);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.status().send).toHaveBeenCalledWith(LIVENESS_UP_AND_RUNNING);

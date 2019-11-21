@@ -31,18 +31,8 @@ export class HealthController {
         res.status(200).send(response);
     }
 
-    public liveness(req, res): void {
-        this.shouldReturnFalse();
+    public liveness(req:Request, res:Response): void {
         res.status(200).send(LIVENESS_UP_AND_RUNNING);
-    }
-
-    // public liveness(req: Request, res: Response): void {
-    //     this.shouldReturnFalse();
-    //     res.status(200).send(LIVENESS_UP_AND_RUNNING);
-    // }
-
-    public shouldReturnFalse(): boolean {
-        return false;
     }
 }
 
