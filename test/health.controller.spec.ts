@@ -20,10 +20,10 @@ describe('Health controller', () => {
             .expect('Content-Type', /text/)
             .then(response => {
                 expect(response.body)
-                    .to.be.an('object');
+                    .to.equal('hello')
             }));
 
-    it('should return false', () => {
+    xit('should return false', () => {
 
         expect(healthController.shouldReturnFalse()).to.be.false;
     });
@@ -38,10 +38,12 @@ describe('Health controller', () => {
             }
         };
 
+        const response = {};
+
         const req = mockReq(request);
         const res = mockRes();
 
-        const spyOn = sinon.spy(healthController, 'shouldReturnFalse');
+        const spyOn = sinon.spy(req, 'status');
 
         healthController.liveness(req, res);
 
