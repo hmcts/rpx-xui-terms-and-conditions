@@ -9,7 +9,7 @@ async function createSchema() {
             const docAppsCreate = await task.documentApps.create();
             const userAgreementsCreate = await task.userAgreements.create();
             const appsInit = await task.apps.init();
-            let docInsert: any = 'document exists';
+            let docInsert;
 
             // TODO: make this more efficient, also rather than total for both apps should be at least one for each
             const totalDocs = async () => {
@@ -17,13 +17,13 @@ async function createSchema() {
             };
             const totalArray = await totalDocs();
 
-            const total = totalArray.reduce( ((previousValue, currentValue) => previousValue + currentValue ));
+            const total = totalArray.reduce((previousValue, currentValue) => previousValue + currentValue);
 
             if (total === 0) {
                 docInsert = await task.documents.add({
                     document: '<h1>Terms & Conditions</h1><p>Do you accept?</p>',
                     mimeType: 'text/html',
-                    apps: apps
+                    apps: apps,
                 });
             }
             return { docsCreate, appsCreate, docAppsCreate, userAgreementsCreate, appsInit, docInsert };
