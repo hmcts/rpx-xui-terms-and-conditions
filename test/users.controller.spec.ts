@@ -60,7 +60,7 @@ describe('Users controller', () => {
     /**
      * TODO: We need to mock the UsersService to get back a 200 response.
      */
-    it('should call the UsersService.userAgreement for a User to accept Terms and Conditions.', async () => {
+    it('should call the UsersService.userAgreement for a User to accept ', async () => {
 
         const req = mockRequest();
         const res = mockResponse();
