@@ -6,6 +6,7 @@ import UsersService from '../../services/users.service';
 
 // TODO: Unit test the following
 export class UserController {
+
     /**
      * acceptTermsConditions
      *

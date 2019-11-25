@@ -1,7 +1,6 @@
 import 'mocha'
 import { expect } from 'chai'
 import * as sinon from 'sinon'
-import request from 'supertest'
 
 import { http, validateUserToken } from '../server/api/services/userTokenValidation.service'
 
