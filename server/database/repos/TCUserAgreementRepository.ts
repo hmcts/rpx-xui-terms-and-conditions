@@ -8,7 +8,10 @@ export class TCUserAgreementRepository {
 
     // so as soon as ExtendedProtocol is called then Diagnostics.init(initOptions);
     // is hit
-    constructor(private db: ExtendedProtocol) {}
+    constructor(private db: ExtendedProtocol) {
+
+        // as soon as you call db then it the database gets hit
+    }
 
     // Creates the table;
     public create(): Promise<null> {
