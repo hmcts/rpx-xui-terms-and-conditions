@@ -1,10 +1,4 @@
-import sinon from 'sinon'
-import sinonChai from 'sinon-chai'
-import {mockReq, mockRes} from 'sinon-express-mock';
 import UserController from '../server/api/controllers/users/userController';
-import UsersService from '../server/api/services/users.service';
-import {LIVENESS_UP_AND_RUNNING} from "../server/api/messages";
-import healthController from "../server/api/controllers/health/healthController";
 
 /**
  * Mock Express Request Object using Jest
