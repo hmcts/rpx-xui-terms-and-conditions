@@ -1,5 +1,5 @@
 import express from 'express';
-import { Application } from 'express';
+import {Application} from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import http from 'http';
@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import installValidator from './swagger';
 
 import l from './logger';
+import * as tunnel from './tunnel';
 
 const app = express();
 
@@ -17,10 +18,11 @@ export default class ExpressServer {
         const requestLimit = '100kb';
         const sessionSecret = 'secret';
         const root = path.normalize(__dirname + '/../..');
+        tunnel.init();
         app.set('appPath', root + 'client');
-        app.use(bodyParser.json({ limit: requestLimit || '100kb' }));
-        app.use(bodyParser.urlencoded({ extended: true, limit: requestLimit || '100kb' }));
-        app.use(bodyParser.text({ limit: requestLimit || '100kb' }));
+        app.use(bodyParser.json({limit: requestLimit || '100kb'}));
+        app.use(bodyParser.urlencoded({extended: true, limit: requestLimit || '100kb'}));
+        app.use(bodyParser.text({limit: requestLimit || '100kb'}));
         app.use(cookieParser(sessionSecret));
         app.use(express.static(`${root}/public`));
     }

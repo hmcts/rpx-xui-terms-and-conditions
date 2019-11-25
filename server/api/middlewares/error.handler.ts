@@ -5,6 +5,6 @@ import { Request, Response, NextFunction } from 'express';
  */
 // eslint-disable-next-line no-unused-vars, no-shadow,
 export default function errorHandler(err, req: Request, res: Response, next: NextFunction) {
-    res.status(err.status || 500);
-    res.send(`<h1>${err.status || 500} Error</h1>` + `<pre>${err.message}</pre>`);
+    const status = err.status || 500;
+    res.status(status).send({ message: err.message, status: status });
 }
