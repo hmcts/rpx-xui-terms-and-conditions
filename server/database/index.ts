@@ -61,14 +61,25 @@ const pgp: IMain = pgPromise(initOptions);
 
 // Creating the database instance with extensions:
 
-const initialiseDatabase = (environment): ExtendedProtocol | null => {
-    // console.log(process.env);
-    // const test = false;
-    // if (test) {
-    //     return {}
-    // }
+/**
+ * initialiseDatabase
+ *
+ * When we are running unit tests we do not want to connect to the Postgres database on
+ * our local machine, and on our Jenkins pipelines.
+ *
+ * Using the package.json scripts tag `test` we pass in UNIT_TEST_ENVIRONMENT=true
+ * which means when the Unit tests are run we do not attempt to connect to the db.
+ *
+ * Note that
+ * <code>Diagnostics.init(initOptions);</code>
+ * is used to allow database debugging.
+ *
+ * @param unitTestEnvironment ie. 'true'
+ * @returns {ExtendedProtocol | null}
+ */
+const initialiseDatabase = (unitTestEnvironment): ExtendedProtocol | null => {
 
-    if (environment === 'unit-test-environment') {
+    if (unitTestEnvironment) {
         return null;
     }
 
@@ -76,9 +87,10 @@ const initialiseDatabase = (environment): ExtendedProtocol | null => {
 };
 
 console.log('startup database config');
-export const db: ExtendedProtocol = initialiseDatabase('unit-test-environment');//pgp(databaseConfig(config));
+console.log(process.env.UNIT_TEST_ENVIRONMENT);
 
-// Initializing optional diagnostics:
+export const db: ExtendedProtocol = initialiseDatabase(process.env.UNIT_TEST_ENVIRONMENT);
+
+// TODO: move into initialiseDatabase
 Diagnostics.init(initOptions);
-
 
