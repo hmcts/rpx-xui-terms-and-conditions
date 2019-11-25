@@ -3,6 +3,10 @@ nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   spec:
+    template:
+      metadata:
+        annotations:
+          pod.beta.kubernetes.io/init-containers: '[{"name": "volume-mount-hack", "image": "my-image:1.2.3", "imagePullPolicy": "Always", "securityContext": {"runAsUser": 0, "command": ["/bin/sh", "-c", "set -e && echo \"[ $(hostname --fqdn) ] Chowning volume mounts to 1000:1000 ..\" && set -x && chown -R 1000:1000 /data /var/log/gigawatt.io"], "volumeMounts": [{"name": "storage", "mountPath": "/data"}, {"name": "log-dir", "mountPath": "/var/log/gigawatt.io"}]}]'
     command: ["/bin/sh"]
     args: ["-c", "yarn create:schema"]
     # These containers are run during pod initialization
