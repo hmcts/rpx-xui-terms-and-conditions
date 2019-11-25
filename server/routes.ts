@@ -1,4 +1,4 @@
-import {Application} from 'express';
+import { Application } from 'express';
 
 import documentManagementRouter from './api/controllers/documentManagement/router';
 import usersRouter from './api/controllers/users/router';

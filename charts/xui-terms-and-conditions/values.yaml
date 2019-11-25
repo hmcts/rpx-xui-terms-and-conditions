@@ -2,12 +2,13 @@ nodejs:
   aadIdentityName: xui
   applicationPort: 3000
   environment:
-    S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    S2S_TOKEN_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     REFORM_TEAM: rpx
     REFORM_SERVICE_NAME: xui-terms-and-conditions
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
     XUI_ENV: production
+    IDAM_SERVICE_URL: https://idam-api.aat.platform.hmcts.net
     POSTGRES_DB_NAME: xui_tc
     POSTGRES_SERVER_NAME: "xui-terms-and-conditions-{{ .Values.global.environment }}.postgres.database.azure.com"
     POSTGRES_USERNAME: "postgresql_admin@xui-terms-and-conditions-{{ .Values.global.environment }}"
