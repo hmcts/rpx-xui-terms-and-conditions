@@ -30,6 +30,19 @@ const initOptions: IInitOptions<Extensions> = {
     }
 };
 
+/**
+ * environmentDatabaseConfig
+ *
+ * On the higher environments ie. AAT & Production these configuration values
+ * are coming from custom-environment-variables.yaml
+ *
+ * This is as per the Reform standard. [25.11.2019]
+ *
+ * @see customer-environment-variables.yaml
+ *
+ * @param config
+ * @returns
+ */
 const environmentDatabaseConfig = config => {
     return {
         host: config.get('database.host'),
@@ -40,26 +53,9 @@ const environmentDatabaseConfig = config => {
     }
 };
 
-// TODO: This should not run if we are running the unit tests as we
-// do not want to connect to the DB.
-// const dbConfig = {
-//     host: config.get('database.host'),
-//     port: <number>parseInt(config.get('database.port')),
-//     database: config.get('database.name'),
-//     user: config.get('database.username'),
-//     password: config.get('secrets.rpx.postgresql-pw'),
-// };
-
 // Initializing the library:
+// TODO: Remove from global scope
 const pgp: IMain = pgPromise(initOptions);
-
-// so over here we are passing in the dbConfig object
-// to pgp to initialise the db.
-
-// TODO: This should not run if we are running the unit tests as we
-// do not want to connect to the DB.
-
-// Creating the database instance with extensions:
 
 /**
  * initialiseDatabase
@@ -74,6 +70,8 @@ const pgp: IMain = pgPromise(initOptions);
  * <code>Diagnostics.init(initOptions);</code>
  * is used to allow database debugging.
  *
+ * TODO: Place Diagnostics init into here.
+ *
  * @param unitTestEnvironment ie. 'true'
  * @returns {ExtendedProtocol | null}
  */
@@ -86,11 +84,6 @@ const initialiseDatabase = (unitTestEnvironment): ExtendedProtocol | null => {
     return pgp(environmentDatabaseConfig(config));
 };
 
-console.log('startup database config');
-console.log(process.env.UNIT_TEST_ENVIRONMENT);
-
 export const db: ExtendedProtocol = initialiseDatabase(process.env.UNIT_TEST_ENVIRONMENT);
 
-// TODO: move into initialiseDatabase
 Diagnostics.init(initOptions);
-
