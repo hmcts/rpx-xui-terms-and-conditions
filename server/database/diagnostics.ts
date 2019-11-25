@@ -2,7 +2,6 @@ import * as pgMonitor from 'pg-monitor';
 import {IInitOptions} from 'pg-promise';
 
 // Flag to indicate whether we are in a DEV environment:
-// TODO: Get from config
 const $PROD = process.env.XUI_ENV === 'prod';
 
 export class Diagnostics {

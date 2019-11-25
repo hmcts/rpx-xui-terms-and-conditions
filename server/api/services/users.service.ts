@@ -3,7 +3,6 @@ import { db } from '../../database';
 import { TCUserAgreement } from '../../database/models';
 import { User } from '../interfaces/users';
 import { Agreement } from '../../database/models/agreement.model';
-import { TCUserAgreementRepository } from '../../database/repos/TCUserAgreementRepository';
 
 /**
  * Users Service
@@ -11,8 +10,6 @@ import { TCUserAgreementRepository } from '../../database/repos/TCUserAgreementR
  * Currently working on.
  */
 export class UsersService {
-    // Ok so here we have lots of calls to the db
-
     /**
      * getUserAgreements
      *
@@ -27,7 +24,7 @@ export class UsersService {
      */
     public getUserAgreements(appName: string, version?: number): Promise<User[]> {
         L.info(`Get all users for an app, with a particular version.`);
-        return this.getAgreements().getAll({ app: appName, version });
+        return db.userAgreements.getAll({ app: appName, version });
     }
 
     /**
@@ -39,7 +36,7 @@ export class UsersService {
      */
     public getUserAgreement(appName: string, userId: string, version?: number): Promise<Agreement> {
         L.info(`Has user ${userId} accepted T&C's ${version ? 'version ' + version : 'latest version'}?`);
-        return this.getAgreements().get({ user: userId, app: appName, version });
+        return db.userAgreements.get({ user: userId, app: appName, version });
     }
 
     /**
@@ -54,15 +51,7 @@ export class UsersService {
      */
     public userAgreement(appName: string, user: User, version?: number): Promise<TCUserAgreement> {
         L.info(`Adding users ${user}`);
-        return this.getAgreements().add({ user: user.userId, app: appName, version });
-    }
-
-    /**
-     * Can we mock this? therefore we do not call the DB.
-     * @returns {TCUserAgreementRepository}
-     */
-    public getAgreements(): TCUserAgreementRepository {
-        return db.userAgreements;
+        return db.userAgreements.add({ user: user.userId, app: appName, version });
     }
 }
 
