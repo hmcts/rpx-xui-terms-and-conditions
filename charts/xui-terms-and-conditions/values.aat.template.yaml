@@ -1,16 +1,3 @@
 nodejs:
-  aadIdentityName: xui
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  environment:
-       S2S_URL: http://rpe-service-auth-provider-aat.service.core-compute-aat.internal
-       NODE_TLS_REJECT_UNAUTHORIZED: '0'
-       S2S_SECRET: ${S2S_SECRET}
-       IDAM_SECRET: ${IDAM_SECRET}
-       POSTGRE_SERVER_NAME: xui-terms-and-conditions-aat.postgres.database.azure.com
-       POSTGRE_USERNAME: ${POSTGRE_USERNAME}
-       POSTGRE_PW: ${POSTGRE_PW}
-       NODE_ENV: aat
-       XUI_ENV: aat
-postgresql:
-  enabled: false

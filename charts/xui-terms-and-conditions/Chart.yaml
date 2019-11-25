@@ -1,6 +1,6 @@
 name: xui-terms-and-conditions
 home: https://github.com/hmcts/rpx-xui-terms-and-conditions
-version: 0.0.1
+version: 0.1.0
 description: Terms and Conditions
 maintainers:
   - name: HMCTS RPX XUI

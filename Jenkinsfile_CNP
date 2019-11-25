@@ -22,8 +22,8 @@ def secrets = [
     secret('mc-s2s-client-secret', 'S2S_SECRET'),
     secret('mc-idam-client-secret', 'IDAM_SECRET'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
-    secret('postgre-tc-username', 'POSTGRE_USERNAME'),
-    secret('postgre-tc-pw', 'POSTGRE_PW')
+    secret('postgresql-username', 'POSTGRES_USERNAME'),
+    secret('postgresql-pw', 'POSTGRES_PASSWORD')
   ],
 ]
 
