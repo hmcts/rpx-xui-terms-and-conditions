@@ -5,6 +5,9 @@ import { userAgreements as sql } from '../sql';
 import { ExtendedProtocol } from '../index';
 
 export class TCUserAgreementRepository {
+
+    // so as soon as ExtendedProtocol is called then Diagnostics.init(initOptions);
+    // is hit
     constructor(private db: ExtendedProtocol) {}
 
     // Creates the table;
@@ -23,6 +26,9 @@ export class TCUserAgreementRepository {
 
     // Check if user has agreed to latest version
     // Check if user has agreed to specific version
+    // so one is part of pg promise
+    // we don't want to test this
+    // we just want to test if this is getting called
     public get(values: { user: string; app: string; version?: number }): Promise<Agreement> {
         if (values.version) {
             return this.db.one(sql.getWithVersion, values);
@@ -31,6 +37,7 @@ export class TCUserAgreementRepository {
         }
     }
 
+    // so manyOrNone is part of pg-promise
     public getAll(values: { app: string; version?: number }): Promise<User[]> {
         if (values.version) {
             return this.db.manyOrNone<User>(sql.getAllAcceptedWithVersion, values);
