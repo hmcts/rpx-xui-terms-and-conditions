@@ -11,7 +11,6 @@ import { TCUserAgreementRepository } from '../../database/repos/TCUserAgreementR
  * Currently working on.
  */
 export class UsersService {
-
     // Ok so here we have lots of calls to the db
 
     /**
