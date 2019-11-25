@@ -4320,7 +4320,7 @@ pg-pool@^2.0.4:
   resolved "https://registry.yarnpkg.com/pg-pool/-/pg-pool-2.0.7.tgz#f14ecab83507941062c313df23f6adcd9fd0ce54"
   integrity sha512-UiJyO5B9zZpu32GSlP0tXy8J2NsJ9EFGFfz5v6PSbdz/1hBLX1rNiiy5+mAm5iJJYwfCv4A0EBcQLGWwjbpzZw==
 
-pg-promise@^9.3.6:
+pg-promise@^9.3.3:
   version "9.3.6"
   resolved "https://registry.yarnpkg.com/pg-promise/-/pg-promise-9.3.6.tgz#3177bb33c062d8f0fbb006abb5103c55d8a15bd4"
   integrity sha512-b64UalKAkUImn01z7LeG2NtTTsp0TYfqMzo1vXjO2bDAshL+kXJ2HvCyHstJ4Nj8hLeqtCe0Tar5TbB4QGUHfw==
