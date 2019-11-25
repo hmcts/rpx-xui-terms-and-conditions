@@ -8,12 +8,12 @@ nodejs:
     # These containers are run during pod initialization
     initContainers:
       name: check-db-ready
-        image: postgres:9.6.5
-        command: ['sh', '-c',
-                  'until pg_isready -U xui_tc -h $POSTGRES_SERVER_NAME -p xui_tc;
-                do echo waiting for database; sleep 2; done;']
-        environment:
-          POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
+      image: postgres:9.6.5
+      command: ['sh', '-c',
+                'until pg_isready -U xui_tc -h $POSTGRES_SERVER_NAME -p xui_tc;
+              do echo waiting for database; sleep 2; done;']
+      environment:
+        POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview
