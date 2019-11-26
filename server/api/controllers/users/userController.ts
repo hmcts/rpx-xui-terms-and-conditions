@@ -3,8 +3,8 @@ import { ERROR_UNABLE_TO_REACH_DATABASE, ERROR_USER_NOT_ACCEPTED_TCS } from '../
 import { User } from '../../interfaces/users';
 import { UserDto } from '../../models/user.dto';
 import UsersService from '../../services/users.service';
+import { VersionNumber } from '../../utils/versionNumber.util';
 
-// TODO: Unit test the following
 export class UserController {
 
     /**
@@ -19,10 +19,7 @@ export class UserController {
 
         const user = req.body as User;
 
-        let versionAsNumber = version ? parseInt(version) : undefined;
-        if (isNaN(versionAsNumber)) {
-            versionAsNumber = undefined;
-        }
+        let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
 
         try {
             const userAgreementResponse = await UsersService.userAgreement(app, user, versionAsNumber);
@@ -43,10 +40,8 @@ export class UserController {
      */
     public async getAcceptedUsers(req: Request, res: Response): Promise<void> {
         const { app, version } = req.params;
-        let versionAsNumber: number = version ? parseInt(version) : undefined;
-        if (isNaN(versionAsNumber)) {
-            versionAsNumber = undefined;
-        }
+
+        let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
 
         try {
             const users = await UsersService.getUserAgreements(app, versionAsNumber);
@@ -67,10 +62,8 @@ export class UserController {
     async hasUserAccepted(req: Request, res: Response): Promise<void> {
 
         const {app, version, userId} = req.params;
-        let versionAsNumber: number = version ? parseInt(version) : undefined;
-        if (isNaN(versionAsNumber)) {
-            versionAsNumber = undefined;
-        }
+
+        let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
 
         try {
             const agreement = await UsersService.getUserAgreement(app, userId, versionAsNumber);
