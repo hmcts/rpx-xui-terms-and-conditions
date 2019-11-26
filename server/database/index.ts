@@ -30,21 +30,60 @@ const initOptions: IInitOptions<Extensions> = {
     }
 };
 
-const dbConfig = {
-    host: config.get('database.host'),
-    port: <number>parseInt(config.get('database.port')),
-    database: config.get('database.name'),
-    user: config.get('database.username'),
-    password: config.get('secrets.rpx.postgresql-pw'),
+/**
+ * environmentDatabaseConfig
+ *
+ * On the higher environments ie. AAT & Production these configuration values
+ * are coming from custom-environment-variables.yaml
+ *
+ * This is as per the Reform standard. [25.11.2019]
+ *
+ * @see customer-environment-variables.yaml
+ *
+ * @param config
+ * @returns
+ */
+const environmentDatabaseConfig = config => {
+    return {
+        host: config.get('database.host'),
+        port: <number>parseInt(config.get('database.port')),
+        database: config.get('database.name'),
+        user: config.get('database.username'),
+        password: config.get('secrets.rpx.postgresql-pw'),
+    }
 };
 
 // Initializing the library:
+// TODO: Remove from global scope
 const pgp: IMain = pgPromise(initOptions);
 
-// Creating the database instance with extensions:
-export const db: ExtendedProtocol = pgp(dbConfig);
+/**
+ * initialiseDatabase
+ *
+ * When we are running unit tests we do not want to connect to the Postgres database on
+ * our local machine, and on our Jenkins pipelines.
+ *
+ * Using the package.json scripts tag `test` we pass in UNIT_TEST_ENVIRONMENT=true
+ * which means when the Unit tests are run we do not attempt to connect to the db.
+ *
+ * Note that
+ * <code>Diagnostics.init(initOptions);</code>
+ * is used to allow database debugging.
+ *
+ * TODO: Place Diagnostics init into here.
+ *
+ * @param unitTestEnvironment ie. 'true'
+ * @returns {ExtendedProtocol | null}
+ */
+const initialiseDatabase = (unitTestEnvironment): ExtendedProtocol | null => {
 
-// Initializing optional diagnostics:
+    if (unitTestEnvironment) {
+        return null;
+    }
+
+    return pgp(environmentDatabaseConfig(config));
+};
+
+export const db: ExtendedProtocol = initialiseDatabase(process.env.UNIT_TEST_ENVIRONMENT);
+
 Diagnostics.init(initOptions);
-
-
