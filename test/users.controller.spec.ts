@@ -110,7 +110,7 @@ describe('Users Controller', () => {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
             };
 
-            const RESPONSE_DATA = {
+            const RESPONSE_DATA: any = {
                 response: 42,
             };
 
