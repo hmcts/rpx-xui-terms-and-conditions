@@ -30,12 +30,14 @@ const initOptions: IInitOptions<Extensions> = {
     }
 };
 
-const dbConfig = {
-    host: config.get('database.host'),
-    port: <number>parseInt(config.get('database.port')),
-    database: config.get('database.name'),
-    user: config.get('database.username'),
-    password: config.get('secrets.rpx.postgresql-pw'),
+const environmentDatabaseConfig = config => {
+    return {
+        host: config.get<string>('database.host'),
+        port: <number>parseInt(config.get<string>('database.port'), 10),
+        database: config.get<string>('database.name'),
+        user: config.get<string>('database.username'),
+        password: config.get<string>('secrets.rpx.postgresql-pw'),
+    }
 };
 
 // Initializing the library:
