@@ -1,19 +1,21 @@
 import pgPromise = require('pg-promise'); // pg-promise core library
-import { IInitOptions, IDatabase, IMain } from 'pg-promise';
+import process from 'process';
+import {IInitOptions, IDatabase, IMain} from 'pg-promise';
 import {
     Extensions,
     TCAppRepository,
     TCDocumentAppRepository,
     TCDocumentRepository,
-    TCUserAgreementRepository,
+    TCUserAgreementRepository
 } from './repos';
-import { Diagnostics } from './diagnostics';
+import {Diagnostics} from './diagnostics';
 import config from 'config';
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
 // pg-promise initialization options:
 const initOptions: IInitOptions<Extensions> = {
+
     // Extending the database protocol with our custom repositories;
     // API: http://vitaly-t.github.io/pg-promise/global.html#event:extend
     extend(obj: ExtendedProtocol, dc: any) {
@@ -25,7 +27,7 @@ const initOptions: IInitOptions<Extensions> = {
         obj.apps = new TCAppRepository(obj, pgp);
         obj.documentApps = new TCDocumentAppRepository(obj, pgp);
         obj.userAgreements = new TCUserAgreementRepository(obj);
-    },
+    }
 };
 
 /**
@@ -41,14 +43,14 @@ const initOptions: IInitOptions<Extensions> = {
  * @param config
  * @returns
  */
-const environmentDatabaseConfig = (config: config.IConfig) => {
+const environmentDatabaseConfig = config => {
     return {
-        host: config.get<string>('database.host'),
-        port: parseInt(config.get<string>('database.port'), 10) as number,
-        database: config.get<string>('database.name'),
-        user: config.get<string>('database.username'),
-        password: config.get<string>('secrets.rpx.postgresql-pw'),
-    };
+        host: config.get('database.host'),
+        port: <number>parseInt(config.get('database.port')),
+        database: config.get('database.name'),
+        user: config.get('database.username'),
+        password: config.get('secrets.rpx.postgresql-pw'),
+    }
 };
 
 // Initializing the library:
@@ -74,6 +76,7 @@ const pgp: IMain = pgPromise(initOptions);
  * @returns {ExtendedProtocol | null}
  */
 const initialiseDatabase = (unitTestEnvironment): ExtendedProtocol | null => {
+
     if (unitTestEnvironment) {
         return null;
     }
