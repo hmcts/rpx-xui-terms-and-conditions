@@ -1,7 +1,7 @@
 import UserController from '../server/api/controllers/users/userController';
 import {VersionNumber} from '../server/api/utils/versionNumber.util';
-import UsersService from "../server/api/services/users.service";
-import {User} from "../server/api/interfaces/users";
+import UsersService from '../server/api/services/users.service';
+import {User} from '../server/api/interfaces/users';
 
 /**
  * Mock Express Request Object using Jest
@@ -34,21 +34,7 @@ const mockResponse = () => {
     };
 };
 
-const mockUserService = () => {
-    return {
-        userAgreement: jest.fn().mockReturnValue({}),
-    }
-};
-
-/**
- * Example Unit test spying on User Controller to check if it calls User Service.
- */
 describe('Users Controller', () => {
-
-    it('should be true', () => {
-
-        expect(true).toBe(true);
-    });
 
     describe('acceptTermsConditions()', () => {
 
@@ -61,10 +47,6 @@ describe('Users Controller', () => {
 
             expect(res.status).toHaveBeenCalledWith(500);
         });
-
-        /**
-         * TODO: We need to mock the UsersService to get back a 200 response.
-         */
 
         it('should make a call to getVersionNumber() with the version, so that the version can' +
             'be converted to a number or remain as undefined.', async () => {
@@ -96,7 +78,7 @@ describe('Users Controller', () => {
             const VERSION: number = 1;
             const USER: User = {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
-            }
+            };
 
             /**
              * Request
@@ -120,12 +102,16 @@ describe('Users Controller', () => {
             spy.mockRestore();
         });
 
-        it('should return a 200 Success if UserService.userAgreement() returns data.', async () => {
+        it('should return a 200 Success and return the response data, if UserService.userAgreement() returns response data.', async () => {
 
             const APP: string = 'manageorg';
             const VERSION: number = 1;
             const USER: User = {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
+            };
+
+            const RESPONSE_DATA = {
+                response: 42,
             };
 
             /**
@@ -141,16 +127,12 @@ describe('Users Controller', () => {
 
             const res = mockResponse();
 
-            // mock the UsersService
-
-
-            const spy = jest.spyOn(UsersService, 'userAgreement');
+            const spy = jest.spyOn(UsersService, 'userAgreement').mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
             await UserController.acceptTermsConditions(req as any, res as any);
 
-            // expect(spy).toHaveBeenCalledWith(APP, USER, VERSION);
-
             expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
 
             spy.mockRestore();
         });
