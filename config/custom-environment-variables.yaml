@@ -3,8 +3,17 @@ database:
   host: POSTGRES_SERVER_NAME
   username: POSTGRES_USERNAME
   port: POSTGRES_SERVER_PORT
-secrets: 
-  rpx: 
+secrets:
+  rpx:
     mc-s2s-client-secret: S2S_SECRET
     postgresql-pw: POSTGRES_PASSWORD
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+proxy:
+  host: PROXY_HOST
+  port: PROXY_PORT
+client:
+  whitelist: CLIENT_WHITELIST
+services:
+  s2s: S2S_TOKEN_URL
+  idam:
+    api-url: IDAM_SERVICE_URL
