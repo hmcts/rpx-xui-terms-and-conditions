@@ -6,7 +6,7 @@
   "repository": "git@github.com:hmcts/rpx-xui-terms-and-conditions.git",
   "author": "",
   "license": "MIT",
-  "engines" : { "node" : "*" },
+  "engines" : { "node" : ">=8.0" },
   "scripts": {
     "dev": "nodemon -r dotenv/config server/index.ts | pino-pretty",
     "dev:start": "node -r dotenv/config dist/index.js",
