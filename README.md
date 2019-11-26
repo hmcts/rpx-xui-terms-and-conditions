@@ -58,7 +58,7 @@ See Swagger documentation for more route information.
 We're keeping the version number within the path ie. /v1 as it comes with the scaffolding,
 it's been discussed within the team - we've agreed to keep it in.
 
-# API Validation
+# API Validation1
 
 API Validation is controlled within the server/common/api.yml file, and should be added to when a developer
 writes a new route.
