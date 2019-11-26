@@ -15,16 +15,22 @@ export class UserController {
      * Note that the POST body is currently defined within the api.yml file.
      */
     public async acceptTermsConditions(req: Request, res: Response): Promise<void> {
+        // tested through checking that userAgreement is called with params
         const { app, version } = req.params;
 
+        // tested through checking that userAgreement is called with param
         const user = req.body as User;
 
+        // tested through checking that getVersionNumber is called with param
         let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
 
         try {
             const userAgreementResponse = await UsersService.userAgreement(app, user, versionAsNumber);
+
+            // Not tested
             res.status(200).send(userAgreementResponse);
         } catch (error) {
+            // Tested
             if (ERROR_UNABLE_TO_REACH_DATABASE) {
                 res.status(500).send(error.message);
             }
