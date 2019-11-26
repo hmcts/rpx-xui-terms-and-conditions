@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import config from 'config';
 import { getTokenDetails } from '../services/tokenDetails.service';
-import {ERROR_INVALID_USER, ERROR_NO_BEARER_TOKEN} from '../errors';
+import { ERROR_INVALID_USER, ERROR_NO_BEARER_TOKEN } from '../errors';
 
 export async function validateBearerToken(req: Request, res: Response, next: NextFunction) {
     const token = req.header('authorization');
