@@ -2,13 +2,14 @@ import { Request, Response } from 'express';
 import { ERROR_APP_NOT_FOUND, ERROR_DOCUMENT_NOT_FOUND, ERROR_UNABLE_TO_REACH_DATABASE } from '../../errors';
 import { TCDocumentDTO } from '../../models/document.dto';
 import DocumentManagementService from '../../services/documentManagement.service';
+import { VersionNumber } from "../../utils/versionNumber.util";
 
 export class DocumentManagementController {
   async all(req: Request, res: Response): Promise<void> {
     try {
       const { app } = req.params;
       const allResponse = await DocumentManagementService.all(app);
-      res.status(200).send(allResponse.map(c => TCDocumentDTO.fromModel(c)));
+      res.status(200).send(allResponse.map(document => TCDocumentDTO.fromModel(document)));
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);
@@ -21,10 +22,8 @@ export class DocumentManagementController {
 
   async byVersion(req: Request, res: Response): Promise<void> {
     const { app, version } = req.params;
-    let versionAsNumber: number = version ? parseInt(version) : undefined;
-    if (isNaN(versionAsNumber)) {
-        versionAsNumber = undefined;
-    }
+
+    let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
 
     try {
       const byVersionResponse = await DocumentManagementService.byVersion(app, versionAsNumber);
@@ -61,9 +60,7 @@ export class DocumentManagementController {
 
     try {
       const createResponse = await DocumentManagementService.create(app, content, mimeType);
-      res.status(201)
-        .location(`/api/v1/termsAndConditions/${app}/${createResponse.version}`)
-        .send(TCDocumentDTO.fromModel(createResponse));
+      res.status(201).send(TCDocumentDTO.fromModel(createResponse));
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);
