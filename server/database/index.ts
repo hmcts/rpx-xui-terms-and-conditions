@@ -50,6 +50,7 @@ const environmentDatabaseConfig = config => {
         database: config.get('database.name'),
         user: config.get('database.username'),
         password: config.get('secrets.rpx.postgresql-pw'),
+        ssl: config.get('database.ssl'),
     }
 };
 
