@@ -8,7 +8,7 @@ export class DocumentManagementController {
     try {
       const { app } = req.params;
       const allResponse = await DocumentManagementService.all(app);
-      res.status(200).send(allResponse.map(c => TCDocumentDTO.fromModel(c)));
+      res.status(200).send(allResponse.map(document => TCDocumentDTO.fromModel(document)));
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);

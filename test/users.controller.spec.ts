@@ -38,6 +38,9 @@ describe('Users Controller', () => {
 
     describe('acceptTermsConditions()', () => {
 
+        /**
+         * TODO: Placeholder test for error handling when it is fully implemented.
+         */
         it('should throw a 500 if we\'re not able to hit the database.', async () => {
 
             const req = mockRequest();
@@ -194,6 +197,9 @@ describe('Users Controller', () => {
             spy.mockRestore();
         });
 
+        /**
+         * TODO: Placeholder test for error handling when it is fully implemented.
+         */
         it('should throw a 500 if we\'re not able to hit the database.', async () => {
 
             const req = mockRequest();
