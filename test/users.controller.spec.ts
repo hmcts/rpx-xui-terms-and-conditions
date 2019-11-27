@@ -137,6 +137,201 @@ describe('Users Controller', () => {
             spy.mockRestore();
         });
     });
+
+    describe('getAcceptedUsers()', () => {
+
+        it('should make a call to getVersionNumber() with the version, so that the version can' +
+            'be converted to a number or remain as undefined.', async () => {
+
+            /**
+             * Request with a version
+             */
+            const req = {
+                params: {
+                    version: 1,
+                }
+            };
+
+            const res = mockResponse();
+
+            const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
+
+            await UserController.getAcceptedUsers(req as any, res as any);
+
+            expect(spy).toHaveBeenCalledWith(req.params.version);
+
+            spy.mockRestore();
+        });
+
+        it('should make a call to UserService.getUserAgreements() with the app and versionAsNumber, so that ' +
+            'we can get the User\'s who have agreed to the T&Cs.', async () => {
+
+            const APP: string = 'manageorg';
+            const VERSION: number = 1;
+            const USER: User = {
+                userId: '123e4567-e89b-12d3-a456-426655440000',
+            };
+
+            /**
+             * Request
+             */
+            const req = {
+                params: {
+                    app: APP,
+                    version: VERSION,
+                },
+                body: USER,
+            };
+
+            const res = mockResponse();
+
+            const spy = jest.spyOn(UsersService, 'getUserAgreements');
+
+            await UserController.getAcceptedUsers(req as any, res as any);
+
+            expect(spy).toHaveBeenCalledWith(APP, VERSION);
+
+            spy.mockRestore();
+        });
+
+        it('should throw a 500 if we\'re not able to hit the database.', async () => {
+
+            const req = mockRequest();
+            const res = mockResponse();
+
+            await UserController.getAcceptedUsers(req as any, res as any);
+
+            expect(res.status).toHaveBeenCalledWith(500);
+        });
+
+        it('should return a 200 Success and return the response data, if UserService.getUserAgreements() returns response data.', async () => {
+
+            const APP: string = 'manageorg';
+            const VERSION: number = 1;
+            const USER: User = {
+                userId: '123e4567-e89b-12d3-a456-426655440000',
+            };
+
+            const RESPONSE_DATA: any = [
+                {
+                    userId: '123e4567-e89b-12d3-a456-426655440000',
+                },
+                {
+                    userId: '123e4567-e89b-12d3-a456-426655440012',
+                },
+            ];
+
+            /**
+             * Request
+             */
+            const req = {
+                params: {
+                    app: APP,
+                    version: VERSION,
+                },
+                body: USER,
+            };
+
+            const res = mockResponse();
+
+            const spy = jest.spyOn(UsersService, 'getUserAgreements').mockImplementation(() => Promise.resolve(RESPONSE_DATA));
+
+            await UserController.getAcceptedUsers(req as any, res as any);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
+
+            spy.mockRestore();
+        });
+    });
+
+    describe('hasUserAccepted()', () => {
+
+        it('should make a call to getVersionNumber() with the version, so that the version can' +
+            'be converted to a number or remain as undefined.', async () => {
+
+            /**
+             * Request with a version
+             */
+            const req = {
+                params: {
+                    version: 1,
+                }
+            };
+
+            const res = mockResponse();
+
+            const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
+
+            await UserController.hasUserAccepted(req as any, res as any);
+
+            expect(spy).toHaveBeenCalledWith(req.params.version);
+
+            spy.mockRestore();
+        });
+
+        it('should make a call to UserService.getUserAgreements() with the app, userId and versionAsNumber, so that ' +
+            'we can get if a User has agreed to the T&Cs.', async () => {
+
+            const APP: string = 'manageorg';
+            const VERSION: number = 1;
+            const USER_ID: string = '123e4567-e89b-12d3-a456-426655440000';
+
+            /**
+             * Request
+             */
+            const req = {
+                params: {
+                    app: APP,
+                    version: VERSION,
+                    userId: USER_ID,
+                },
+            };
+
+            const res = mockResponse();
+
+            const spy = jest.spyOn(UsersService, 'getUserAgreement');
+
+            await UserController.hasUserAccepted(req as any, res as any);
+
+            expect(spy).toHaveBeenCalledWith(APP, USER_ID, VERSION);
+
+            spy.mockRestore();
+        });
+
+        it('should return a 200 Success and return the response data, if UserService.getUserAgreement() returns response data.', async () => {
+
+            const APP: string = 'manageorg';
+            const VERSION: number = 1;
+            const USER: User = {
+                userId: '123e4567-e89b-12d3-a456-426655440000',
+            };
+
+            const RESPONSE_DATA: any = {}
+
+            /**
+             * Request
+             */
+            const req = {
+                params: {
+                    app: APP,
+                    version: VERSION,
+                },
+                body: USER,
+            };
+
+            const res = mockResponse();
+
+            const spy = jest.spyOn(UsersService, 'getUserAgreement').mockImplementation(() => Promise.resolve(RESPONSE_DATA));
+
+            await UserController.hasUserAccepted(req as any, res as any);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
+
+            spy.mockRestore();
+        });
+    });
 });
 
 
