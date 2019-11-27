@@ -12,6 +12,7 @@ nodejs:
     POSTGRES_DB_NAME: xui_tc
     POSTGRES_SERVER_NAME: "xui-terms-and-conditions-{{ .Values.global.environment }}.postgres.database.azure.com"
     POSTGRES_USERNAME: "postgresql_admin@xui-terms-and-conditions-{{ .Values.global.environment }}"
+    CLIENT_WHITELIST: "xui_webapp"
   keyVaults:
     rpx:
       secrets:

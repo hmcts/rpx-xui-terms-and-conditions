@@ -3,15 +3,13 @@ import * as globalTunnel from 'global-tunnel-ng';
 import config from 'config';
 import l from './logger';
 
-const proxy = {
-    host: config.get<string>('proxy.host'),
-    port: <number>parseInt(config.get<string>('proxy.port'), 10) || 0
-};
-
-const useProxy = () => proxy.host !== '' && proxy.port !== 0;
-
 export function init() {
-    if (useProxy()) {
+    if (config.has('proxy.host') && config.has('proxy.port')) {
+        const proxy = {
+            host: config.get<string>('proxy.host'),
+            port: parseInt(config.get<string>('proxy.port'), 10) as number,
+        };
+
         let logMessage = '';
         const MAJOR_NODEJS_VERSION = parseInt(process.version.slice(1).split('.')[0], 10);
 
