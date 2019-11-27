@@ -5,7 +5,6 @@ database:
   port: POSTGRES_SERVER_PORT
 secrets:
   rpx:
-    mc-s2s-client-secret: S2S_SECRET
     postgresql-pw: POSTGRES_PASSWORD
     AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
 proxy:
