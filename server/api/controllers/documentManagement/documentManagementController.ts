@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ERROR_APP_NOT_FOUND, ERROR_DOCUMENT_NOT_FOUND, ERROR_UNABLE_TO_REACH_DATABASE } from '../../errors';
 import { TCDocumentDTO } from '../../models/document.dto';
 import DocumentManagementService from '../../services/documentManagement.service';
+import { VersionNumber } from "../../utils/versionNumber.util";
 
 export class DocumentManagementController {
   async all(req: Request, res: Response): Promise<void> {
@@ -21,10 +22,8 @@ export class DocumentManagementController {
 
   async byVersion(req: Request, res: Response): Promise<void> {
     const { app, version } = req.params;
-    let versionAsNumber: number = version ? parseInt(version) : undefined;
-    if (isNaN(versionAsNumber)) {
-        versionAsNumber = undefined;
-    }
+
+    let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
 
     try {
       const byVersionResponse = await DocumentManagementService.byVersion(app, versionAsNumber);
