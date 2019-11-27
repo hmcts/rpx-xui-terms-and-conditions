@@ -16,7 +16,6 @@ nodejs:
   keyVaults:
     rpx:
       secrets:
-        - mc-s2s-client-secret
         - postgresql-pw
         - AppInsightsInstrumentationKey
   # Don't modify below here
