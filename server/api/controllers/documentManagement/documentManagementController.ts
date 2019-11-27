@@ -60,9 +60,7 @@ export class DocumentManagementController {
 
     try {
       const createResponse = await DocumentManagementService.create(app, content, mimeType);
-      res.status(201)
-        .location(`/api/v1/termsAndConditions/${app}/${createResponse.version}`)
-        .send(TCDocumentDTO.fromModel(createResponse));
+      res.status(201).send(TCDocumentDTO.fromModel(createResponse));
     } catch (error) {
       if (ERROR_UNABLE_TO_REACH_DATABASE) {
         res.status(500).send(error.message);
