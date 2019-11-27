@@ -49,8 +49,8 @@ const environmentDatabaseConfig = config => {
         port: <number>parseInt(config.get('database.port')),
         database: config.get('database.name'),
         user: config.get('database.username'),
-        //password: config.get('secrets.rpx.postgresql-pw'),
-        password: config.get('database.username'),
+        password: config.get('secrets.rpx.postgresql-pw'),
+        // password: config.get('database.username'),
     }
 };
 
