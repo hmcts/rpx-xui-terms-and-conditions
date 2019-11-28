@@ -6,7 +6,7 @@ import { ERROR_INVALID_USER, ERROR_NO_BEARER_TOKEN } from '../errors';
 /**
  * Authorisation header name has been moved to here to make it unit testable.
  */
-export const AUTHORISATION_HEADER_NAME: string = 'authorization';
+export const AUTHORISATION_HEADER_NAME = 'authorization';
 
 /**
  * Used to get the Idam Api url from the config.
@@ -14,7 +14,7 @@ export const AUTHORISATION_HEADER_NAME: string = 'authorization';
  * TODO: Add a type on the getTokenDetails when your able to test it and see a
  * return value.
  */
-export const IDAM_API_URL_CONFIG_NAME: string = 'services.idam.api-url';
+export const IDAM_API_URL_CONFIG_NAME = 'services.idam.api-url';
 
 export async function validateBearerToken(req: Request, res: Response, next: NextFunction) {
     const token = req.header(AUTHORISATION_HEADER_NAME);
