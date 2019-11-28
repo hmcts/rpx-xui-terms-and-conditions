@@ -58,7 +58,7 @@ const environmentDatabaseConfig = config => {
 const pgp: IMain = pgPromise(initOptions);
 
 // check whether to use SSL
-if (config.has('database.ssl') && config.get('database.ssl')) {
+if (config.has('database.ssl') && JSON.parse(config.get('database.ssl'))) {
     pgp.pg.defaults.ssl = true;
 }
 
