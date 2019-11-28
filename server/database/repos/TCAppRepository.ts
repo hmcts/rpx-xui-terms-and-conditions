@@ -4,8 +4,7 @@ import { apps as sql } from '../sql';
 import { ExtendedProtocol } from '../index';
 
 export class TCAppRepository {
-    constructor(private db: ExtendedProtocol) {
-    }
+    constructor(private db: ExtendedProtocol) {}
 
     private static table = 'TCApp';
 

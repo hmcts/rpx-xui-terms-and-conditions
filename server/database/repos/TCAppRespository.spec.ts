@@ -1,66 +1,35 @@
-import {TCAppRepository} from "./index";
-import {apps as sql} from '../sql';
-import UsersService from "../../api/services/users.service";
 
-/**
- * Mock Express Request Object using Jest
- */
-const mockRequest = () => {
-    return {
-        params: {
-            app: 'manageorg',
-            version: 1,
-        },
-        body: {
-            uuid: 'testUuid'
-        }
-    }
-};
 
-/**
- * Mock Express Response Object using Jest
- *
- * We mock the status and send so that we can test the response of
- * <code>
- *     res.status(200).send(LIVENESS_UP_AND_RUNNING);
- * </code>
- */
-const mockResponse = () => {
-    return {
-        status: jest.fn().mockReturnValue({
-            send: jest.fn().mockReturnValue({})
-        })
-    };
-};
+import { TCAppRepository } from './index';
 
 describe('TC App Repository', () => {
-
     it('find() should call this.db.one with the app name.', async () => {
-
         const APP_NAME = ['managecases'];
 
         const db: any = {
-            manyOrNone: jest.fn().mockReturnValue({})
+            manyOrNone: jest.fn().mockReturnValue({}),
         };
 
         const tcAppRepository = new TCAppRepository(db);
 
         await tcAppRepository.find(APP_NAME);
 
-        expect(db.manyOrNone).toHaveBeenCalledWith({}, {
-            apps: APP_NAME,
-        });
+        expect(db.manyOrNone).toHaveBeenCalledWith(
+            {},
+            {
+                apps: APP_NAME,
+            },
+        );
     });
 
     /**
      * TODO: We're not testing sql.add
      */
     it('add() should call this.db.one with the app name.', async () => {
-
         const APP_NAME = 'managecases';
 
         const db: any = {
-            one: jest.fn().mockReturnValue({})
+            one: jest.fn().mockReturnValue({}),
         };
 
         const tcAppRepository = new TCAppRepository(db);
@@ -71,11 +40,10 @@ describe('TC App Repository', () => {
     });
 
     it('remove() should call this.db.result.', async () => {
-
         const ID = 42;
 
         const db: any = {
-            result: jest.fn().mockReturnValue({})
+            result: jest.fn().mockReturnValue({}),
         };
 
         const tcAppRepository = new TCAppRepository(db);
@@ -86,9 +54,8 @@ describe('TC App Repository', () => {
     });
 
     it('all() should call this.db.any.', async () => {
-
         const db: any = {
-            any: jest.fn().mockReturnValue({})
+            any: jest.fn().mockReturnValue({}),
         };
 
         const tcAppRepository = new TCAppRepository(db);
@@ -99,9 +66,8 @@ describe('TC App Repository', () => {
     });
 
     it('total() should call this.db.one.', async () => {
-
         const db: any = {
-            one: jest.fn().mockReturnValue({})
+            one: jest.fn().mockReturnValue({}),
         };
 
         const tcAppRepository = new TCAppRepository(db);
@@ -111,6 +77,3 @@ describe('TC App Repository', () => {
         expect(db.one).toHaveBeenCalled();
     });
 });
-
-
-
