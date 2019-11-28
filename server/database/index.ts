@@ -50,13 +50,17 @@ const environmentDatabaseConfig = config => {
         database: config.get('database.name'),
         user: config.get('database.username'),
         password: config.get('secrets.rpx.postgresql-pw'),
-        ssl: config.get('database.ssl'),
     }
 };
 
 // Initializing the library:
 // TODO: Remove from global scope
 const pgp: IMain = pgPromise(initOptions);
+
+// check whether to use SSL
+if (config.has('database.ssl') && config.get('database.ssl')) {
+    pgp.pg.defaults.ssl = true;
+}
 
 /**
  * initialiseDatabase
