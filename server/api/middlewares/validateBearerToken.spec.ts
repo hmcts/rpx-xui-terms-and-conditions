@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/no-explicit-any: 0 */
+
 import config from 'config';
 
 import { AUTHORISATION_HEADER_NAME, IDAM_API_URL_CONFIG_NAME, validateBearerToken } from './validateBearerToken';
@@ -169,7 +171,6 @@ describe('Users Controller', () => {
             .spyOn(GetTokenDetails, 'getTokenDetails')
             .mockImplementation(() => Promise.reject(ERROR));
 
-        // @ts-ignore: disable-next-line
         await validateBearerToken(req as any, res as any, next as any);
 
         expect(next).toHaveBeenCalledWith(ERROR);
