@@ -9,7 +9,6 @@ nodejs:
        POSTGRES_USERNAME: "xui_tc"
        POSTGRES_PASSWORD: "xui_tc"
        POSTGRES_DB_NAME: "xui_tc"
-       POSTGRES_SSL: false
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc
