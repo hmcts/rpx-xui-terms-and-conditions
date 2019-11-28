@@ -52,8 +52,8 @@ describe('Users Controller', () => {
      * We then test that both the Authorisation and Idam Api Url are passed to getTokenDetails.
      */
     it('should make a call to getTokenDetails() with the services.idam.api-url and authorisation token.', async () => {
-        const AUTHORISATION_TOKEN = 'authorisation token';
-        const IDAM_API_URL = 'https://idam-api.aat.platform.hmcts.net';
+        const AUTHORISATION_TOKEN: string = 'authorisation token';
+        const IDAM_API_URL: string = 'https://idam-api.aat.platform.hmcts.net';
 
         const req = {
             header: jest.fn().mockReturnValue(AUTHORISATION_TOKEN),
@@ -91,8 +91,8 @@ describe('Users Controller', () => {
      * a status of 403 should be returned.
      */
     it('should make a call to next() with the ERROR_INVALID_USER if there is no userTokenValidate.active.', async () => {
-        const AUTHORISATION_TOKEN = 'authorisation token';
-        const IDAM_API_URL = 'https://idam-api.aat.platform.hmcts.net';
+        const AUTHORISATION_TOKEN: string = 'authorisation token';
+        const IDAM_API_URL: string = 'https://idam-api.aat.platform.hmcts.net';
 
         const req = {
             header: jest.fn().mockReturnValue(AUTHORISATION_TOKEN),
@@ -123,8 +123,8 @@ describe('Users Controller', () => {
      * We want to make sure that it's not calling next() with an error message.
      */
     it('should make a call to next() if there is a userTokenValidate.active.', async () => {
-        const AUTHORISATION_TOKEN = 'authorisation token';
-        const IDAM_API_URL = 'https://idam-api.aat.platform.hmcts.net';
+        const AUTHORISATION_TOKEN: string = 'authorisation token';
+        const IDAM_API_URL: string = 'https://idam-api.aat.platform.hmcts.net';
 
         const req = {
             header: jest.fn().mockReturnValue(AUTHORISATION_TOKEN),
@@ -153,8 +153,8 @@ describe('Users Controller', () => {
     });
 
     it('should pass up the error through next() if an error happens with the call to getTokenDetails().', async () => {
-        const AUTHORISATION_TOKEN = 'authorisation token';
-        const IDAM_API_URL = 'https://idam-api.aat.platform.hmcts.net';
+        const AUTHORISATION_TOKEN: string = 'authorisation token';
+        const IDAM_API_URL: string = 'https://idam-api.aat.platform.hmcts.net';
 
         const req = {
             header: jest.fn().mockReturnValue(AUTHORISATION_TOKEN),
