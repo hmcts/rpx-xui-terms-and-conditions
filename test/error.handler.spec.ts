@@ -9,14 +9,6 @@ const mockRequest = () => {
 };
 let mockResponse: any;
 let mockSend: any;
-/**
- * Mock Express Response Object using Jest
- *
- * We mock the status and send so that we can test the response of
- * <code>
- *     res.status(200).send(LIVENESS_UP_AND_RUNNING);
- * </code>
- */
 
 describe('Apps Controller', () => {
 
