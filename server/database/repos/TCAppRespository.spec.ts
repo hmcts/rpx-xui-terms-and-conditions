@@ -35,21 +35,6 @@ const mockResponse = () => {
 
 describe('TC App Repository', () => {
 
-    it('create() should call this.db.none.', async () => {
-
-        const db: any = {
-            none: jest.fn().mockReturnValue({})
-        };
-
-        const pgp: any = {};
-
-        const tcAppRepository = new TCAppRepository(db, pgp);
-
-        await tcAppRepository.create();
-
-        expect(db.none).toHaveBeenCalled();
-    });
-
     it('find() should call this.db.one with the app name.', async () => {
 
         const APP_NAME = ['managecases'];
@@ -58,9 +43,7 @@ describe('TC App Repository', () => {
             manyOrNone: jest.fn().mockReturnValue({})
         };
 
-        const pgp: any = {};
-
-        const tcAppRepository = new TCAppRepository(db, pgp);
+        const tcAppRepository = new TCAppRepository(db);
 
         await tcAppRepository.find(APP_NAME);
 
@@ -80,9 +63,7 @@ describe('TC App Repository', () => {
             one: jest.fn().mockReturnValue({})
         };
 
-        const pgp: any = {};
-
-        const tcAppRepository = new TCAppRepository(db, pgp);
+        const tcAppRepository = new TCAppRepository(db);
 
         await tcAppRepository.add(APP_NAME);
 
@@ -97,9 +78,7 @@ describe('TC App Repository', () => {
             result: jest.fn().mockReturnValue({})
         };
 
-        const pgp: any = {};
-
-        const tcAppRepository = new TCAppRepository(db, pgp);
+        const tcAppRepository = new TCAppRepository(db);
 
         await tcAppRepository.remove(ID);
 
@@ -112,9 +91,7 @@ describe('TC App Repository', () => {
             any: jest.fn().mockReturnValue({})
         };
 
-        const pgp: any = {};
-
-        const tcAppRepository = new TCAppRepository(db, pgp);
+        const tcAppRepository = new TCAppRepository(db);
 
         await tcAppRepository.all();
 
@@ -127,9 +104,7 @@ describe('TC App Repository', () => {
             one: jest.fn().mockReturnValue({})
         };
 
-        const pgp: any = {};
-
-        const tcAppRepository = new TCAppRepository(db, pgp);
+        const tcAppRepository = new TCAppRepository(db);
 
         await tcAppRepository.total();
 
