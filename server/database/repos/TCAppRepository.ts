@@ -7,7 +7,6 @@ import { ExtendedProtocol } from '../index';
 
 export class TCAppRepository {
     constructor(private db: ExtendedProtocol, private pgp: IMain) {
-        this.createColumnSets();
     }
 
     private static table = 'TCApp';
@@ -62,7 +61,7 @@ export class TCAppRepository {
     }
 
     // example of setting up ColumnSet objects:
-    private createColumnSets(): void {
+    public createColumnSets(): void {
         // create all ColumnSet objects only once:
         if (!TCAppRepository.cs) {
             const helpers = this.pgp.helpers,

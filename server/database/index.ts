@@ -25,6 +25,8 @@ const initOptions: IInitOptions<Extensions> = {
         // which should be as fast as possible.
         obj.documents = new TCDocumentRepository(obj);
         obj.apps = new TCAppRepository(obj, pgp);
+        obj.apps.createColumnSets();
+
         obj.documentApps = new TCDocumentAppRepository(obj, pgp);
         obj.userAgreements = new TCUserAgreementRepository(obj);
     }
