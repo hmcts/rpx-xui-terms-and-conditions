@@ -68,7 +68,7 @@ export class UserController {
 
         try {
             const agreement = await UsersService.getUserAgreement(app, userId, versionAsNumber);
-            res.status(200).send(agreement);
+             res.status(200).send(agreement);
         } catch (error) {
             switch (error.message) {
                 case ERROR_UNABLE_TO_REACH_DATABASE:
