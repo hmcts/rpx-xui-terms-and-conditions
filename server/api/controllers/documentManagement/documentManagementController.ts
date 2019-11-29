@@ -1,13 +1,14 @@
 import { NextFunction, Request, Response } from 'express';
 import { TCDocumentDTO } from '../../models/document.dto';
 import documentManagementService from '../../services/documentManagement.service';
+import { VersionNumber } from "../../utils/versionNumber.util";
 
 export class DocumentManagementController {
     async all(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { app } = req.params;
             const allResponse = await documentManagementService.all(app);
-            res.status(200).send(allResponse.map(c => TCDocumentDTO.fromModel(c)));
+            res.status(200).send(allResponse.map(document => TCDocumentDTO.fromModel(document)));
         } catch (error) {
             next(error);
         }
@@ -15,10 +16,7 @@ export class DocumentManagementController {
 
     async byVersion(req: Request, res: Response, next: NextFunction): Promise<void> {
         const { app, version } = req.params;
-        let versionAsNumber: number = version ? parseInt(version) : undefined;
-        if (isNaN(versionAsNumber)) {
-            versionAsNumber = undefined;
-        }
+        let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
 
         try {
             const byVersionResponse = await documentManagementService.byVersion(app, versionAsNumber);
@@ -45,9 +43,7 @@ export class DocumentManagementController {
 
         try {
             const createResponse = await documentManagementService.create(app, content, mimeType);
-            res.status(201)
-                .location(`/api/v1/termsAndConditions/${app}/${createResponse.version}`)
-                .send(TCDocumentDTO.fromModel(createResponse));
+            res.status(201).send(TCDocumentDTO.fromModel(createResponse));
         } catch (error) {
             next(error);
         }

@@ -60,7 +60,7 @@ export class UserController {
 
         try {
             const agreement = await usersService.getUserAgreement(app, userId, versionAsNumber);
-            res.status(200).send(agreement);
+             res.status(200).send(agreement);
         } catch (error) {
             next(error);
         }
