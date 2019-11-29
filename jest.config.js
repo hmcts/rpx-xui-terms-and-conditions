@@ -1,9 +1,5 @@
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  coverageReporters: [
-    "lcov",
-    "html",
-    "text-summary"
-  ],
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    coverageReporters: ['lcov', 'html', 'text-summary'],
 };

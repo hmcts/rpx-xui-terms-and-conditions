@@ -1,33 +1,30 @@
 import pgPromise = require('pg-promise'); // pg-promise core library
 import process from 'process';
-import {IInitOptions, IDatabase, IMain} from 'pg-promise';
+import { IInitOptions, IDatabase, IMain } from 'pg-promise';
 import {
     Extensions,
     TCAppRepository,
     TCDocumentAppRepository,
     TCDocumentRepository,
-    TCUserAgreementRepository
+    TCUserAgreementRepository,
 } from './repos';
-import {Diagnostics} from './diagnostics';
+import { Diagnostics } from './diagnostics';
 import config from 'config';
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
 // pg-promise initialization options:
 const initOptions: IInitOptions<Extensions> = {
-
     // Extending the database protocol with our custom repositories;
     // API: http://vitaly-t.github.io/pg-promise/global.html#event:extend
-    extend(obj: ExtendedProtocol, dc: any) {
-        // Database Context (dc) is mainly needed for extending multiple databases with different access API.
-
-        // Do not use 'require()' here, because this event occurs for every task and transaction being executed,
-        // which should be as fast as possible.
+    extend(obj: ExtendedProtocol) {
         obj.documents = new TCDocumentRepository(obj);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         obj.apps = new TCAppRepository(obj, pgp);
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         obj.documentApps = new TCDocumentAppRepository(obj, pgp);
         obj.userAgreements = new TCUserAgreementRepository(obj);
-    }
+    },
 };
 
 /**
@@ -43,14 +40,14 @@ const initOptions: IInitOptions<Extensions> = {
  * @param config
  * @returns
  */
-const environmentDatabaseConfig = config => {
+const environmentDatabaseConfig = (config: config.IConfig) => {
     return {
-        host: config.get('database.host'),
-        port: <number>parseInt(config.get('database.port')),
-        database: config.get('database.name'),
-        user: config.get('database.username'),
-        password: config.get('secrets.rpx.postgresql-pw'),
-    }
+        host: config.get<string>('database.host'),
+        port: parseInt(config.get<string>('database.port')) as number,
+        database: config.get<string>('database.name'),
+        user: config.get<string>('database.username'),
+        password: config.get<string>('secrets.rpx.postgresql-pw'),
+    };
 };
 
 // Initializing the library:
@@ -76,7 +73,6 @@ const pgp: IMain = pgPromise(initOptions);
  * @returns {ExtendedProtocol | null}
  */
 const initialiseDatabase = (unitTestEnvironment): ExtendedProtocol | null => {
-
     if (unitTestEnvironment) {
         return null;
     }

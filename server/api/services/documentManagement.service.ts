@@ -2,34 +2,41 @@ import L from '../../common/logger';
 import { db } from '../../database';
 import { Document } from '../interfaces/documents';
 import { TCDocument } from '../../database/models';
-import { ERROR_APP_NOT_FOUND } from '../errors';
+import { ApplicationError } from '../errors';
 
 export class DocumentManagementService {
-    all(app: string): Promise<TCDocument[]> {
+    public async all(app: string): Promise<TCDocument[]> {
         L.info(`fetch all versions for ${app}`);
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-        // throw Error(ERROR_APP_NOT_FOUND);
-        return db.documents.all({ app });
+        const values = { app };
+        const documents = await db.documents.all(values);
+        if (!documents.length) {
+            throw new ApplicationError(`No documents found for ${values}`, 404);
+        }
+        return Promise.resolve(documents);
     }
 
-    byVersion(app: string, version: number): Promise<Document> {
+    public async byVersion(app: string, version: number): Promise<Document> {
         L.info(`fetch document with version ${version}`);
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-        // throw Error(ERROR_COPY_NOT_FOUND);
-        // return apps[app].find(element => element.version.toString() === version);
-        return db.documents.findByVersion({ app, version });
+        const values = { app, version };
+        const document = await db.documents.findByVersion(values);
+        if (!document) {
+            throw new ApplicationError(`No document found for ${values}`, 404);
+        }
+        return Promise.resolve(document);
     }
 
-    latest(app: string): Promise<Document> {
+    public async latest(app: string): Promise<Document> {
         L.info(`fetch latest document`);
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
-        // throw Error(ERROR_COPY_NOT_FOUND);
-        return db.documents.findLatest({ app });
+        const values = { app };
+        const document = await db.documents.findLatest(values);
+        if (!document) {
+            throw new ApplicationError(`No latest document found for ${values}`, 404);
+        }
+        return Promise.resolve(document);
     }
 
     create(app: string, document: string, mimeType: string): Promise<Document> {
         L.info(`create document with content ${document}`);
-        // throw Error(ERROR_UNABLE_TO_REACH_DATABASE);
         return db.documents.add({ document: document, mimeType: mimeType, apps: [app] });
     }
 }

@@ -1,6 +1,7 @@
 import L from '../../common/logger';
 import { db } from '../../database';
 import { TCApp } from '../../database/models';
+import { ApplicationError } from '../errors';
 
 /**
  * Apps Service
@@ -14,10 +15,13 @@ export class AppsService {
      *
      *
      */
-    public getAllApps(): Promise<TCApp[]> {
+    public async getAllApps(): Promise<TCApp[]> {
         L.info(`Get all app names.`);
-
-        return db.apps.all();
+        const apps = await db.apps.all();
+        if (!apps.length) {
+            throw new ApplicationError('No apps found', 404);
+        }
+        return Promise.resolve(apps);
     }
 }
 
