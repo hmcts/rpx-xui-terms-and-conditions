@@ -1,5 +1,3 @@
-
-
 import { TCAppRepository } from './index';
 
 describe('TC App Repository', () => {
