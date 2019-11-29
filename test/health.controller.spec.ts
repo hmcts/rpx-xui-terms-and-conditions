@@ -1,7 +1,7 @@
 import {
     LIVENESS_UP_AND_RUNNING,
 } from '../server/api/messages';
-import healthController from '../server/api/controllers/health/healthController';
+import { HealthController } from '../server/api/controllers/health/healthController';
 
 /**
  * Mock Express Request Object using Jest
@@ -26,6 +26,10 @@ const mockResponse = () => {
     };
 };
 
+const mockWrapper = { connect: jest.fn() }
+
+const mockWrapperReturnVal = Promise.resolve({done: jest.fn()})
+
 describe('Health controller', () => {
 
     /**
@@ -35,10 +39,23 @@ describe('Health controller', () => {
 
         const req = mockRequest();
         const res = mockResponse();
-
+        const healthController = new HealthController(mockWrapper);
         healthController.liveness(req as any, res as any);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.status().send).toHaveBeenCalledWith(LIVENESS_UP_AND_RUNNING);
+    })
+
+    it('should return a 200 for health', () => {
+
+        const req = mockRequest();
+        const res = mockResponse();
+        mockWrapper.connect.mockReturnValue(mockWrapperReturnVal);
+        let healthController = new HealthController(mockWrapper);
+        healthController.health(req as any, mockResponse as any);
+
+
+        // expect(res.status().send).toHaveBeenCalledWith(LIVENESS_UP_AND_RUNNING);
+        expect(mockWrapper.connect).toHaveBeenCalled();
     })
 });
