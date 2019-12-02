@@ -13,8 +13,8 @@ export default function routes(app: Application): void {
     app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
     // closed routes
-    // app.use(validateS2SToken);
-    // app.use(validateBearerToken);
+    app.use(validateS2SToken);
+    app.use(validateBearerToken);
     app.use(validateDBConnection);
 
     app.use('/api/v1/termsAndConditions/:app/documents', documentManagementRouter);
