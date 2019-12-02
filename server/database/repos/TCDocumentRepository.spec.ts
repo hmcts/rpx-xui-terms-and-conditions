@@ -1,4 +1,4 @@
-import { TCDocumentRepository } from "../server/database/repos"
+import { TCDocumentRepository } from "./index"
 
 describe('TC Document  Repository', () => {
 
