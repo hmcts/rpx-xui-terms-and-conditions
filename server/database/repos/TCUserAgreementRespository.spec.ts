@@ -1,9 +1,9 @@
-import {TCUserAgreementRepository} from './index';
+/* eslint @typescript-eslint/no-explicit-any: 0 */
+
+import { TCUserAgreementRepository } from './index';
 
 describe('TC User Agreement Repository', () => {
-
     it('create() should call this.db.none with the app name.', async () => {
-
         const db: any = {
             none: jest.fn().mockReturnValue({}),
         };
@@ -34,11 +34,14 @@ describe('TC User Agreement Repository', () => {
 
         await userAgreementRepository.add(addValues);
 
-        expect(db.one).toHaveBeenCalledWith({}, {
-            app: addValues.app,
-            user: addValues.user,
-            version: addValues.version,
-        });
+        expect(db.one).toHaveBeenCalledWith(
+            {},
+            {
+                app: addValues.app,
+                user: addValues.user,
+                version: addValues.version,
+            },
+        );
     });
 
     it('get() should take in user, app and version.', async () => {
@@ -60,11 +63,14 @@ describe('TC User Agreement Repository', () => {
 
         await userAgreementRepository.get(getValues);
 
-        expect(db.one).toHaveBeenCalledWith({}, {
-            app: getValues.app,
-            user: getValues.user,
-            version: getValues.version,
-        });
+        expect(db.one).toHaveBeenCalledWith(
+            {},
+            {
+                app: getValues.app,
+                user: getValues.user,
+                version: getValues.version,
+            },
+        );
     });
 
     it('getAll() should take in app and version.', async () => {
@@ -84,9 +90,12 @@ describe('TC User Agreement Repository', () => {
 
         await userAgreementRepository.getAll(getAllValues);
 
-        expect(db.manyOrNone).toHaveBeenCalledWith({}, {
-            app: getAllValues.app,
-            version: getAllValues.version,
-        });
+        expect(db.manyOrNone).toHaveBeenCalledWith(
+            {},
+            {
+                app: getAllValues.app,
+                version: getAllValues.version,
+            },
+        );
     });
 });

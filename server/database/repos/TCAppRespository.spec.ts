@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/no-explicit-any: 0 */
+
 import { TCAppRepository } from './index';
 
 describe('TC App Repository', () => {
