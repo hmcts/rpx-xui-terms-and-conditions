@@ -49,13 +49,10 @@ describe('Health controller', () => {
     it('should return a 200 for health', () => {
 
         const req = mockRequest();
-        const res = mockResponse();
         mockWrapper.connect.mockReturnValue(mockWrapperReturnVal);
         let healthController = new HealthController(mockWrapper);
         healthController.health(req as any, mockResponse as any);
 
-
-        // expect(res.status().send).toHaveBeenCalledWith(LIVENESS_UP_AND_RUNNING);
         expect(mockWrapper.connect).toHaveBeenCalled();
     })
 });
