@@ -4,10 +4,10 @@ async function createSchema() {
     try {
         return await db.task('create-schema', async task => {
             const docsCreate = await task.documents.create();
-            const appsCreate = await task.apps.create();
+            // const appsCreate = await task.apps.create();
             const docAppsCreate = await task.documentApps.create();
             const userAgreementsCreate = await task.userAgreements.create();
-            const appsInit = await task.apps.init();
+            // const appsInit = await task.apps.init();
             /*try {
                 return await task.documents.add({
                     document: '<h1>Terms & Conditions</h1><p>Do you accept?</p>',

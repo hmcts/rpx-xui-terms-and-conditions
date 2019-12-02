@@ -5,9 +5,13 @@ import {
     DATABASE_CONNECTION_DOWN,
     DATABASE_CONNECTION_UP
 } from '../../messages';
-import {db} from '../../../database'
+import { DbWrapper } from '../../services/dbWrapper';
 
 export class HealthController {
+    private _dbWrapper: DbWrapper;
+    public constructor(dbWrapper: DbWrapper = new DbWrapper()){
+        this._dbWrapper = dbWrapper;
+    }
 
     public async health(req: Request, res: Response): Promise<void> {
 
@@ -16,7 +20,7 @@ export class HealthController {
             message: DATABASE_CONNECTION_UP
         };
         try {
-            const result = await db.connect();
+            const result = await this._dbWrapper.connect();
             result.done();
         } catch (e) {
             dbStatus.status = 'DOWN';
