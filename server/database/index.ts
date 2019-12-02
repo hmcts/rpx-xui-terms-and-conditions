@@ -20,7 +20,7 @@ const initOptions: IInitOptions<Extensions> = {
     extend(obj: ExtendedProtocol) {
         obj.documents = new TCDocumentRepository(obj);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
-        obj.apps = new TCAppRepository(obj, pgp);
+        obj.apps = new TCAppRepository(obj);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         obj.documentApps = new TCDocumentAppRepository(obj, pgp);
         obj.userAgreements = new TCUserAgreementRepository(obj);
