@@ -30,7 +30,7 @@ export class HealthController {
     }
 
     public liveness(req: Request, res: Response): void {
-        res.status(200).send(LIVENESS_UP_AND_RUNNING);
+        res.status(200).send({ message: LIVENESS_UP_AND_RUNNING });
     }
 }
 

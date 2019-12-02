@@ -3,7 +3,6 @@ import { db } from '../../database';
 import { TCUserAgreement } from '../../database/models';
 import { User } from '../interfaces/users';
 import { Agreement } from '../../database/models/agreement.model';
-import documentManagementService from './documentManagement.service';
 
 /**
  * Users Service
@@ -19,14 +18,9 @@ export class UsersService {
      * @param app - 'xui_webapp'
      * @param version? - 2
      */
-    public async getUserAgreements(app: string, version?: number): Promise<User[]> {
+    public getUserAgreements(app: string, version?: number): Promise<User[]> {
         L.info(`Get all users for an app, with a particular version.`);
         const values = { app, version };
-
-        if (version) {
-            // test if a document for app/version exists
-            await documentManagementService.byVersion(app, version);
-        }
         return db.userAgreements.getAll(values);
     }
 

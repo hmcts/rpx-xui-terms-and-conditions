@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { TCDocumentDTO } from '../../models/document.dto';
 import documentManagementService from '../../services/documentManagement.service';
-import { VersionNumber } from "../../utils/versionNumber.util";
 
 export class DocumentManagementController {
     async all(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -15,15 +14,8 @@ export class DocumentManagementController {
     }
 
     async byVersion(req: Request, res: Response, next: NextFunction): Promise<void> {
-        const { app, version } = req.params;
-        let versionAsNumber: number | undefined = VersionNumber.getVersionNumber(version);
-
-        try {
-            const byVersionResponse = await documentManagementService.byVersion(app, versionAsNumber);
-            res.status(200).send(TCDocumentDTO.fromModel(byVersionResponse));
-        } catch (error) {
-            next(error);
-        }
+        // middleware validateAppVersion takes care of the relevant calls and error handling
+        res.status(200).send(TCDocumentDTO.fromModel(res.locals.document));
     }
 
     async latest(req: Request, res: Response, next: NextFunction): Promise<void> {

@@ -4,7 +4,7 @@ import documentManagementRouter from './api/controllers/documentManagement/route
 import usersRouter from './api/controllers/users/router';
 import healthRouter from './api/controllers/health/router';
 import appsRouter from './api/controllers/apps/router';
-import { validateS2SToken, validateBearerToken } from './api/middlewares';
+import { validateS2SToken, validateBearerToken, validateDBConnection } from './api/middlewares';
 
 export default function routes(app: Application): void {
     // open routes
@@ -13,8 +13,9 @@ export default function routes(app: Application): void {
     app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
     // closed routes
-    app.use(validateS2SToken);
-    app.use(validateBearerToken);
+    // app.use(validateS2SToken);
+    // app.use(validateBearerToken);
+    app.use(validateDBConnection);
 
     app.use('/api/v1/termsAndConditions/:app/documents', documentManagementRouter);
     app.use('/api/v1/termsAndConditions/:app/users', usersRouter);

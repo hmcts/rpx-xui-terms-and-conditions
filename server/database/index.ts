@@ -65,7 +65,7 @@ if (config.has('database.ssl') && JSON.parse(config.get('database.ssl'))) {
  * When we are running unit tests we do not want to connect to the Postgres database on
  * our local machine, and on our Jenkins pipelines.
  *
- * Using the package.json scripts tag `test` we pass in UNIT_TEST_ENVIRONMENT=true
+ * Using the package.send scripts tag `test` we pass in UNIT_TEST_ENVIRONMENT=true
  * which means when the Unit tests are run we do not attempt to connect to the db.
  *
  * Note that
