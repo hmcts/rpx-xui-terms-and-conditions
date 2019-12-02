@@ -4,7 +4,7 @@ import documentManagementRouter from './api/controllers/documentManagement/route
 import usersRouter from './api/controllers/users/router';
 import healthRouter from './api/controllers/health/router';
 import appsRouter from './api/controllers/apps/router';
-import { validateS2SToken, validateBearerToken, validateDBConnection } from './api/middlewares';
+import { validateBearerToken, validateDBConnection, validateS2SToken } from './api/middlewares';
 
 export default function routes(app: Application): void {
     // open routes

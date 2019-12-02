@@ -1,6 +1,6 @@
 import pgPromise = require('pg-promise'); // pg-promise core library
 import process from 'process';
-import { IInitOptions, IDatabase, IMain } from 'pg-promise';
+import { IDatabase, IInitOptions, IMain } from 'pg-promise';
 import {
     Extensions,
     TCAppRepository,

@@ -1,9 +1,7 @@
 import DocumentManagementController from './documentManagementController';
 import DocumentManagementService from '../../services/documentManagement.service';
-import UserController from "../users/userController";
-import {VersionNumber} from "../../utils/versionNumber.util";
-import UsersService from "../../services/users.service";
-import {User} from "../../interfaces/users";
+import { VersionNumber } from '../../utils/versionNumber.util';
+import { User } from '../../interfaces/users';
 
 /**
  * Mock Express Request Object using Jest
@@ -15,9 +13,9 @@ const mockRequest = () => {
             version: 1,
         },
         body: {
-            uuid: 'testUuid'
-        }
-    }
+            uuid: 'testUuid',
+        },
+    };
 };
 
 /**
@@ -31,18 +29,15 @@ const mockRequest = () => {
 const mockResponse = () => {
     return {
         status: jest.fn().mockReturnValue({
-            send: jest.fn().mockReturnValue({})
-        })
+            send: jest.fn().mockReturnValue({}),
+        }),
     };
 };
 
 describe('Document Management Controller', () => {
-
     describe('all()', () => {
-
         it('should return a 200 Success and return the response data, if DocumentManagementService.all() returns response data.', async () => {
-
-            const APP: string = 'manageorg';
+            const APP = 'manageorg';
 
             const RESPONSE_DATA: any = [
                 {
@@ -54,11 +49,13 @@ describe('Document Management Controller', () => {
 
             // The property is changed from document to content so we test for this here.
             // TODO: Why does it change?
-            const EXPECTED_RESPONSE_DATA: any = [{
-                version: 1,
-                content: 'content',
-                mimeType: 'text/html',
-            }];
+            const EXPECTED_RESPONSE_DATA: any = [
+                {
+                    version: 1,
+                    content: 'content',
+                    mimeType: 'text/html',
+                },
+            ];
 
             /**
              * Request
@@ -71,9 +68,13 @@ describe('Document Management Controller', () => {
 
             const res = mockResponse();
 
-            const spy = jest.spyOn(DocumentManagementService, 'all').mockImplementation(() => Promise.resolve(RESPONSE_DATA));
+            const next = () => {};
 
-            await DocumentManagementController.all(req as any, res as any);
+            const spy = jest
+                .spyOn(DocumentManagementService, 'all')
+                .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
+
+            await DocumentManagementController.all(req as any, res as any, next as any);
 
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.status().send).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA);
@@ -84,98 +85,105 @@ describe('Document Management Controller', () => {
         /**
          * TODO: Placeholder test for error handling when it is fully implemented.
          */
-        it('should throw a 500 if we\'re not able to hit the database.', async () => {
-
+        it("should throw a 500 if we're not able to hit the database.", async () => {
             const req = mockRequest();
             const res = mockResponse();
+            const next = () => {};
 
-            await DocumentManagementController.all(req as any, res as any);
+            await DocumentManagementController.all(req as any, res as any, next as any);
 
             expect(res.status).toHaveBeenCalledWith(500);
         });
 
-        it('should make a call to DocumentManagementService.all() with the app identifier' +
-            'so that we can get all T&C documents.', async () => {
+        it(
+            'should make a call to DocumentManagementService.all() with the app identifier' +
+                'so that we can get all T&C documents.',
+            async () => {
+                const APP = 'manageorg';
 
-            const APP: string = 'manageorg';
+                /**
+                 * Request
+                 */
+                const req = {
+                    params: {
+                        app: APP,
+                    },
+                };
 
-            /**
-             * Request
-             */
-            const req = {
-                params: {
-                    app: APP,
-                },
-            };
+                const res = mockResponse();
+                const next = () => {};
 
-            const res = mockResponse();
+                const spy = jest.spyOn(DocumentManagementService, 'all');
 
-            const spy = jest.spyOn(DocumentManagementService, 'all');
+                await DocumentManagementController.all(req as any, res as any, next as any);
 
-            await DocumentManagementController.all(req as any, res as any);
+                expect(spy).toHaveBeenCalledWith(APP);
 
-            expect(spy).toHaveBeenCalledWith(APP);
-
-            spy.mockRestore();
-        });
+                spy.mockRestore();
+            },
+        );
     });
 
     describe('byVersion()', () => {
+        it(
+            'should make a call to getVersionNumber() with the version, so that the version can' +
+                'be converted to a number or remain as undefined.',
+            async () => {
+                /**
+                 * Request with a version
+                 */
+                const req = {
+                    params: {
+                        version: 1,
+                    },
+                };
 
-        it('should make a call to getVersionNumber() with the version, so that the version can' +
-            'be converted to a number or remain as undefined.', async () => {
+                const res = mockResponse();
+                const next = () => {};
 
-            /**
-             * Request with a version
-             */
-            const req = {
-                params: {
-                    version: 1,
-                }
-            };
+                const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
 
-            const res = mockResponse();
+                await DocumentManagementController.byVersion(req as any, res as any, next as any);
 
-            const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
+                expect(spy).toHaveBeenCalledWith(req.params.version);
 
-            await DocumentManagementController.byVersion(req as any, res as any);
+                spy.mockRestore();
+            },
+        );
 
-            expect(spy).toHaveBeenCalledWith(req.params.version);
+        it(
+            'should make a call to DocumentManagementService.byVersion() with the app and versionAsNumber, so that ' +
+                'we can get the T&Cs document by version.',
+            async () => {
+                const APP = 'manageorg';
+                const VERSION = 1;
 
-            spy.mockRestore();
-        });
+                /**
+                 * Request
+                 */
+                const req = {
+                    params: {
+                        app: APP,
+                        version: VERSION,
+                    },
+                };
 
-        it('should make a call to DocumentManagementService.byVersion() with the app and versionAsNumber, so that ' +
-            'we can get the T&Cs document by version.', async () => {
+                const res = mockResponse();
+                const next = () => {};
 
-            const APP: string = 'manageorg';
-            const VERSION: number = 1;
+                const spy = jest.spyOn(DocumentManagementService, 'byVersion');
 
-            /**
-             * Request
-             */
-            const req = {
-                params: {
-                    app: APP,
-                    version: VERSION,
-                },
-            };
+                await DocumentManagementController.byVersion(req as any, res as any, next as any);
 
-            const res = mockResponse();
+                expect(spy).toHaveBeenCalledWith(APP, VERSION);
 
-            const spy = jest.spyOn(DocumentManagementService, 'byVersion');
-
-            await DocumentManagementController.byVersion(req as any, res as any);
-
-            expect(spy).toHaveBeenCalledWith(APP, VERSION);
-
-            spy.mockRestore();
-        });
+                spy.mockRestore();
+            },
+        );
 
         it('should return a 200 Success and return the response data, if UserService.userAgreement() returns response data.', async () => {
-
-            const APP: string = 'manageorg';
-            const VERSION: number = 1;
+            const APP = 'manageorg';
+            const VERSION = 1;
             const USER: User = {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
             };
@@ -206,11 +214,13 @@ describe('Document Management Controller', () => {
             };
 
             const res = mockResponse();
+            const next = () => {};
 
-            const spy = jest.spyOn(DocumentManagementService, 'byVersion')
+            const spy = jest
+                .spyOn(DocumentManagementService, 'byVersion')
                 .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
-            await DocumentManagementController.byVersion(req as any, res as any);
+            await DocumentManagementController.byVersion(req as any, res as any, next as any);
 
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.status().send).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA);
@@ -221,47 +231,48 @@ describe('Document Management Controller', () => {
         /**
          * TODO: Placeholder test for error handling when it is fully implemented.
          */
-        it('should throw a 500 if we\'re not able to hit the database.', async () => {
-
+        it("should throw a 500 if we're not able to hit the database.", async () => {
             const req = mockRequest();
             const res = mockResponse();
+            const next = () => {};
 
-            await DocumentManagementController.byVersion(req as any, res as any);
+            await DocumentManagementController.byVersion(req as any, res as any, next as any);
 
             expect(res.status).toHaveBeenCalledWith(500);
         });
     });
 
     describe('latest()', () => {
+        it(
+            'should make a call to DocumentManagementService.latest() with the app, so that ' +
+                'we can get the latest T&Cs document.',
+            async () => {
+                const APP = 'manageorg';
 
-        it('should make a call to DocumentManagementService.latest() with the app, so that ' +
-            'we can get the latest T&Cs document.', async () => {
+                /**
+                 * Request
+                 */
+                const req = {
+                    params: {
+                        app: APP,
+                    },
+                };
 
-            const APP: string = 'manageorg';
+                const res = mockResponse();
+                const next = () => {};
 
-            /**
-             * Request
-             */
-            const req = {
-                params: {
-                    app: APP,
-                },
-            };
+                const spy = jest.spyOn(DocumentManagementService, 'latest');
 
-            const res = mockResponse();
+                await DocumentManagementController.latest(req as any, res as any, next as any);
 
-            const spy = jest.spyOn(DocumentManagementService, 'latest');
+                expect(spy).toHaveBeenCalledWith(APP);
 
-            await DocumentManagementController.latest(req as any, res as any);
-
-            expect(spy).toHaveBeenCalledWith(APP);
-
-            spy.mockRestore();
-        });
+                spy.mockRestore();
+            },
+        );
 
         it('should return a 200 Success and return the response data, if DocumentManagementService.latest() returns response data.', async () => {
-
-            const APP: string = 'manageorg';
+            const APP = 'manageorg';
             const USER: User = {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
             };
@@ -291,11 +302,13 @@ describe('Document Management Controller', () => {
             };
 
             const res = mockResponse();
+            const next = () => {};
 
-            const spy = jest.spyOn(DocumentManagementService, 'latest')
+            const spy = jest
+                .spyOn(DocumentManagementService, 'latest')
                 .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
-            await DocumentManagementController.latest(req as any, res as any);
+            await DocumentManagementController.latest(req as any, res as any, next as any);
 
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.status().send).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA);
@@ -306,53 +319,54 @@ describe('Document Management Controller', () => {
         /**
          * TODO: Placeholder test for error handling when it is fully implemented.
          */
-        it('should throw a 500 if we\'re not able to hit the database.', async () => {
-
+        it("should throw a 500 if we're not able to hit the database.", async () => {
             const req = mockRequest();
             const res = mockResponse();
+            const next = () => {};
 
-            await DocumentManagementController.latest(req as any, res as any);
+            await DocumentManagementController.latest(req as any, res as any, next as any);
 
             expect(res.status).toHaveBeenCalledWith(500);
         });
     });
 
     describe('create()', () => {
+        it(
+            'should make a call to DocumentManagementService.create() with the app, content and mimeType so that ' +
+                'we can create a T&Cs document.',
+            async () => {
+                const APP = 'manageorg';
+                const CONTENT = 'content';
+                const MIME_TYPE = 'text/html';
 
-        it('should make a call to DocumentManagementService.create() with the app, content and mimeType so that ' +
-            'we can create a T&Cs document.', async () => {
+                /**
+                 * Request
+                 */
+                const req = {
+                    params: {
+                        app: APP,
+                    },
+                    body: {
+                        content: CONTENT,
+                        mimeType: MIME_TYPE,
+                    },
+                };
 
-            const APP: string = 'manageorg';
-            const CONTENT: string = 'content';
-            const MIME_TYPE: string = 'text/html';
+                const res = mockResponse();
+                const next = () => {};
 
-            /**
-             * Request
-             */
-            const req = {
-                params: {
-                    app: APP,
-                },
-                body: {
-                    content: CONTENT,
-                    mimeType: MIME_TYPE,
-                }
-            };
+                const spy = jest.spyOn(DocumentManagementService, 'create');
 
-            const res = mockResponse();
+                await DocumentManagementController.create(req as any, res as any, next as any);
 
-            const spy = jest.spyOn(DocumentManagementService, 'create');
+                expect(spy).toHaveBeenCalledWith(APP, CONTENT, MIME_TYPE);
 
-            await DocumentManagementController.create(req as any, res as any);
-
-            expect(spy).toHaveBeenCalledWith(APP, CONTENT, MIME_TYPE);
-
-            spy.mockRestore();
-        });
+                spy.mockRestore();
+            },
+        );
 
         it('should return a 200 Success and return the response data, if DocumentManagementService.create() returns response data.', async () => {
-
-            const APP: string = 'manageorg';
+            const APP = 'manageorg';
             const USER: User = {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
             };
@@ -382,11 +396,13 @@ describe('Document Management Controller', () => {
             };
 
             const res = mockResponse();
+            const next = () => {};
 
-            const spy = jest.spyOn(DocumentManagementService, 'create')
+            const spy = jest
+                .spyOn(DocumentManagementService, 'create')
                 .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
-            await DocumentManagementController.create(req as any, res as any);
+            await DocumentManagementController.create(req as any, res as any, next as any);
 
             expect(res.status).toHaveBeenCalledWith(201);
             expect(res.status().send).toHaveBeenCalledWith(EXPECTED_RESPONSE_DATA);
