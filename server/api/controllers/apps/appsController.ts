@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import AppsService from '../../services/apps.service';
+import appsService from '../../services/apps.service';
 
 export class AppsController {
     /**
@@ -10,7 +10,7 @@ export class AppsController {
      */
     public async allApps(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-            const userAgreementResponse = await AppsService.getAllApps();
+            const userAgreementResponse = await appsService.getAllApps();
             res.status(200).send(userAgreementResponse);
         } catch (error) {
             next(error);
