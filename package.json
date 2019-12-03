@@ -12,19 +12,28 @@
     "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
     "compile": "ts-node build.ts && tsc",
     "create:schema": "yarn compile && node -r dotenv/config dist/database/scripts/create_db.js",
+    "create:schema:dev": "ts-node -r dotenv/config server/database/scripts/create_db.ts",
     "start": "node dist/index.js",
     "test": "UNIT_TEST_ENVIRONMENT=true jest",
     "test:debug": "mocha --inspect-brk test/**/*.ts --exit",
     "test:coverage": "UNIT_TEST_ENVIRONMENT=true jest --coverage",
+    "test:watch": "UNIT_TEST_ENVIRONMENT=true jest --watch",
     "test:a11y": "echo 'not implemented'",
     "test:smoke": "echo 'not implemented'",
     "test:functional": "echo 'not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "lint": "eslint server/api/**/*.ts server/database/**/*.ts",
-    "lint:fix": "eslint server/api/**/*.ts server/database/**/*.ts --fix",
+    "lint:fix": "prettier eslint server/api/**/*.ts server/database/**/*.ts --write",
     "lint:legacy": "eslint .",
     "start:legacy": "node server.js",
     "test:legacy": "NODE_PATH=. LOG_LEVEL=OFF mocha"
+  },
+  "wallaby": {
+    "env": {
+      "params": {
+        "env": "UNIT_TEST_ENVIRONMENT=true"
+      }
+    }
   },
   "dependencies": {
     "@hmcts/properties-volume": "^0.0.9",

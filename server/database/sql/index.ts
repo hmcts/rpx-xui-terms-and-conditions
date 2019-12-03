@@ -1,4 +1,4 @@
-import { QueryFile, IQueryFileOptions } from 'pg-promise';
+import { IQueryFileOptions, QueryFile } from 'pg-promise';
 import * as path from 'path';
 
 /**

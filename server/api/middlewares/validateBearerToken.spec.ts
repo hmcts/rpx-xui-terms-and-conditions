@@ -3,7 +3,7 @@
 import config from 'config';
 
 import { AUTHORISATION_HEADER_NAME, IDAM_API_URL_CONFIG_NAME, validateBearerToken } from './validateBearerToken';
-import { ERROR_INVALID_USER, ERROR_NO_BEARER_TOKEN } from '../errors';
+import { ERROR_INVALID_USER, InvalidBearerTokenError, InvalidUserError } from '../errors';
 import * as GetTokenDetails from '../services/tokenDetails.service';
 
 /**
@@ -22,27 +22,21 @@ const mockNext = () => {
 };
 
 describe('Users Controller', () => {
-    it(
-        'should make a call to next() with the ERROR_NO_BEARER_TOKEN message if there is no authorisation token in ' +
-            'the incoming request.',
-        async () => {
-            const req = {
-                header: jest.fn().mockReturnValue(undefined),
-            };
+    it(`should make a call to next() with the ERROR_NO_BEARER_TOKEN message 
+        if there is no authorisation token in the incoming request.`, async () => {
+        const req = {
+            header: jest.fn().mockReturnValue(undefined),
+        };
 
-            const res = mockResponse();
-            const next = mockNext();
+        const res = mockResponse();
+        const next = mockNext();
 
-            const spy = jest.spyOn(config, 'get').mockImplementation(() => 'url');
+        jest.spyOn(config, 'get').mockImplementation(() => 'url');
 
-            await validateBearerToken(req as any, res as any, next as any);
+        await validateBearerToken(req as any, res as any, next as any);
 
-            expect(next).toHaveBeenCalledWith({
-                message: ERROR_NO_BEARER_TOKEN,
-                status: 403,
-            });
-        },
-    );
+        expect(next).toHaveBeenCalledWith(new InvalidBearerTokenError());
+    });
 
     /**
      * We mock the Authorisation Token in the header.
@@ -104,17 +98,10 @@ describe('Users Controller', () => {
         const USER_TOKEN = {};
 
         jest.spyOn(config, 'get').mockImplementation(() => IDAM_API_URL);
-
-        const spyOnGetTokenDetails = jest
-            .spyOn(GetTokenDetails, 'getTokenDetails')
-            .mockImplementation(() => Promise.resolve(USER_TOKEN));
-
+        jest.spyOn(GetTokenDetails, 'getTokenDetails').mockImplementation(() => Promise.resolve(USER_TOKEN));
         await validateBearerToken(req as any, res as any, next as any);
 
-        expect(next).toHaveBeenCalledWith({
-            message: ERROR_INVALID_USER,
-            status: 403,
-        });
+        expect(next).toHaveBeenCalledWith(new InvalidUserError());
     });
 
     /**
@@ -138,11 +125,7 @@ describe('Users Controller', () => {
         };
 
         jest.spyOn(config, 'get').mockImplementation(() => IDAM_API_URL);
-
-        const spyOnGetTokenDetails = jest
-            .spyOn(GetTokenDetails, 'getTokenDetails')
-            .mockImplementation(() => Promise.resolve(USER_TOKEN));
-
+        jest.spyOn(GetTokenDetails, 'getTokenDetails').mockImplementation(() => Promise.resolve(USER_TOKEN));
         await validateBearerToken(req as any, res as any, next as any);
 
         expect(next).not.toHaveBeenCalledWith({
@@ -166,11 +149,7 @@ describe('Users Controller', () => {
         const ERROR = { error: 'error' };
 
         jest.spyOn(config, 'get').mockImplementation(() => IDAM_API_URL);
-
-        const spyOnGetTokenDetails = jest
-            .spyOn(GetTokenDetails, 'getTokenDetails')
-            .mockImplementation(() => Promise.reject(ERROR));
-
+        jest.spyOn(GetTokenDetails, 'getTokenDetails').mockImplementation(() => Promise.reject(ERROR));
         await validateBearerToken(req as any, res as any, next as any);
 
         expect(next).toHaveBeenCalledWith(ERROR);
