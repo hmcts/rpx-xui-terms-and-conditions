@@ -6,7 +6,7 @@ import { db } from '../index';
 async function createSchema() {
     try {
         return await db.task('create-schema', async task => {
-            const docsCreate = await task.documents.create();
+            /*const docsCreate = await task.documents.create();
             const appsCreate = await task.apps.create();
             const docAppsCreate = await task.documentApps.create();
             const userAgreementsCreate = await task.userAgreements.create();
@@ -19,7 +19,7 @@ async function createSchema() {
                 select 1, "id" from "TCApp" ON CONFLICT DO NOTHING;
             `);
 
-            return db.documents.findByVersion({ app: 'xuiwebapp', version: null });
+            return db.documents.findByVersion({ app: 'xuiwebapp', version: null });*/
             /*try {
                 return await task.documents.add({
                     document: '<h1>Terms & Conditions</h1><p>Do you accept?</p>',
@@ -40,7 +40,7 @@ async function createSchema() {
 }
 
 createSchema().then(result => {
-    console.log(result);
+    // console.log(result);
     // console.log('done, inserted %d rows', result.appsInit.rowCount);
     db.$pool.end();
 });
