@@ -7,6 +7,8 @@ import appsRouter from './api/controllers/apps/router';
 import { validateBearerToken, validateDBConnection, validateS2SToken } from './api/middlewares';
 
 export default function routes(app: Application): void {
+    app.use(validateDBConnection);
+
     // open routes
     app.use('/health', healthRouter);
     // this is needed to prevent duplicate errors being thrown
@@ -15,7 +17,6 @@ export default function routes(app: Application): void {
     // closed routes
     app.use(validateS2SToken);
     app.use(validateBearerToken);
-    app.use(validateDBConnection);
 
     app.use('/api/v1/termsAndConditions/:app/documents', documentManagementRouter);
     app.use('/api/v1/termsAndConditions/:app/users', usersRouter);

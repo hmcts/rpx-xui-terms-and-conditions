@@ -24,10 +24,6 @@ const mockResponse = () => {
     };
 };
 
-const mockWrapper = { connect: jest.fn() };
-
-const mockWrapperReturnVal = Promise.resolve({ done: jest.fn() });
-
 describe('Health controller', () => {
     /**
      * Note that the Jenkins pipeline requires health liveness to available for a successful build.
@@ -35,7 +31,7 @@ describe('Health controller', () => {
     it('should return a 200 for health liveness, so that the build passes through the Jenkins pipeline.', () => {
         const req = mockRequest();
         const res = mockResponse();
-        const healthController = new HealthController(mockWrapper);
+        const healthController = new HealthController();
         healthController.liveness(req as any, res as any);
 
         expect(res.status).toHaveBeenCalledWith(200);
@@ -44,10 +40,10 @@ describe('Health controller', () => {
 
     it('should return a 200 for health', () => {
         const req = mockRequest();
-        mockWrapper.connect.mockReturnValue(mockWrapperReturnVal);
-        const healthController = new HealthController(mockWrapper);
-        healthController.health(req as any, mockResponse as any);
+        const res = mockResponse();
+        const healthController = new HealthController();
+        healthController.health(req as any, res as any);
 
-        expect(mockWrapper.connect).toHaveBeenCalled();
+        expect(res.status).toHaveBeenCalledWith(200);
     });
 });
