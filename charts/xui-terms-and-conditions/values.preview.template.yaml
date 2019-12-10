@@ -2,6 +2,7 @@ nodejs:
   aadIdentityName:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+  command: ['console.log("TESTING COMMAND")']
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview
@@ -49,4 +50,5 @@ postgresql:
       insert into "TCApp"("app") values('xuiwebapp'),('xuimowebapp') ON CONFLICT DO NOTHING;
       insert into "TCDocument" (id, document, "mimeType") values(1, '<h1>Paddy Power - Do you accept?</h1>', 'text/html') ON CONFLICT DO NOTHING;
       insert into "TCDocumentApp" ("documentId", "appId")
-      select 1, "id" from "TCApp";
+      select 1, "id" from "TCApp"
+      ON CONFLICT DO NOTHING;
