@@ -2,7 +2,7 @@ nodejs:
   aadIdentityName:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  command: ['console.log("TESTING COMMAND")']
+  command: ['yarn', 'migrate']
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview
@@ -18,37 +18,3 @@ postgresql:
   postgresqlDatabase: xui_tc
   persistence:
     enabled: false
-  initdbScripts:
-    init.sql: |-
-      CREATE TABLE IF NOT EXISTS "TCDocument"
-      (
-          id             serial PRIMARY KEY,
-          document       TEXT,
-          "mimeType"     VARCHAR(80) NOT NULL DEFAULT 'text/html',
-          "creationDate" TIMESTAMP   NOT NULL DEFAULT NOW(),
-          version        serial      NOT NULL UNIQUE
-      );
-      CREATE TABLE IF NOT EXISTS "TCApp"
-      (
-          id           serial PRIMARY KEY,
-          app          varchar(50) NOT NULL UNIQUE
-      );
-      CREATE TABLE IF NOT EXISTS "TCDocumentApp"
-      (
-          id           serial PRIMARY KEY,
-          "documentId" INTEGER REFERENCES "TCDocument" (id) ON DELETE RESTRICT,
-          "appId" INTEGER REFERENCES "TCApp" (id) ON DELETE RESTRICT,
-          unique ("documentId", "appId")
-      );
-      CREATE TABLE IF NOT EXISTS "TCUserAgreement"
-      (
-          id              serial PRIMARY KEY,
-          "userId"        UUID      NOT NULL,
-          "documentAppId" INTEGER REFERENCES "TCDocumentApp" (id) ON DELETE RESTRICT,
-          "agreementDate" TIMESTAMP NOT NULL DEFAULT NOW()
-      );
-      insert into "TCApp"("app") values('xuiwebapp'),('xuimowebapp') ON CONFLICT DO NOTHING;
-      insert into "TCDocument" (id, document, "mimeType") values(1, '<h1>Paddy Power - Do you accept?</h1>', 'text/html') ON CONFLICT DO NOTHING;
-      insert into "TCDocumentApp" ("documentId", "appId")
-      select 1, "id" from "TCApp"
-      ON CONFLICT DO NOTHING;
