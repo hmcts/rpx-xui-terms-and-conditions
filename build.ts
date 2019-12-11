@@ -9,4 +9,5 @@ s.mkdir('-p', `${outDir}/database/sql`);
 s.cp('server/common/api.yml', `${outDir}/common/api.yml`);
 s.cp('-R', 'server/database/sql', `${outDir}/database/`);
 s.cp('-R', 'server/database/migrations', `${outDir}/database/`);
+s.cp('-R', 'server/database/resources', `${outDir}/database/`);
 s.rm('-rf', `${outDir}/database/sql/index.ts`);
