@@ -40,10 +40,10 @@ const initOptions: IInitOptions<Extensions> = {
  * @param config
  * @returns
  */
-const environmentDatabaseConfig = (config: config.IConfig) => {
+export const environmentDatabaseConfig = (config: config.IConfig) => {
     return {
         host: config.get<string>('database.host'),
-        port: parseInt(config.get<string>('database.port')) as number,
+        port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
         password: config.get<string>('secrets.rpx.postgresql-pw'),
