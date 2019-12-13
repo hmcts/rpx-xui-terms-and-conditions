@@ -1,5 +1,4 @@
-import express from 'express';
-import {Application} from 'express';
+import express, { Application } from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
 import http from 'http';
@@ -20,9 +19,9 @@ export default class ExpressServer {
         const root = path.normalize(__dirname + '/../..');
         tunnel.init();
         app.set('appPath', root + 'client');
-        app.use(bodyParser.json({limit: requestLimit || '100kb'}));
-        app.use(bodyParser.urlencoded({extended: true, limit: requestLimit || '100kb'}));
-        app.use(bodyParser.text({limit: requestLimit || '100kb'}));
+        app.use(bodyParser.json({ limit: requestLimit || '100kb' }));
+        app.use(bodyParser.urlencoded({ extended: true, limit: requestLimit || '100kb' }));
+        app.use(bodyParser.text({ limit: requestLimit || '100kb' }));
         app.use(cookieParser(sessionSecret));
         app.use(express.static(`${root}/public`));
     }
@@ -35,8 +34,7 @@ export default class ExpressServer {
     // TODO: Hard-coded 8080 for now, until we have environmental
     // variables in our pipeline.
     listen(p: string | number = 3000): Application {
-        const welcome = port => () =>
-            l.info(`up and running in @: ${os.hostname()} on port: ${port}}`);
+        const welcome = port => () => l.info(`up and running in @: ${os.hostname()} on port: ${port}}`);
         http.createServer(app).listen(p, welcome(p));
         return app;
     }

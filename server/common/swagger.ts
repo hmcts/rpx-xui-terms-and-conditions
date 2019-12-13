@@ -18,11 +18,7 @@ export default function(app: Application, routes: (app: Application) => void) {
             }),
         );
 
-        app.use(
-            middleware.parseRequest({
-               
-            }),
-        );
+        app.use(middleware.parseRequest({}));
 
         // These two middleware don't have any options (yet)
         app.use(middleware.CORS(), middleware.validateRequest());

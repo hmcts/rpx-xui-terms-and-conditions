@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import config from 'config';
-import { ERROR_CLIENT_NOT_WHITELISTED, ERROR_NO_S2S_TOKEN } from '../errors';
+import { InvalidS2STokenError, InvalidClientError } from '../errors';
 import { getTokenDetails } from '../services/tokenDetails.service';
 
 // Check if S2S token contains 'Bearer', if not , add it.
@@ -21,7 +21,7 @@ export async function validateS2SToken(req: Request, res: Response, next: NextFu
 
     // Check if authorisation header exists
     if (!s2sToken) {
-        return next({ message: ERROR_NO_S2S_TOKEN, status: 403 });
+        return next(new InvalidS2STokenError());
     }
 
     // Start S2S token verification
@@ -32,7 +32,7 @@ export async function validateS2SToken(req: Request, res: Response, next: NextFu
         const whitelist = getClientWhitelist();
 
         if (whitelist.indexOf(clientServiceName) === -1) {
-            return next({ message: ERROR_CLIENT_NOT_WHITELISTED, status: 403 });
+            return next(new InvalidClientError());
         }
 
         return next();

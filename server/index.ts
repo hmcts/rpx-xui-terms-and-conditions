@@ -1,9 +1,8 @@
 import Server from './common/server';
 import routes from './routes';
-import * as config from 'config'
-import * as propertiesVolume from '@hmcts/properties-volume'
-propertiesVolume.addTo(config)
+import * as config from 'config';
+import * as propertiesVolume from '@hmcts/properties-volume';
 
-export default new Server()
-  .router(routes)
-  .listen(process.env.PORT || 3000);
+propertiesVolume.addTo(config);
+
+export default new Server().router(routes).listen(process.env.PORT || 3000);

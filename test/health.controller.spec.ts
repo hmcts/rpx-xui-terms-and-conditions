@@ -1,13 +1,11 @@
-import {
-    LIVENESS_UP_AND_RUNNING,
-} from '../server/api/messages';
-import healthController from '../server/api/controllers/health/healthController';
+import { LIVENESS_UP_AND_RUNNING } from '../server/api/messages';
+import { HealthController } from '../server/api/controllers/health/healthController';
 
 /**
  * Mock Express Request Object using Jest
  */
 const mockRequest = () => {
-  return {}
+    return {};
 };
 
 /**
@@ -21,24 +19,31 @@ const mockRequest = () => {
 const mockResponse = () => {
     return {
         status: jest.fn().mockReturnValue({
-            send: jest.fn().mockReturnValue({})
-        })
+            send: jest.fn().mockReturnValue({}),
+        }),
     };
 };
 
 describe('Health controller', () => {
-
     /**
      * Note that the Jenkins pipeline requires health liveness to available for a successful build.
      */
     it('should return a 200 for health liveness, so that the build passes through the Jenkins pipeline.', () => {
-
         const req = mockRequest();
         const res = mockResponse();
-
+        const healthController = new HealthController();
         healthController.liveness(req as any, res as any);
 
         expect(res.status).toHaveBeenCalledWith(200);
-        expect(res.status().send).toHaveBeenCalledWith(LIVENESS_UP_AND_RUNNING);
-    })
+        expect(res.status().send).toHaveBeenCalledWith({ message: LIVENESS_UP_AND_RUNNING });
+    });
+
+    it('should return a 200 for health', () => {
+        const req = mockRequest();
+        const res = mockResponse();
+        const healthController = new HealthController();
+        healthController.health(req as any, res as any);
+
+        expect(res.status).toHaveBeenCalledWith(200);
+    });
 });

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import config from 'config';
 import { getTokenDetails } from '../services/tokenDetails.service';
-import { ERROR_INVALID_USER, ERROR_NO_BEARER_TOKEN } from '../errors';
+import { InvalidBearerTokenError, InvalidUserError } from '../errors';
 
 /**
  * Authorisation header name has been moved to here to make it unit testable.
@@ -20,19 +20,18 @@ export async function validateBearerToken(req: Request, res: Response, next: Nex
     const token = req.header(AUTHORISATION_HEADER_NAME);
 
     if (!token) {
-        return next({ message: ERROR_NO_BEARER_TOKEN, status: 403 });
+        return next(new InvalidBearerTokenError());
     }
 
     const url = config.get<string>(IDAM_API_URL_CONFIG_NAME);
 
     // Verify user token
     try {
-        /*eslint-disable */
+        // TODO: define an interface for getTokenDetails response rather than any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const userTokenValidate = await getTokenDetails<any>(url, token);
-        /*eslint-enable */
-
         if (!userTokenValidate || !userTokenValidate.active) {
-            return next({ message: ERROR_INVALID_USER, status: 403 });
+            return next(new InvalidUserError());
         }
         return next();
     } catch (e) {
