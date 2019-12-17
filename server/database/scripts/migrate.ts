@@ -2,7 +2,7 @@ import { migrate, MigrateDBConfig } from 'postgres-migrations';
 import { environmentDatabaseConfig } from '../index';
 import config from 'config';
 import * as path from 'path';
-import pg from 'pg';
+import * as pg from 'pg';
 
 export const MIGRATIONS_PATH = path.join(__dirname, '../migrations');
 
