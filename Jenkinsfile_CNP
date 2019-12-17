@@ -17,18 +17,15 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "terms-and-conditions"
 
-environment {
-    POSTGRES_SERVER_NAME = "xui-terms-and-conditions-aat.postgres.database.azure.com"
-    POSTGRES_SERVER_PORT = "5432"
-    POSTGRES_DB_NAME = "xui_tc"
-    POSTGRES_SSL = true
-}
-
 def secrets = [
   'rpx-${env}': [
     secret('mc-s2s-client-secret', 'S2S_SECRET'),
     secret('mc-idam-client-secret', 'IDAM_SECRET'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
+    secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
+    secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
+    secret('postgresql-ssl', 'POSTGRES_SSL'),
     secret('postgresql-username', 'POSTGRES_USERNAME'),
     secret('postgresql-pw', 'POSTGRES_PASSWORD')
   ],
