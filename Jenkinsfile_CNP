@@ -16,6 +16,10 @@ properties([
 def type      = "nodejs"
 def product   = "xui"
 def component = "terms-and-conditions"
+def POSTGRES_SERVER_NAME = "xui-terms-and-conditions-aat.postgres.database.azure.com"
+def POSTGRES_SERVER_PORT = "5432"
+def POSTGRES_DB_NAME = "xui_tc"
+def POSTGRES_SSL = true
 
 def secrets = [
   'rpx-${env}': [
