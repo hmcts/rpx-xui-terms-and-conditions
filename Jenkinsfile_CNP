@@ -49,7 +49,11 @@ withPipeline("nodejs", product, component) {
     enableAksStagingDeployment()
 
     after('smoketest:aat') {
-        sh 'yarn migrate'
+        sh 'yarn compile && yarn migrate'
+    }
+
+    after('smoketest:prod') {
+        sh 'yarn compile && yarn migrate'
     }
 
 }
