@@ -22,6 +22,10 @@ def secrets = [
     secret('mc-s2s-client-secret', 'S2S_SECRET'),
     secret('mc-idam-client-secret', 'IDAM_SECRET'),
     secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
+    secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
+    secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
+    secret('postgresql-ssl', 'POSTGRES_SSL'),
     secret('postgresql-username', 'POSTGRES_USERNAME'),
     secret('postgresql-pw', 'POSTGRES_PASSWORD')
   ],
@@ -49,7 +53,7 @@ withPipeline("nodejs", product, component) {
     enableAksStagingDeployment()
 
     after('smoketest:aat') {
-        sh 'yarn migrate'
+        sh 'yarn compile && yarn migrate'
     }
 
 }
