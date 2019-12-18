@@ -1,3 +1,4 @@
+environment: PUI_ENV
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME

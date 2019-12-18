@@ -9,6 +9,7 @@ import installValidator from './swagger';
 
 import l from './logger';
 import * as tunnel from './tunnel';
+import { appInsights } from '../appInsights'
 
 const app = express();
 
@@ -24,6 +25,7 @@ export default class ExpressServer {
         app.use(bodyParser.text({ limit: requestLimit || '100kb' }));
         app.use(cookieParser(sessionSecret));
         app.use(express.static(`${root}/public`));
+        app.use(appInsights);
     }
 
     router(routes: (app: Application) => void): ExpressServer {
