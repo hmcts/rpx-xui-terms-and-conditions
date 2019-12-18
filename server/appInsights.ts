@@ -4,7 +4,7 @@ import config from 'config'
 export let client
 
 // shouldnt do this check here but this is a high level dep
-const environment = process.env.PUI_ENV || 'local'
+const environment = config.get<string>('environment')
 if (environment !== 'local') {
     applicationinsights
         .setup(config.get<string>('secrets.rpx.AppInsightsInstrumentationKey'))
