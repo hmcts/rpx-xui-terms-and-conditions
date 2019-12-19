@@ -7,7 +7,7 @@ export let client
 const environment = config.get<string>('environment')
 if (environment !== 'local') {
     applicationinsights
-        .setup(config.get<string>('secrets.rpx.AppInsightsInstrumentationKey'))
+        .setup(config.get<string>('secrets.rpx.appinsights-instrumentationkey-tc'))
         .setAutoDependencyCorrelation(true)
         .setAutoCollectRequests(true)
         .setAutoCollectPerformance(true)

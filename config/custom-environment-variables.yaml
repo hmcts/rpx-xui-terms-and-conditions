@@ -8,7 +8,7 @@ database:
 secrets:
   rpx:
     postgresql-pw: POSTGRES_PASSWORD
-    AppInsightsInstrumentationKey: APPINSIGHTS_INSTRUMENTATIONKEY
+    appinsights-instrumentationkey-tc: APPINSIGHTS_INSTRUMENTATIONKEY
 proxy:
   host: PROXY_HOST
   port: PROXY_PORT
