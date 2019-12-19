@@ -17,7 +17,7 @@ nodejs:
     rpx:
       secrets:
         - postgresql-pw
-        - AppInsightsInstrumentationKey
+        - appinsights-instrumentationkey-tc
   # Don't modify below here
   image: 'hmctspublic.azurecr.io/xui/terms-and-conditions:latest'
   ingressHost: xui-terms-and-conditions-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
