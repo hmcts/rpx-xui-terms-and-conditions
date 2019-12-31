@@ -11,6 +11,7 @@ nodejs:
        POSTGRES_PASSWORD: "xui_tc"
        POSTGRES_DB_NAME: "xui_tc"
        POSTGRES_SSL: false
+       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc
