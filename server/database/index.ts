@@ -46,7 +46,7 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
-        password: config.get<string>('secrets.rpx.postgresql-pw'),
+        password: config.get<string>('secrets.rpx.postgresql-admin-pw'),
     };
 };
 

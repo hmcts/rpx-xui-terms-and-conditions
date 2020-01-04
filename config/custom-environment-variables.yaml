@@ -7,7 +7,7 @@ database:
   ssl: POSTGRES_SSL
 secrets:
   rpx:
-    postgresql-pw: POSTGRES_PASSWORD
+    postgresql-admin-pw: POSTGRES_PASSWORD
     appinsights-instrumentationkey-tc: APPINSIGHTS_INSTRUMENTATIONKEY
 proxy:
   host: PROXY_HOST
