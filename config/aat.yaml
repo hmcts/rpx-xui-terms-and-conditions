@@ -1,5 +1,5 @@
 environment: PUI_ENV
-environmentTest: PROD_ENVIRONMENT_TEST
+environmentTest: AAT_ENVIRONMENT_TEST
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME

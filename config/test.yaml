@@ -1,6 +1,21 @@
+environment: PUI_ENV
+environmentTest: PROD_ENVIRONMENT_TEST
 database:
-  // We are currently not using this test.yaml file.
-  // The reform project config package expects a test.yaml file to exist hence this file exists
-  // otherwise we are returned the following error
-  // WARNING NODE_ENV value of 'test' did not match any deployment config file names
-  // when we run `yarn test`
+  name: POSTGRES_DB_NAME
+  host: POSTGRES_SERVER_NAME
+  username: POSTGRES_USERNAME
+  port: POSTGRES_SERVER_PORT
+  ssl: POSTGRES_SSL
+secrets:
+  rpx:
+    postgresql-admin-pw: POSTGRES_PASSWORD
+    appinsights-instrumentationkey-tc: APPINSIGHTS_INSTRUMENTATIONKEY
+proxy:
+  host: PROXY_HOST
+  port: PROXY_PORT
+client:
+  whitelist: CLIENT_WHITELIST
+services:
+  s2s: S2S_TOKEN_URL
+  idam:
+    api-url: IDAM_SERVICE_URL
