@@ -1,0 +1,5 @@
+environment: PUI_ENV
+secrets:
+  rpx:
+    postgresql-admin-pw: POSTGRES_PASSWORD
+    appinsights-instrumentationkey-tc: APPINSIGHTS_INSTRUMENTATIONKEY
