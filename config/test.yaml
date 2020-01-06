@@ -1,5 +1,5 @@
 environment: 'TEST ENVIRONMENT VARIABLES'
-environmentTest: PROD_ENVIRONMENT_TEST
+environmentTest: 'test'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME

@@ -1,5 +1,5 @@
 environment: 'CUSTOM ENVIRONMENT VARIABLES'
-environmentTest: CUSTOM_ENVIRONMENT_TEST
+environmentTest: 'custom'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME

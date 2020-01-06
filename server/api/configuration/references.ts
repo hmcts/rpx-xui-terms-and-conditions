@@ -11,6 +11,10 @@
  */
 export const ENVIRONMENT = 'environment'
 
+export const SWAGGER_PATH = 'swagger.path'
+
+
+
 export const APP_INSIGHTS_KEY = 'appInsightsInstrumentationKey'
 
 export const COOKIE_TOKEN = 'cookies.token'

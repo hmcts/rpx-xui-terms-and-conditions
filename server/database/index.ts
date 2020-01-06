@@ -54,11 +54,9 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
 // TODO: Remove from global scope
 const pgp: IMain = pgPromise(initOptions);
 
-// check whether to use SSL
-// TODO: Add this back in.
-// if (config.has('database.ssl') && JSON.parse(config.get('database.ssl'))) {
-//     pgp.pg.defaults.ssl = true;
-// }
+if (config.has('database.ssl') && JSON.parse(config.get('database.ssl'))) {
+    pgp.pg.defaults.ssl = true;
+}
 
 /**
  * initialiseDatabase

@@ -5,7 +5,7 @@ export let client
 
 // shouldnt do this check here but this is a high level dep
 const environment = config.get<string>('environment')
-if (environment !== 'local') {
+if (environment !== 'development') {
     applicationinsights
         .setup(config.get<string>('secrets.rpx.appinsights-instrumentationkey-tc'))
         .setAutoDependencyCorrelation(true)
