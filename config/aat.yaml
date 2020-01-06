@@ -1,4 +1,4 @@
-environment: PUI_ENV
+environment: 'AAT ENVIRONMENT VARIABLES'
 environmentTest: AAT_ENVIRONMENT_TEST
 database:
   name: POSTGRES_DB_NAME

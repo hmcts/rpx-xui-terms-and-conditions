@@ -1,4 +1,4 @@
-environment: PUI_ENV
+environment: 'CUSTOM ENVIRONMENT VARIABLES'
 environmentTest: CUSTOM_ENVIRONMENT_TEST
 database:
   name: POSTGRES_DB_NAME

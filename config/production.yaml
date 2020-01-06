@@ -1,4 +1,4 @@
-environment: PUI_ENV
+environment: 'PRODUCTION ENVIRONMENT VARIABLES'
 environmentTest: PROD_ENVIRONMENT_TEST
 database:
   name: POSTGRES_DB_NAME
