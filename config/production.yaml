@@ -1,5 +1,4 @@
 environment: 'PRODUCTION ENVIRONMENT VARIABLES'
-environmentTest: 'prod'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME

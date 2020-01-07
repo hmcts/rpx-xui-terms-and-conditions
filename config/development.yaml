@@ -1,5 +1,4 @@
 environment: 'development'
-environmentTest: 'local'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME
