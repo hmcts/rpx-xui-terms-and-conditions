@@ -1,4 +1,4 @@
-import config from 'config'
+import config from 'config';
 
 /**
  * Get Environment
@@ -9,7 +9,7 @@ import config from 'config'
  * @see Readme
  * @returns {string} ie. - development / preview / aat / ithc, prod
  */
-export const getEnvironment = () => process.env.NODE_CONFIG_ENV
+export const getEnvironment = () => process.env.NODE_CONFIG_ENV;
 
 /**
  * Generate Environment Check Text
@@ -17,4 +17,7 @@ export const getEnvironment = () => process.env.NODE_CONFIG_ENV
  * We generate text to be used for debugging purposes, so as the person attempting to initialise the application knows
  * what the NODE_CONFIG_ENV is set as and what config file is being used.
  */
-export const environmentCheckText = () => `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get('environment')} config.`
+export const environmentCheckText = () =>
+    `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get(
+        'environment',
+    )} config.`;
