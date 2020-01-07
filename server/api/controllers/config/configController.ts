@@ -7,11 +7,17 @@ export class ConfigController {
 
         const response = {
             environment: config.get('environment'),
-            environmentTest: config.get('environmentTest'),
-            host: config.get('database.host'),
-            port: parseInt(config.get<string>('database.port'), 10) as number,
-            database: config.get<string>('database.name'),
-            user: config.get<string>('database.username'),
+
+            // Postgres Server Name
+            databaseHost: config.get<string>('database.host'),
+
+            // Postgres Server Port
+            databasePort: parseInt(config.get<string>('database.port'), 10) as number,
+
+            // Postgres Username
+            username: config.get<string>('database.username'),
+
+            // Postgres Password
             password: config.get<string>('secrets.rpx.postgresql-admin-pw'),
         }
 

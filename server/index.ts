@@ -3,7 +3,7 @@ import routes from './routes';
 import L from './common/logger';
 import * as config from 'config';
 import * as propertiesVolume from '@hmcts/properties-volume';
-import {environmentCheckText, getConfigValue, getEnvironment} from './api/configuration'
+import {environmentCheckText, getEnvironment} from './api/configuration'
 import {ERROR_NODE_CONFIG_ENV} from './api/configuration/constants'
 
 /**
