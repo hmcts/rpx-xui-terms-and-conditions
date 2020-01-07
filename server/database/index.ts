@@ -54,7 +54,12 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
 // TODO: Remove from global scope
 const pgp: IMain = pgPromise(initOptions);
 
-if (config.has('database.ssl') && JSON.parse(config.get('database.ssl'))) {
+/**
+ * Removed JSON.parse from here, as it was breaking the unit tests.
+ *
+ * TODO: We need to make sure the following logic works.
+ */
+if (config.has('database.ssl') && config.get('database.ssl') !== 0) {
     pgp.pg.defaults.ssl = true;
 }
 
