@@ -1,5 +1,4 @@
 environment: 'AAT ENVIRONMENT VARIABLES'
-environmentTest: 'aat'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME
