@@ -6,6 +6,8 @@ export class ConfigController {
     public async checkConfig(req: Request, res: Response): Promise<void> {
 
         const response = {
+            nodeConfigEnv: process.env.NODE_CONFIG_ENV,
+
             environment: config.get('environment'),
 
             // Postgres Server Name
