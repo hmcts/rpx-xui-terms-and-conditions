@@ -8,7 +8,7 @@ nodejs:
     NODE_ENV: production
     UV_THREADPOOL_SIZE: 64
     XUI_ENV: production
-    NODE_CONFIG_ENV: production
+    NODE_CONFIG_ENV: {{ .Values.global.environment }}
     IDAM_SERVICE_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net
     POSTGRES_DB_NAME: xui_tc
     POSTGRES_SERVER_NAME: "xui-terms-and-conditions-{{ .Values.global.environment }}.postgres.database.azure.com"
