@@ -23,6 +23,18 @@ export const environmentCheckText = () =>
     )} config.`;
 
 export const exportAllEnvVariables = () => {
-    L.info('Looking for the following environmental variables.')
-    L.info(config.get('environment'))
+    L.info('Looking for config variables.')
+    L.info(`Environment: ${config.get('environment')}`)
+    L.info(`POSTGRES_DB_NAME: ${config.get('database.name')}`)
+    L.info(`POSTGRES_SERVER_NAME: ${config.get('database.host')}`)
+    L.info(`POSTGRES_USERNAME: ${config.get('database.username')}`)
+    L.info(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`)
+    L.info(`POSTGRES_SSL: ${config.get('database.ssl')}`)
+    L.info(`POSTGRES_PASSWORD: ${config.get('secrets.rpx.postgresql-admin-pw')}`)
+    L.info(`APPINSIGHTS_INSTRUMENTATIONKEY: ${config.get('secrets.rpx.appinsights-instrumentationkey-tc')}`)
+    L.info(`PROXY_HOST: ${config.get('proxy.host')}`)
+    L.info(`PROXY_PORT: ${config.get('proxy.port')}`)
+    L.info(`CLIENT_WHITELIST: ${config.get('client.whitelist')}`)
+    L.info(`S2S_TOKEN_URL: ${config.get('services.s2s')}`)
+    L.info(`IDAM_SERVICE_URL: ${config.get('services.idam.api-url')}`)
 }
