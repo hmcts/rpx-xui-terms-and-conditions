@@ -61,7 +61,11 @@ const setPgp = (unitTestEnvironment) => {
     }
 
     if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
-        pgp.pg.defaults.ssl = true;
+        console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
+        if(config.get('database.ssl') !== 'false'){
+            console.log('Use SSL');
+            pgp.pg.defaults.ssl = true;
+        }
     }
 }
 
