@@ -10,6 +10,7 @@ import {
 } from './repos';
 import { Diagnostics } from './diagnostics';
 import config from 'config';
+import { hasConfigValue, getDynamicConfigValue } from '../api/configuration'
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
@@ -46,7 +47,7 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
-        password: config.get<string>('secrets.rpx.postgresql-admin-pw'),
+        password: getDynamicConfigValue('secrets.rpx.postgresql-admin-pw', 'database.password'),
     };
 };
 
@@ -59,7 +60,7 @@ const setPgp = (unitTestEnvironment) => {
         return null;
     }
 
-    if (config.has('database.ssl') && JSON.parse(config.get('database.ssl'))) {
+    if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
         pgp.pg.defaults.ssl = true;
     }
 }
