@@ -5,6 +5,10 @@ database:
   username: POSTGRES_USERNAME
   port: POSTGRES_SERVER_PORT
   ssl: POSTGRES_SSL
+secrets:
+  rpx:
+    postgresql-admin-pw: POSTGRES_PASSWORD
+    appinsights-instrumentationkey-tc: APPINSIGHTS_INSTRUMENTATIONKEY
 proxy:
   host: PROXY_HOST
   port: PROXY_PORT
