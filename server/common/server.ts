@@ -18,7 +18,12 @@ export default class ExpressServer {
         const requestLimit = '100kb';
         const sessionSecret = 'secret';
         const root = path.normalize(__dirname + '/../..');
-        tunnel.init();
+
+        /**
+         * Removing Tunnel to check if we get less errors on Flux.
+         */
+        // tunnel.init();
+
         app.set('appPath', root + 'client');
         app.use(bodyParser.json({ limit: requestLimit || '100kb' }));
         app.use(bodyParser.urlencoded({ extended: true, limit: requestLimit || '100kb' }));
