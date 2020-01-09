@@ -55,10 +55,9 @@ export const getDynamicConfigValue = (reference, fallbackReference): string => {
  * @param shouldBeOverridden - ie. 'POSTGRES_DB_NAME'
  */
 export const hasConfigValue = (reference, shouldBeOverridden) => {
-
     const configurationValue = config.get(reference);
 
-    return configurationValue !== shouldBeOverridden
+    return configurationValue !== shouldBeOverridden;
 };
 
 /**
