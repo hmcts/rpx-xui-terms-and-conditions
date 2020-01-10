@@ -7,11 +7,11 @@ import {ERROR_NODE_CONFIG_ENV} from './api/configuration/constants'
 
 // const config = require('@hmcts/properties-volume').addTo(require('config'))
 // This is an actual non-mutated object
-import initConfig from 'config';
+// import initConfig from 'config';
 
 // Allow propertiesVolume to mutate this
-import * as config from 'config';
-// import * as secretsConfig from 'config';
+import config from 'config';
+import * as secretsConfig from 'config';
 import * as propertiesVolume from "@hmcts/properties-volume";
 
 /**
@@ -29,18 +29,17 @@ L.info(environmentCheckText());
  *
  * So this mutates the config and adds the secrets to it.
  */
-propertiesVolume.addTo(config, {failOnError: false});
+propertiesVolume.addTo(secretsConfig, {failOnError: false});
 // propertiesVolume.addTo(config, {failOnError: false});
 
-console.log(initConfig);
+// console.log(initConfig);
 console.log('mutated config')
-console.log(config);
-const cloneConfig = Object.assign({}, config);
-
+console.log(config.get('database.host'));
+// const cloneConfig = Object.assign({}, config);
 
 
 console.log('cloneConfig')
-console.log(config['secrets']['rpx']['postgresql-admin-pw'])
+console.log(secretsConfig['secrets']['rpx']['postgresql-admin-pw'])
 // console.log(cloneConfig['secrets'].rpx['postgresql-admin-pw'])
 
 // But then we can't call config.get() as we've included it as * as config from 'config'

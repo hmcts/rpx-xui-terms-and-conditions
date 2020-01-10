@@ -75,6 +75,7 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
         console.log(`POSTGRES_PASSWORD: ${config.get('database.password')}`);
+
         // console.log(`POSTGRES_PASSWORD_DYNAMIC: ${getDynamicConfigValue('secrets.rpx.postgresql-admin-pw', 'database.password')}`);
         // console.log(`POSTGRES_PASSWORD: ${config.get('secrets.rpx.postgresql-admin-pw')}`);
 
