@@ -11,6 +11,7 @@ import {
 import { Diagnostics } from './diagnostics';
 import config from 'config';
 import { hasConfigValue, getDynamicConfigValue } from '../api/configuration'
+import * as propertiesVolume from "@hmcts/properties-volume";
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
@@ -61,6 +62,11 @@ const setPgp = (unitTestEnvironment) => {
     if (unitTestEnvironment) {
         return null;
     }
+
+    /**
+     * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
+     */
+    propertiesVolume.addTo(config);
 
     if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
         console.log(`POSTGRES_DB_NAME: ${config.get('database.name')}`);
