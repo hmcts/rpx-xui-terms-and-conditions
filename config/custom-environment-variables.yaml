@@ -5,6 +5,7 @@ database:
   username: POSTGRES_USERNAME
   port: POSTGRES_SERVER_PORT
   ssl: POSTGRES_SSL
+  password: POSTGRES_PASSWORD
 # Do not have secrets.rpx.postgresql-admin-pw or
 # secrets.rpx.appinsights-instrumentationkey-tc
 # defined here, as it will overwrite secrets.rpx.postgresql-admin-pw
