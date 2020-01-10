@@ -70,3 +70,7 @@ export const environmentCheckText = () =>
     `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get(
         'environment',
     )} config.`;
+
+export const checkSecret = () => {
+    console.log(config.get('secrets.rpx.postgresql-admin-pw'))
+}

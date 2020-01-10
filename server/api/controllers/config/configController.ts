@@ -20,7 +20,7 @@ export class ConfigController {
             username: config.get<string>('database.username'),
 
             // Postgres Password
-            password: config.get<string>('secrets.rpx.postgresql-admin-pw'),
+            password: config.get<string>('database.password'),
         }
 
         console.log(config.get<string>('environment'));
