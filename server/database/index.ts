@@ -47,6 +47,8 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
+        // So this works with database.password
+        // Therefore it's not switching correctly?
         password: getDynamicConfigValue('secrets.rpx.postgresql-admin-pw', 'database.password'),
     };
 };
@@ -61,7 +63,21 @@ const setPgp = (unitTestEnvironment) => {
     }
 
     if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
+        console.log(`POSTGRES_DB_NAME: ${config.get('database.name')}`);
+        console.log(`POSTGRES_SERVER_NAME: ${config.get('database.host')}`);
+        console.log(`POSTGRES_USERNAME: ${config.get('database.username')}`);
+        console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
+        console.log(`POSTGRES_PASSWORD: ${config.get('database.password')}`);
+        console.log(`POSTGRES_PASSWORD_DYNAMIC: ${getDynamicConfigValue('secrets.rpx.postgresql-admin-pw', 'database.password')}`);
+
+        /**
+         * Do not use SSL on the Jenkins Preview Environment as it's not enabled
+         * on the Server.
+         *
+         * The Jenkins Preview Environment is the only environment where 'database.ssl' ie.
+         * POSTGRES_SSL is set to false.
+         */
         if(config.get('database.ssl') !== 'false'){
             console.log('Use SSL');
             pgp.pg.defaults.ssl = true;
