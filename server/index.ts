@@ -4,6 +4,7 @@ import L from './common/logger';
 import * as config from 'config';
 import * as propertiesVolume from '@hmcts/properties-volume';
 import {environmentCheckText, getEnvironment} from './api/configuration'
+import {getDynamicConfigValue} from './api/configuration'
 import {ERROR_NODE_CONFIG_ENV} from './api/configuration/constants'
 
 /**
@@ -19,6 +20,11 @@ if (!getEnvironment()) {
     L.info(ERROR_NODE_CONFIG_ENV)
 }
 
-L.info(environmentCheckText())
+L.info(environmentCheckText());
+
+const databasePassword = getDynamicConfigValue('secrets.rpx.postgresql-admin-pw', 'database.password');
+
+L.info('databasePassword');
+L.info(databasePassword);
 
 export default new Server().router(routes).listen(process.env.PORT || 3000);
