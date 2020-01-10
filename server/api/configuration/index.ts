@@ -28,6 +28,43 @@ export const getDynamicConfigValue = (reference, fallbackReference): string => {
 };
 
 /**
+ * Get Dynamic Secret Value
+ *
+ * If the secret value is available, ie. the secret from the environments with Flux,
+ * then we use the secrets value.
+ *
+ * If it's not we fallback use the reference to pull out the value
+ * from the .yaml file
+ *
+ * Note: If within a .yaml file you have
+ *
+ * database:
+ *   name: POSTGRES_DB_NAME
+ *
+ * If POSTGRES_DB_NAME is unable to be pulled from the JenkinsFile_CNP,
+ * then .yaml will return a string of 'POSTGRES_DB_NAME'
+ *
+ * This means that config.has('database.name') will always return true
+ * as 'database.name'.
+ *
+ * This also means that config.get('database.name') will return 'POSTGRES_DB_NAME' and not
+ * undefined.
+ *
+ * We return null if the value config.get receives has not been overridden.
+ *
+ * @param {string} secret
+ * @param fallbackSecret
+ * @returns {string}
+ */
+export const getDynamicSecret = (secret, fallbackSecret): string => {
+    if (secret) {
+        return secret;
+    } else {
+        return config.get(fallbackSecret);
+    }
+};
+
+/**
  * Has Config Value
  *
  * Returns if the configuration value is available, using a config reference. It uses the reference to pull out the value
@@ -72,5 +109,5 @@ export const environmentCheckText = () =>
     )} config.`;
 
 export const checkSecret = () => {
-    console.log(config.get('secrets.rpx.postgresql-admin-pw'))
-}
+    console.log(config.get('secrets.rpx.postgresql-admin-pw'));
+};
