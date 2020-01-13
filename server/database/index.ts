@@ -49,7 +49,7 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
-        password: getPostgresSecret(secretsConfig['secrets']['rpx']['postgresql-admin-pw'], config.get('environment')),
+        password: getPostgresSecret(secretsConfig, config.get('environment')),
     };
 };
 
@@ -76,8 +76,7 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
         console.log(`POSTGRES_PASSWORD: ${config.get('database.password')}`);
-        console.log(secretsConfig['secrets']['rpx']['postgresql-admin-pw']);
-        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig['secrets']['rpx']['postgresql-admin-pw'], config.get('environment'))}`);
+        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, config.get('environment'))}`);
 
         /**
          * Do not use SSL on the Jenkins Preview Environment as it's not enabled
