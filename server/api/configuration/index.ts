@@ -122,6 +122,8 @@ export const getPostgresSecret = (secretsConfig, environment): string => {
         'make sure its setup within /mnt/secrets.';
 
     if (environment === PREVIEW) {
+        console.log('using');
+        console.log(config.get('database.password'));
         return config.get('database.password');
     }
 
