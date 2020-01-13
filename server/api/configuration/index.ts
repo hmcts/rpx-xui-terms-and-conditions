@@ -65,6 +65,76 @@ export const getDynamicSecret = (secret, fallbackSecret): string => {
 };
 
 /**
+ * Get Postgres Secret
+ *
+ * Table showing the Branches, Environment names set via NODE_CONFIG_ENV, their deployment pipelines,
+ * and where the secrets for that environment are coming from.
+ *
+ * Note that the application uses the NODE_CONFIG_ENV to firstly hit the .yaml files within /config for configuration.
+ *
+ * VALUES within /config are set using the values.yaml file in /charts/xui-terms-and-conditions
+ *
+ * ie. config.get('database.port') in app code picks out database.port from aat.yaml on all aat
+ * environments. POSTGRES_SERVER_PORT in aat.yaml is set by POSTGRES_SERVER_PORT within charts/xui-terms-and-conditions/
+ * values.yaml
+ *
+ * Note that values.aat.template.yaml and values.preview.template.yaml are the parent of values.yaml and are
+ * therefore used first on Jenkins AAT and Jenkins AAT environments. TODO: Deprecate values.aat.template.yaml
+ * and values.preview.template.yaml
+ *
+ * |--------------------------------------------------------
+ * | Branch | Environment | Deployment via | Postgres Secret
+ * |--------------------------------------------------------
+ * | local  | development | -              | local within /mnt/secrets/rpx
+ * |        |             |                | @see readme on how to create /mnt
+ * | PR     | preview     | Jenkins        | POSTGRES_PASSWORD within values.preview.template.yaml passed into application via preview.yaml
+ * | Master | aat         | Jenkins        | keyVaults.rpx.secrets.postgresql-admin-pw within charts/xui-terms-and-conditions/values.yaml passed into application using /mnt/secrets/rpx and
+ *  propertiesVolume.addTo(secretsConfig);
+ * | Master | aat         | Flux
+ * | Master | ithc        | Flux
+ * | Master | production  | Flux
+ *
+ *
+ * Information on Postgres Secret on Environments
+ *
+ * On all environments include local (see above) the Secrets are contained with /mnt/secrets/rpx
+ *
+ * The Secrets are pulled into the application using properties-volume Node Module, using
+ * propertiesVolume.addTo(secretsConfig);
+ *
+ * We're able to pull in the secrets into the application using the following:
+ * secretsConfig['secrets']['rpx']['postgresql-admin-pw']
+ *
+ * The secrets are in all environments BUT on the PR environment we need to use the POSTGRES_PASSWORD
+ * from values.preview.template.yaml pulled in the application through the preview.yaml file. Why?
+ * There is only one instance of Postgres used by the environments higher than AAT, and of course do not want to publish
+ * passwords into git.
+ *
+ * There is a secret in the PR but we don't want to use it.
+ *
+ * @returns {string}
+ */
+export const getPostgresSecret = (environmentSecret, environment): string => {
+    const PREVIEW = 'preview';
+    const ERROR_POSTGRES_SECRET_NOT_FOUND =
+        'secrets.rpx.postgresql-admin-pw not found on this environment, please ' +
+        'make sure its setup within /mnt/secrets.';
+
+    if (environment === PREVIEW) {
+        return config.get('database.password');
+    }
+
+    // The environment secrete should be found on
+    // all environments.
+    if (environmentSecret) {
+        return environmentSecret;
+    } else {
+        console.log(ERROR_POSTGRES_SECRET_NOT_FOUND);
+        return '';
+    }
+};
+
+/**
  * Has Config Value
  *
  * Returns if the configuration value is available, using a config reference. It uses the reference to pull out the value

@@ -1,4 +1,4 @@
-environment: 'CUSTOM ENVIRONMENT VARIABLES'
+environment: 'custom'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME
