@@ -1,4 +1,4 @@
-environment: 'AAT ENVIRONMENT VARIABLES'
+environment: 'aat'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME

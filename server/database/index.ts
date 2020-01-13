@@ -10,7 +10,8 @@ import {
 } from './repos';
 import { Diagnostics } from './diagnostics';
 import config from 'config';
-import { hasConfigValue, getDynamicConfigValue } from '../api/configuration'
+import * as secretsConfig from 'config';
+import { hasConfigValue, getDynamicConfigValue, getDynamicSecret, getPostgresSecret } from '../api/configuration'
 import * as propertiesVolume from "@hmcts/properties-volume";
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
@@ -48,9 +49,7 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
-        // So this works with database.password
-        // Therefore it's not switching correctly?
-        password: getDynamicConfigValue('secrets.rpx.postgresql-admin-pw', 'database.password'),
+        password: getPostgresSecret(secretsConfig['secrets']['rpx']['postgresql-admin-pw'], config.get('environment')),
     };
 };
 
@@ -65,8 +64,10 @@ const setPgp = (unitTestEnvironment) => {
 
     /**
      * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
+     *
+     * So this mutates the config and adds the secrets to it.
      */
-    propertiesVolume.addTo(config);
+    propertiesVolume.addTo(secretsConfig);
 
     if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
         console.log(`POSTGRES_DB_NAME: ${config.get('database.name')}`);
@@ -75,7 +76,8 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
         console.log(`POSTGRES_PASSWORD: ${config.get('database.password')}`);
-        console.log(`POSTGRES_PASSWORD_DYNAMIC: ${getDynamicConfigValue('secrets.rpx.postgresql-admin-pw', 'database.password')}`);
+        console.log(secretsConfig['secrets']['rpx']['postgresql-admin-pw']);
+        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig['secrets']['rpx']['postgresql-admin-pw'], config.get('environment'))}`);
 
         /**
          * Do not use SSL on the Jenkins Preview Environment as it's not enabled

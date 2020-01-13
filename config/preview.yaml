@@ -1,4 +1,4 @@
-environment: 'PREVIEW ENVIRONMENT VARIABLES'
+environment: 'preview'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME
