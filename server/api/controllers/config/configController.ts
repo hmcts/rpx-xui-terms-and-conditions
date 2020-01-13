@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import config from 'config';
 import * as secretsConfig from 'config';
+import { getPostgresSecret } from '../../configuration'
 
 export class ConfigController {
 
@@ -21,7 +22,7 @@ export class ConfigController {
             username: config.get<string>('database.username'),
 
             // Postgres Password
-            password: secretsConfig['secrets']['rpx']['postgresql-admin-pw'],
+            password: getPostgresSecret(secretsConfig, config.get('environment'))
         }
 
         console.log(config.get<string>('environment'));

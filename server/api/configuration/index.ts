@@ -1,4 +1,5 @@
 import config from 'config';
+import { propsExist } from '../utils/objectUtilities';
 
 /**
  * Get Environment
@@ -114,7 +115,7 @@ export const getDynamicSecret = (secret, fallbackSecret): string => {
  *
  * @returns {string}
  */
-export const getPostgresSecret = (environmentSecret, environment): string => {
+export const getPostgresSecret = (secretsConfig, environment): string => {
     const PREVIEW = 'preview';
     const ERROR_POSTGRES_SECRET_NOT_FOUND =
         'secrets.rpx.postgresql-admin-pw not found on this environment, please ' +
@@ -124,10 +125,9 @@ export const getPostgresSecret = (environmentSecret, environment): string => {
         return config.get('database.password');
     }
 
-    // The environment secrete should be found on
-    // all environments.
-    if (environmentSecret) {
-        return environmentSecret;
+    if (propsExist(secretsConfig, ['secrets', 'rpx', 'postgresql-admin-pw'])) {
+        console.log(secretsConfig['secrets']['rpx']['postgresql-admin-pw']);
+        return secretsConfig['secrets']['rpx']['postgresql-admin-pw'];
     } else {
         console.log(ERROR_POSTGRES_SECRET_NOT_FOUND);
         return '';
