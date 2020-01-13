@@ -118,8 +118,8 @@ export const getDynamicSecret = (secret, fallbackSecret): string => {
 export const getPostgresSecret = (secretsConfig, environment): string => {
     const PREVIEW = 'preview';
     const ERROR_POSTGRES_SECRET_NOT_FOUND =
-        'secrets.rpx.postgresql-admin-pw not found on this environment, please ' +
-        'make sure its setup within /mnt/secrets.';
+        'secrets.rpx.postgresql-admin-pw not found on this environment, therefore using the password in the .yaml' +
+        'file for this environment.';
 
     if (environment === PREVIEW) {
         console.log('using');
@@ -127,12 +127,17 @@ export const getPostgresSecret = (secretsConfig, environment): string => {
         return config.get('database.password');
     }
 
+    // aat env gets to here, and it will use this if it's available.
+    // but the secret is not available on the build environment, therefore we need to fallback to
+    // database.password As the build runs a migration script which is required
+    // to setup the DB. Hopefully this just works in flux. as secrets.rpx.postgresql-admin-pw
+    // should hopefully be in flux.
     if (propsExist(secretsConfig, ['secrets', 'rpx', 'postgresql-admin-pw'])) {
         console.log(secretsConfig['secrets']['rpx']['postgresql-admin-pw']);
         return secretsConfig['secrets']['rpx']['postgresql-admin-pw'];
     } else {
         console.log(ERROR_POSTGRES_SECRET_NOT_FOUND);
-        return '';
+        return config.get('database.password');
     }
 };
 
