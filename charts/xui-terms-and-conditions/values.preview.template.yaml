@@ -3,7 +3,7 @@ nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   #command: ["./wait-for", "$POSTGRES_SERVER_NAME:5432", "--", "yarn", "migrate"]
-  command: ["./helloWorld"]
+  command: ["sh", "-c", "echo helloNodeJsCommand"]
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview
