@@ -28,6 +28,32 @@ Set environment variables `APP_ID` and `LOG_LEVEL` as well as `PORT` <br />
 `yarn lint` - Runs ESLint
 `yarn lint --fix` - Prettier is installed. Prettier will normalise your code formatting to a project standard formatting.
 
+# Setting up Secrets locally (Required)
+
+You need to setup secrets locally before you run the project. Why? - When you push this application
+up through AKS deployed through Flux to AAT, ITHC and Prod, the application will take in the secrets on these environments.
+
+The developer needs to set these up locally, so that the developer can see any issues early in
+the development process, and not when the application is placed up onto the higher AKS environments.
+
+To setup the secrets locally (MAC OS) do the following:
+
+1. Create a Mount point on your local machine<br/>
+Create the folder: `/mnt/secrets/rpx`
+2. In this folder we create a file per secret.
+ie.
+We create the file postgresql-admin-pw (no extension).
+Within the file we have one line of characters which is the secret.
+
+Note that this is connected into the application via the following pieces of code:
+- Within the values.yaml file we have a reference to the secret:
+
+  keyVaults:
+    rpx:
+      secrets:
+        - postgresql-admin-pw
+        - appinsights-instrumentationkey-tc
+
 # Swagger
 
 Swagger can be accessed on /api-explorer
