@@ -1,3 +1,16 @@
+#
+# custom-environment-variables.yaml
+#
+# This file should not be used on any environment.
+#
+# It is the default / fallback file for Node Config npm package, which is used within
+# the application.
+#
+# NB: do not have `secrets.rpx.postgresql-admin-pw` or `secrets.rpx.appinsights-instrumentationkey-tc`
+# defined in this file as it will override the secret references in the values.yaml file.
+#
+# @see charts/xui-terms-and-conditions
+#
 environment: 'custom'
 database:
   name: POSTGRES_DB_NAME
@@ -6,10 +19,6 @@ database:
   port: POSTGRES_SERVER_PORT
   ssl: POSTGRES_SSL
   password: POSTGRES_PASSWORD
-# Do not have secrets.rpx.postgresql-admin-pw or
-# secrets.rpx.appinsights-instrumentationkey-tc
-# defined here, as it will overwrite secrets.rpx.postgresql-admin-pw
-# contained within the .yaml file.
 proxy:
   host: PROXY_HOST
   port: PROXY_PORT

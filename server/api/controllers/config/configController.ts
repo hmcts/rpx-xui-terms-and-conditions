@@ -2,26 +2,20 @@ import { Request, Response } from 'express';
 import config from 'config';
 import * as secretsConfig from 'config';
 import { getPostgresSecret } from '../../configuration'
+import * as propertiesVolume from "@hmcts/properties-volume";
 
 export class ConfigController {
 
     public async checkConfig(req: Request, res: Response): Promise<void> {
 
+        propertiesVolume.addTo(secretsConfig);
+
         const response = {
             nodeConfigEnv: process.env.NODE_CONFIG_ENV,
-
             environment: config.get('environment'),
-
-            // Postgres Server Name
             databaseHost: config.get<string>('database.host'),
-
-            // Postgres Server Port
             databasePort: parseInt(config.get<string>('database.port'), 10) as number,
-
-            // Postgres Username
             username: config.get<string>('database.username'),
-
-            // Postgres Password
             password: getPostgresSecret(secretsConfig, config.get('environment'))
         }
 
