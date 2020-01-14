@@ -11,7 +11,10 @@ import {
 import { Diagnostics } from './diagnostics';
 import config from 'config';
 import * as secretsConfig from 'config';
-import { hasConfigValue, getDynamicConfigValue, getDynamicSecret, getPostgresSecret } from '../api/configuration'
+import {
+    hasConfigValue, getDynamicConfigValue, getDynamicSecret, getPostgresSecret,
+    getAppInsightsSecret
+} from '../api/configuration'
 import * as propertiesVolume from "@hmcts/properties-volume";
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
@@ -77,6 +80,7 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
         console.log(`POSTGRES_PASSWORD: ${config.get('database.password')}`);
         console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, config.get('environment'))}`);
+        console.log(`APP_INSIGHT_SECRET: ${getAppInsightsSecret(secretsConfig)}`);
 
         /**
          * Do not use SSL on the Jenkins Preview Environment as it's not enabled

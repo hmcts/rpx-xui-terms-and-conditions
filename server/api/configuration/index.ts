@@ -122,8 +122,6 @@ export const getPostgresSecret = (secretsConfig, environment): string => {
         'file for this environment.';
 
     if (environment === PREVIEW) {
-        console.log('using');
-        console.log(config.get('database.password'));
         return config.get('database.password');
     }
 
@@ -133,11 +131,22 @@ export const getPostgresSecret = (secretsConfig, environment): string => {
     // to setup the DB. Hopefully this just works in flux. as secrets.rpx.postgresql-admin-pw
     // should hopefully be in flux.
     if (propsExist(secretsConfig, ['secrets', 'rpx', 'postgresql-admin-pw'])) {
-        console.log(secretsConfig['secrets']['rpx']['postgresql-admin-pw']);
         return secretsConfig['secrets']['rpx']['postgresql-admin-pw'];
     } else {
         console.log(ERROR_POSTGRES_SECRET_NOT_FOUND);
         return config.get('database.password');
+    }
+};
+
+export const getAppInsightsSecret = (secretsConfig): string => {
+    const ERROR_APP_INSIGHT_SECRET_NOT_FOUND =
+        'secrets.rpx.appinsights-instrumentationkey-tc not found on this environment.';
+
+    if (propsExist(secretsConfig, ['secrets', 'rpx', 'appinsights-instrumentationkey-tc'])) {
+        return secretsConfig['secrets']['rpx']['appinsights-instrumentationkey-tc'];
+    } else {
+        console.log(ERROR_APP_INSIGHT_SECRET_NOT_FOUND);
+        return '';
     }
 };
 

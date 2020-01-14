@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import config from 'config';
 import * as secretsConfig from 'config';
-import { getPostgresSecret } from '../../configuration'
+import {getAppInsightsSecret, getPostgresSecret} from '../../configuration'
 import * as propertiesVolume from "@hmcts/properties-volume";
 
 export class ConfigController {
@@ -16,7 +16,8 @@ export class ConfigController {
             databaseHost: config.get<string>('database.host'),
             databasePort: parseInt(config.get<string>('database.port'), 10) as number,
             username: config.get<string>('database.username'),
-            password: getPostgresSecret(secretsConfig, config.get('environment'))
+            password: getPostgresSecret(secretsConfig, config.get('environment')),
+            appInsightSecret: getAppInsightsSecret(secretsConfig)
         }
 
         console.log(config.get<string>('environment'));
