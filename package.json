@@ -14,7 +14,7 @@
     "create:schema": "yarn compile && node -r dotenv/config dist/database/scripts/create_db.js",
     "create:schema:dev": "ts-node -r dotenv/config server/database/scripts/create_db.ts",
     "start": "node dist/index.js",
-    "migrate": "node dist/database/scripts/migrate.js",
+    "migrate": "echo 'yarn migrate kicked off' && node dist/database/scripts/migrate.js",
     "dev:migrate": "ts-node -r dotenv/config server/database/scripts/migrate.ts",
     "docker:dev": "nodemon -e ts server --exec \"yarn docker:compile\"",
     "docker:compile": "yarn compile && yarn migrate && yarn docker:start",
