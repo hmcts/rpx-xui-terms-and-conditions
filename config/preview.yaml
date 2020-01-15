@@ -15,12 +15,12 @@
 #
 environment: 'preview'
 database:
-  name: POSTGRES_DB_NAME
+  name: "xui_tc"
   host: "{{ .Release.Name }}-postgresql"
-  username: POSTGRES_USERNAME
+  username: "xui_tc"
   port: POSTGRES_SERVER_PORT
-  ssl: POSTGRES_SSL
-  password: POSTGRES_PASSWORD
+  ssl: false
+  password: "xui_tc"
 proxy:
   host: PROXY_HOST
   port: PROXY_PORT

@@ -11,10 +11,10 @@ nodejs:
        XUI_ENV: preview
        NODE_CONFIG_ENV: preview
        # POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
-       POSTGRES_USERNAME: "xui_tc"
-       POSTGRES_PASSWORD: "xui_tc"
-       POSTGRES_DB_NAME: "xui_tc"
-       POSTGRES_SSL: false
+#       POSTGRES_USERNAME: "xui_tc"
+#       POSTGRES_PASSWORD: "xui_tc"
+#       POSTGRES_DB_NAME: "xui_tc"
+#       POSTGRES_SSL: false
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc
