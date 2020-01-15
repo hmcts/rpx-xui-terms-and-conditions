@@ -14,4 +14,6 @@ if (!getEnvironment()) {
 
 L.info(environmentCheckText());
 
+console.log('build push.');
+
 export default new Server().router(routes).listen(process.env.PORT || 3000);
