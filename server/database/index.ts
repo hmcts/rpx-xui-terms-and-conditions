@@ -10,6 +10,9 @@ import {
 } from './repos';
 import { Diagnostics } from './diagnostics';
 import config from 'config';
+import * as secretsConfig from 'config';
+import { hasConfigValue, getDynamicConfigValue, getDynamicSecret, getPostgresSecret } from '../api/configuration'
+import * as propertiesVolume from "@hmcts/properties-volume";
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
@@ -46,7 +49,7 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
-        password: config.get<string>('secrets.rpx.postgresql-pw'),
+        password: getPostgresSecret(secretsConfig, config.get('environment')),
     };
 };
 
@@ -54,10 +57,42 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
 // TODO: Remove from global scope
 const pgp: IMain = pgPromise(initOptions);
 
-// check whether to use SSL
-if (config.has('database.ssl') && JSON.parse(config.get('database.ssl'))) {
-    pgp.pg.defaults.ssl = true;
+const setPgp = (unitTestEnvironment) => {
+    if (unitTestEnvironment) {
+        return null;
+    }
+
+    /**
+     * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
+     *
+     * So this mutates the config and adds the secrets to it.
+     */
+    propertiesVolume.addTo(secretsConfig);
+
+    if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
+        console.log(`POSTGRES_DB_NAME: ${config.get('database.name')}`);
+        console.log(`POSTGRES_SERVER_NAME: ${config.get('database.host')}`);
+        console.log(`POSTGRES_USERNAME: ${config.get('database.username')}`);
+        console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
+        console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
+        console.log(`POSTGRES_PASSWORD: ${config.get('database.password')}`);
+        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, config.get('environment'))}`);
+
+        /**
+         * Do not use SSL on the Jenkins Preview Environment as it's not enabled
+         * on the Server.
+         *
+         * The Jenkins Preview Environment is the only environment where 'database.ssl' ie.
+         * POSTGRES_SSL is set to false.
+         */
+        if(config.get('database.ssl') !== 'false'){
+            console.log('Use SSL');
+            pgp.pg.defaults.ssl = true;
+        }
+    }
 }
+
+setPgp(process.env.UNIT_TEST_ENVIRONMENT);
 
 /**
  * initialiseDatabase
