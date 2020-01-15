@@ -2,8 +2,8 @@ nodejs:
   aadIdentityName:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  #command: ["./wait-for", "$POSTGRES_SERVER_NAME:5432", "--", "yarn", "migrate"]
-  command: ["sh", "-c", "echo helloNodeJsCommand"]
+  command: ["./wait-for", "$POSTGRES_SERVER_NAME:5432", "--", "yarn", "migrate"]
+#  command: ["sh", "-c", "echo helloNodeJsCommand"]
   # Please keep these node environment variables here as lean as possible, there should only be
   # NODE_CONFIG_ENV within here.
   environment:
