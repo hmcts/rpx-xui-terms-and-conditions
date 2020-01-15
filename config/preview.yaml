@@ -10,17 +10,20 @@
 #
 # @see charts/xui-terms-and-conditions
 #
+# NB: We can't place "{{ .Release.Name }}-postgresql" into here as it doesn't work
+# on the build.
+#
 # NB: do not have `secrets.rpx.postgresql-admin-pw` or `secrets.rpx.appinsights-instrumentationkey-tc`
 # defined in this file as it will override the secret references in the values.yaml file.
 #
 environment: 'preview'
 database:
-  name: "xui_tc"
-  host: "{{ .Release.Name }}-postgresql"
-  username: "xui_tc"
+  name: POSTGRES_DB_NAME
+  host: POSTGRES_SERVER_NAME
+  username: POSTGRES_USERNAME
   port: POSTGRES_SERVER_PORT
-  ssl: false
-  password: "xui_tc"
+  ssl: POSTGRES_SSL
+  password: POSTGRES_PASSWORD
 proxy:
   host: PROXY_HOST
   port: PROXY_PORT

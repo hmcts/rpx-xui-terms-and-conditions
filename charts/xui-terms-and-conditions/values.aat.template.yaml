@@ -1,6 +1,10 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+  #
+  # We need to specify ${POSTGRES_PASSWORD} here
+  # as it won't be picked up if we specify it in the aat.yaml
+  #
   environment:
     NODE_CONFIG_ENV: aat
     NODE_TLS_REJECT_UNAUTHORIZED: '1'

@@ -2,19 +2,23 @@ nodejs:
   aadIdentityName:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
+  #
+  # This is currently not working on the PR environment.
+  #
   command: ["./wait-for", "$POSTGRES_SERVER_NAME:5432", "--", "yarn", "migrate"]
-#  command: ["sh", "-c", "echo helloNodeJsCommand"]
-  # Please keep these node environment variables here as lean as possible, there should only be
-  # NODE_CONFIG_ENV within here.
+  #
+  # We need to specify {{ .Release.Name }}-postgresql here
+  # as the build does not work if we specify it within preview.yaml
+  #
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview
        NODE_CONFIG_ENV: preview
-       # POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
-#       POSTGRES_USERNAME: "xui_tc"
-#       POSTGRES_PASSWORD: "xui_tc"
-#       POSTGRES_DB_NAME: "xui_tc"
-#       POSTGRES_SSL: false
+       POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
+       POSTGRES_USERNAME: "xui_tc"
+       POSTGRES_PASSWORD: "xui_tc"
+       POSTGRES_DB_NAME: "xui_tc"
+       POSTGRES_SSL: false
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc
