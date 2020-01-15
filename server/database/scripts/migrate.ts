@@ -4,6 +4,7 @@ import * as path from 'path';
 
 export const MIGRATIONS_PATH = path.join(__dirname, '../migrations');
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 migrate(({ client: db.$pool as any } as unknown) as MigrateDBConfig, MIGRATIONS_PATH, {
     logger: msg => console.log(msg),
 })

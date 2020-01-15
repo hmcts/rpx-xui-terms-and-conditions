@@ -1,6 +1,9 @@
+#
+# TODO: Check if this is being used, if not deprecate. [14.01.2020]
+#
 database:
   port: 5432
   ssl: true
-environment: local
+environment: development
 swagger:
   path: /api/v1/spec

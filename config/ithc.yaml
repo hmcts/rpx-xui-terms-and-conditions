@@ -1,5 +1,5 @@
 #
-# production .yaml
+# ithc .yaml
 #
 # This file aat.yaml is used by the AAT Staging environment. ( Jenkins Deploy )
 # and also by the AAT environment ( Flux Deploy )
@@ -14,7 +14,7 @@
 # NB: do not have `secrets.rpx.postgresql-admin-pw` or `secrets.rpx.appinsights-instrumentationkey-tc`
 # defined in this file as it will override the secret references in the values.yaml file.
 #
-environment: 'production'
+environment: 'ithc'
 database:
   name: POSTGRES_DB_NAME
   host: POSTGRES_SERVER_NAME

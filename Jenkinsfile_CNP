@@ -24,8 +24,8 @@ def secrets = [
     secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
     secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
     secret('postgresql-ssl', 'POSTGRES_SSL'),
-    secret('postgresql-username', 'POSTGRES_USERNAME'),
-    secret('postgresql-pw', 'POSTGRES_PASSWORD')
+    secret('postgresql-admin-username', 'POSTGRES_USERNAME'),
+    secret('postgresql-admin-pw', 'POSTGRES_PASSWORD')
   ],
 ]
 

@@ -3,10 +3,12 @@ import { Application } from 'express';
 import documentManagementRouter from './api/controllers/documentManagement/router';
 import usersRouter from './api/controllers/users/router';
 import healthRouter from './api/controllers/health/router';
+import configRouter from './api/controllers/config/router';
 import appsRouter from './api/controllers/apps/router';
 import { validateBearerToken, validateDBConnection, validateS2SToken } from './api/middlewares';
 
 export default function routes(app: Application): void {
+    app.use('/config', configRouter);
     app.use(validateDBConnection);
 
     // open routes
