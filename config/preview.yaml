@@ -16,7 +16,7 @@
 environment: 'preview'
 database:
   name: POSTGRES_DB_NAME
-  host: POSTGRES_SERVER_NAME
+  host: "{{ .Release.Name }}-postgresql"
   username: POSTGRES_USERNAME
   port: POSTGRES_SERVER_PORT
   ssl: POSTGRES_SSL
