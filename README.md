@@ -54,6 +54,35 @@ Note that this is connected into the application via the following pieces of cod
         - postgresql-admin-pw
         - appinsights-instrumentationkey-tc
 
+# How Application Configuration Works
+
+The application configuration 'flow' is as per reform standard. Yes there are a lot of overrides happening which
+increases the complexity of knowing what configuration variables are being used. These need to be cleaned up. 
+[15.01.2020]
+
+1. The application looks at the environmental variable NODE_CONFIG_ENV on all environments. ie. NODE_CONFIG_ENV=preview
+
+2. The application will then hit /config/ and use the relevant *.yaml file. ie. preview.yaml.
+
+3. The references within *.yaml ie. preview.yaml are set by the /charts/xui-terms-and-conditions/values.yaml file ie.
+POSTGRES_SERVER_PORT is overridden by POSTGRES_SERVER_PORT within values.yaml. <br><br>HOWEVER if there is a
+values.*.template.yaml file it will override the values within the values.yaml file.
+
+Note about secrets ie. 
+
+```javascript
+  keyVaults:
+    rpx:
+      secrets:
+        - postgresql-admin-pw
+        - appinsights-instrumentationkey-tc
+ ```   
+are set within the values.yaml and there is NO REFERENCE to them with any /config/*.yaml file.
+
+The application pulls out the secrets directly using `propertiesVolume.addTo()`
+
+
+
 # Swagger
 
 Swagger can be accessed on /api-explorer
