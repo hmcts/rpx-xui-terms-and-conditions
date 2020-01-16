@@ -24,7 +24,7 @@
     "test:coverage": "UNIT_TEST_ENVIRONMENT=true jest --coverage",
     "test:watch": "UNIT_TEST_ENVIRONMENT=true jest --watch",
     "test:a11y": "echo 'not implemented'",
-    "test:smoke": "yarn compile && yarn migrate",
+    "test:smoke": "echo 'not implemented'",
     "test:functional": "echo 'not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "lint": "eslint server/api/**/*.ts server/database/**/*.ts",
