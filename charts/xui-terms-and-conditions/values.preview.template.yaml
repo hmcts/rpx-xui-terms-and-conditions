@@ -3,10 +3,6 @@ nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
   #
-  # This is currently not working on the PR environment.
-  #
-  command: ["./wait-for", "$POSTGRES_SERVER_NAME:5432", "--", "yarn", "migrate"]
-  #
   # We need to specify {{ .Release.Name }}-postgresql here
   # as the build does not work if we specify it within preview.yaml
   #

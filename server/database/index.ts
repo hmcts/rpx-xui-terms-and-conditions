@@ -12,7 +12,7 @@ import { Diagnostics } from './diagnostics';
 import config from 'config';
 import * as secretsConfig from 'config';
 import {
-    hasConfigValue, getDynamicConfigValue, getDynamicSecret, getPostgresSecret,
+    hasConfigValue, getPostgresSecret,
     getAppInsightsSecret
 } from '../api/configuration'
 import * as propertiesVolume from "@hmcts/properties-volume";
@@ -90,7 +90,6 @@ const setPgp = (unitTestEnvironment) => {
          * POSTGRES_SSL is set to false.
          */
         if(config.get('database.ssl') !== 'false'){
-            console.log('Use SSL');
             pgp.pg.defaults.ssl = true;
         }
     }
