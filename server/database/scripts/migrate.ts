@@ -1,17 +1,15 @@
-import {migrate, MigrateDBConfig} from 'postgres-migrations';
-import {db} from '../index';
+import { migrate, MigrateDBConfig } from 'postgres-migrations';
+import { db } from '../index';
 import * as path from 'path';
 
 export const MIGRATIONS_PATH = path.join(__dirname, '../migrations');
 
-
 const startMigration = () => {
-
     console.log('startMigration');
 
     if (process.env.NODE_CONFIG_ENV === 'preview') {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        migrate(({client: db.$pool as any} as unknown) as MigrateDBConfig, MIGRATIONS_PATH, {
+        migrate(({ client: db.$pool as any } as unknown) as MigrateDBConfig, MIGRATIONS_PATH, {
             logger: msg => console.log(msg),
         })
             .then(() => {
@@ -22,6 +20,6 @@ const startMigration = () => {
                 console.log('migrations failed', err);
             });
     }
-}
+};
 
 startMigration();
