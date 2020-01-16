@@ -10,6 +10,9 @@
 #
 # @see charts/xui-terms-and-conditions
 #
+# NB: We can't place "{{ .Release.Name }}-postgresql" into here as it doesn't work
+# on the build.
+#
 # NB: do not have `secrets.rpx.postgresql-admin-pw` or `secrets.rpx.appinsights-instrumentationkey-tc`
 # defined in this file as it will override the secret references in the values.yaml file.
 #

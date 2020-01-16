@@ -2,7 +2,10 @@ nodejs:
   aadIdentityName:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  command: ["./wait-for", "$POSTGRES_SERVER_NAME:5432", "--", "yarn", "migrate"]
+  #
+  # We need to specify {{ .Release.Name }}-postgresql here
+  # as the build does not work if we specify it within preview.yaml
+  #
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview

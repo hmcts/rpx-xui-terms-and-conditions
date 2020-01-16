@@ -28,6 +28,25 @@ Set environment variables `APP_ID` and `LOG_LEVEL` as well as `PORT` <br />
 `yarn lint` - Runs ESLint
 `yarn lint --fix` - Prettier is installed. Prettier will normalise your code formatting to a project standard formatting.
 
+# Deploying 
+
+Always increase the `version: 0.1.23` within Chart.yaml to deploy to the environments through Flux.
+
+# Branches, Enviroment and Deployment methods used
+
+```javascript
+ |---------------------------------------|
+ | Branch | Environment | Deployment via |
+ |---------------------------------------|
+ | local  | development | -              |
+ | PR     | preview     | Jenkins        |
+ | Master | aat         | Jenkins        |
+ | Master | aat         | Flux           |
+ | Master | ithc        | Flux           |
+ | Master | production  | Flux           |
+ |---------------------------------------|
+```
+
 # Setting up Secrets locally (Required)
 
 You need to setup secrets locally before you run the project. Why? - When you push this application
@@ -46,13 +65,42 @@ We create the file postgresql-admin-pw (no extension).
 Within the file we have one line of characters which is the secret.
 
 Note that this is connected into the application via the following pieces of code:
-- Within the values.yaml file we have a reference to the secret:
-
+```javascript
   keyVaults:
     rpx:
       secrets:
         - postgresql-admin-pw
         - appinsights-instrumentationkey-tc
+```
+
+which in turn uses `propertiesVolume.addTo()`
+
+# How Application Configuration Works
+
+The application configuration 'flow' is as per reform standard. Yes there are a lot of overrides happening which
+increases the complexity of knowing what configuration variables are being used. I've tried to remove as much
+complexity as I could without breaking to current bulid. [16.01.2020]
+
+1. The application looks at the environmental variable `NODE_CONFIG_ENV` on all environments. ie. `NODE_CONFIG_ENV=preview`
+
+2. The application will then hit /config/ folder and use the relevant *.yaml file. ie. preview.yaml.
+
+3. The references within *.yaml ie. preview.yaml are overridden by the /charts/xui-terms-and-conditions/values.yaml file ie.
+POSTGRES_SERVER_PORT is overridden by POSTGRES_SERVER_PORT within values.yaml. <br><br>HOWEVER if there is a
+values.*.template.yaml file it will override the values within the values.yaml file.
+
+Note about secrets ie. 
+
+```javascript
+  keyVaults:
+    rpx:
+      secrets:
+        - postgresql-admin-pw
+        - appinsights-instrumentationkey-tc
+ ```   
+are set within the values.yaml and there is NO REFERENCE to them within any /config/*.yaml file.
+
+The application pulls out the secrets directly using `propertiesVolume.addTo()`
 
 # Swagger
 
