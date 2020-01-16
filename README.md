@@ -28,6 +28,10 @@ Set environment variables `APP_ID` and `LOG_LEVEL` as well as `PORT` <br />
 `yarn lint` - Runs ESLint
 `yarn lint --fix` - Prettier is installed. Prettier will normalise your code formatting to a project standard formatting.
 
+# Deploying 
+
+Always increase the `version: 0.1.23` within Chart.yaml to deploy to the environments through Flux.
+
 # Branches, Enviroment and Deployment methods used
 
 ```javascript
