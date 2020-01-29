@@ -71,6 +71,7 @@ const setPgp = (unitTestEnvironment) => {
      * So this mutates the config and adds the secrets to it.
      */
     propertiesVolume.addTo(secretsConfig);
+    // propertiesVolume.addTo(secretsConfig, { mountPoint: '/Volumes/mnt/secrets/' });
 
     if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
         console.log(`POSTGRES_DB_NAME: ${config.get('database.name')}`);
