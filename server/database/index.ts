@@ -52,7 +52,7 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
-        password: getPostgresSecret(secretsConfig, config.get('environment')),
+        password: getPostgresSecret(secretsConfig, config.get('database.useKeyVaultSecret')),
     };
 };
 
@@ -79,8 +79,9 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_USERNAME: ${config.get('database.username')}`);
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
-        console.log(`POSTGRES_PASSWORD: ${config.get('database.password')}`);
-        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, config.get('environment'))}`);
+        console.log(`POSTGRES_USE_KEYVAULT_SECRET: ${config.get('database.useKeyVaultSecret')}`);
+        console.log(`POSTGRES_PASSWORD_YAML: ${config.get('database.password')}`);
+        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, config.get('database.useKeyVaultSecret'))}`);
         console.log(`APP_INSIGHT_SECRET: ${getAppInsightsSecret(secretsConfig)}`);
 
         /**
