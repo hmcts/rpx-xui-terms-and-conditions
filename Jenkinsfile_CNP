@@ -17,6 +17,18 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "terms-and-conditions"
 
+def secrets = [
+  'rpx-${env}': [
+    secret('appinsights-instrumentationkey-tc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
+    secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
+    secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
+    secret('postgresql-ssl', 'POSTGRES_SSL'),
+    secret('postgresql-admin-username', 'POSTGRES_USERNAME'),
+    secret('postgresql-admin-pw', 'POSTGRES_PASSWORD')
+  ],
+]
+
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
       secretType: 'Secret',
@@ -27,6 +39,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline("nodejs", product, component) {
+
+    loadVaultSecrets(secrets)
 
     enableDockerBuild()
 
