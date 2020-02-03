@@ -11,7 +11,7 @@ nodejs:
        XUI_ENV: preview
        POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
        POSTGRES_USERNAME: "xui_tc"
-       POSTGRES_PASSWORD: "xui_tc"
+       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
        POSTGRES_DB_NAME: "xui_tc"
        POSTGRES_SSL: false
        #
@@ -28,7 +28,7 @@ nodejs:
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc
-  postgresqlPassword: xui_tc
+  postgresqlPassword: ${POSTGRES_PASSWORD}
   postgresqlDatabase: xui_tc
   persistence:
     enabled: false
