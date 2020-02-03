@@ -1,16 +1,12 @@
 import * as applicationinsights from 'applicationinsights'
 import * as express from 'express'
-import config from 'config'
 import * as secretsConfig from 'config';
 import {propsExist} from './api/utils/objectUtilities';
 import {getAppInsightsSecret} from './api/configuration';
 
 export let client
 
-// shouldnt do this check here but this is a high level dep
-const environment = config.get<string>('environment')
-
-if (environment !== 'development' && propsExist(secretsConfig, ['secrets', 'rpx', 'appinsights-instrumentationkey-tc'])) {
+if (propsExist(secretsConfig, ['secrets', 'rpx', 'appinsights-instrumentationkey-tc'])) {
     applicationinsights
         .setup(getAppInsightsSecret(secretsConfig))
         .setAutoDependencyCorrelation(true)

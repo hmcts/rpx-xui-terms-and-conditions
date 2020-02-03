@@ -6,8 +6,7 @@
     "username": "POSTGRES_USERNAME",
     "port": "POSTGRES_SERVER_PORT",
     "ssl": "POSTGRES_SSL",
-    "password": "POSTGRES_PASSWORD",
-    "useKeyVaultSecret": "POSTGRES_USE_KEYVAULT_SECRET"
+    "password": "POSTGRES_PASSWORD"
   },
   "proxy": {
     "host": "PROXY_HOST",
