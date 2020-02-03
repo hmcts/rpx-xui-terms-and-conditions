@@ -83,7 +83,6 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_PASSWORD_YAML: ${config.get('database.password')}`);
         console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, getEnvironment())}`);
         console.log(`APP_INSIGHT_SECRET: ${getAppInsightsSecret(secretsConfig)}`);
-        console.log(`SWAGGER API: ${config.get('swagger.path')}`);
 
         /**
          * Do not use SSL on the Jenkins Preview Environment as it's not enabled
