@@ -19,7 +19,6 @@ database:
   port: POSTGRES_SERVER_PORT
   ssl: POSTGRES_SSL
   password: POSTGRES_PASSWORD
-  usekeyvaultsecret: POSTGRES_USE_KEYVAULT_SECRET
 proxy:
   host: PROXY_HOST
   port: PROXY_PORT

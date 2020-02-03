@@ -15,17 +15,6 @@ nodejs:
        POSTGRES_PASSWORD: "xui_tc"
        POSTGRES_DB_NAME: "xui_tc"
        POSTGRES_SSL: false
-       #
-       # In the Preview environment the Postgres Database password is 'xui_tc'
-       # therefore we should not use the secrets.rpx.postgresql-admin-pw
-       # password.
-       #
-       # The secrets.rpx.postgresql-admin-pw is available on the Preview environment
-       # and is the same as the AAT secret, but due to the fact that this is a public repo
-       # we do not want to check in the AAT secret in this file. Therefore we have
-       # this POSTGRES_USE_KEYVAULT_SECRET flag.
-       #
-       POSTGRES_USE_KEYVAULT_SECRET: false
 postgresql:
   enabled: true
   postgresqlUsername: xui_tc

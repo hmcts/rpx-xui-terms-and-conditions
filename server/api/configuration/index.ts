@@ -93,9 +93,7 @@ export const hasConfigValue = (reference, shouldBeOverridden) => {
  * Generate Environment Check Text
  *
  * We generate text to be used for debugging purposes, so as the person attempting to initialise the application knows
- * what the NODE_CONFIG_ENV is set as and what config file is being used.
+ * what the NODE_CONFIG_ENV is set as.
  */
 export const environmentCheckText = () =>
-    `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV} therefore we are using the ${config.get(
-        'environment',
-    )} config.`;
+    `NODE_CONFIG_ENV is set as ${process.env.NODE_CONFIG_ENV}.`;

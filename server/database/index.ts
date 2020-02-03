@@ -13,6 +13,7 @@ import config from 'config';
 import * as secretsConfig from 'config';
 import {
     hasConfigValue, getPostgresSecret,
+    getEnvironment,
     getAppInsightsSecret
 } from '../api/configuration'
 import * as propertiesVolume from "@hmcts/properties-volume";
@@ -52,7 +53,7 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
         port: parseInt(config.get<string>('database.port'), 10) as number,
         database: config.get<string>('database.name'),
         user: config.get<string>('database.username'),
-        password: getPostgresSecret(secretsConfig, process.env.NODE_CONFIG_ENV),
+        password: getPostgresSecret(secretsConfig, getEnvironment()),
     };
 };
 
@@ -80,9 +81,7 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
         console.log(`POSTGRES_PASSWORD_YAML: ${config.get('database.password')}`);
-        // console.log(`POSTGRES_USE_KEYVAULT_SECRET: ${config.get('database.usekeyvaultsecret')}`);
-        console.log(process.env.NODE_CONFIG_ENV)
-        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, process.env.NODE_CONFIG_ENV)}`);
+        console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, getEnvironment())}`);
         console.log(`APP_INSIGHT_SECRET: ${getAppInsightsSecret(secretsConfig)}`);
 
         /**
