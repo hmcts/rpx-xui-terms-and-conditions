@@ -16,8 +16,8 @@ export class ConfigController {
             databaseHost: config.get<string>('database.host'),
             databasePort: parseInt(config.get<string>('database.port'), 10) as number,
             username: config.get<string>('database.username'),
-            usekeyvaultsecret: config.get('database.usekeyvaultsecret'),
-            password: getPostgresSecret(secretsConfig, config.get('database.usekeyvaultsecret')),
+            // usekeyvaultsecret: config.get('database.usekeyvaultsecret'),
+            password: getPostgresSecret(secretsConfig, process.env.NODE_CONFIG_ENV),
             appInsightSecret: getAppInsightsSecret(secretsConfig)
         }
 

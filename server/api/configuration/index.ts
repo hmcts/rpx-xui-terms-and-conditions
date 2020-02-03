@@ -27,12 +27,12 @@ export const getEnvironment = () => process.env.NODE_CONFIG_ENV;
  *
  * @returns {string}
  */
-export const getPostgresSecret = (secretsConfig, useKeyVaultSecret): string => {
+export const getPostgresSecret = (secretsConfig, environment): string => {
     const ERROR_POSTGRES_SECRET_NOT_FOUND =
         'secrets.rpx.postgresql-admin-pw not found on this environment, therefore using the password in the .yaml' +
         'file for this environment.';
 
-    if (useKeyVaultSecret === 'false') {
+    if (environment === 'preview') {
         return config.get('database.password');
     }
 
