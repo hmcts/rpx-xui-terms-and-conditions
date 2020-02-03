@@ -61,18 +61,22 @@ export const environmentDatabaseConfig = (config: config.IConfig) => {
 // TODO: Remove from global scope
 const pgp: IMain = pgPromise(initOptions);
 
+/**
+ * `propertiesVolume.addTo(secretsConfig);` - Allows us to integrate the Azure key-vault flex volume, so that we are
+ * able to access Node configuration values. This mutates the config and adds the secrets to it.
+ *
+ * If you need to set a local mount point to test secrets locally change
+ * propertiesVolume.addTo(secretsConfig);
+ * to
+ * propertiesVolume.addTo(secretsConfig, { mountPoint: '/Volumes/mnt/secrets/' });
+ *
+ */
 const setPgp = (unitTestEnvironment) => {
     if (unitTestEnvironment) {
         return null;
     }
 
-    /**
-     * Allows us to integrate the Azure key-vault flex volume, so that we are able to access Node configuration values.
-     *
-     * So this mutates the config and adds the secrets to it.
-     */
     propertiesVolume.addTo(secretsConfig);
-    // propertiesVolume.addTo(secretsConfig, { mountPoint: '/Volumes/mnt/secrets/' });
 
     if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
         console.log(`POSTGRES_DB_NAME: ${config.get('database.name')}`);
@@ -80,7 +84,6 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_USERNAME: ${config.get('database.username')}`);
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
-        console.log(`POSTGRES_PASSWORD_YAML: ${config.get('database.password')}`);
         console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, getEnvironment())}`);
         console.log(`APP_INSIGHT_SECRET: ${getAppInsightsSecret(secretsConfig)}`);
 
