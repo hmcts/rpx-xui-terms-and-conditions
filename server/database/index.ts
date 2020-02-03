@@ -80,7 +80,7 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
         console.log(`POSTGRES_PASSWORD_YAML: ${config.get('database.password')}`);
-        console.log(`POSTGRES_USE_KEYVAULT_SECRET: ${config.get('database.usekeyvaultsecret')}`);
+        // console.log(`POSTGRES_USE_KEYVAULT_SECRET: ${config.get('database.usekeyvaultsecret')}`);
         console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig)}`);
         console.log(`APP_INSIGHT_SECRET: ${getAppInsightsSecret(secretsConfig)}`);
 
