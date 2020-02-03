@@ -55,7 +55,14 @@ up through AKS deployed through Flux to AAT, ITHC and Prod, the application will
 The developer needs to set these up locally, so that the developer can see any issues early in
 the development process, and not when the application is placed up onto the higher AKS environments.
 
-To setup the secrets locally (MAC OS) do the following:
+To setup the secrets locally do the following:
+
+Note that Mac OS Catalina introduced a new feature that overlaps and reinforces the filesystem,
+therefore you will not be able to make changes in the root directory of your file system, hence there are different
+ways to setup secrets, Pre Catalina and Post Catalina, note that the Post Catalina way should work 
+for all operating system, but I have yet to try this.
+
+####MAC OS - Pre Catalina
 
 1. Create a Mount point on your local machine<br/>
 Create the folder: `/mnt/secrets/rpx`
@@ -63,6 +70,18 @@ Create the folder: `/mnt/secrets/rpx`
 ie.
 We create the file postgresql-admin-pw (no extension).
 Within the file we have one line of characters which is the secret.
+
+####MAC OS - Post Catalina
+
+1. Create a Mount point on your local machine within the Volumes folder<br/>
+Create the folder: `/Volumes/mnt/secrets/rpx`
+2. In this folder we create a file per secret.
+ie.
+We create the file postgresql-admin-pw (no extension).
+Within the file we have one line of characters which is the secret.
+3. If you want to test the secrets locally override the default mountPoint with the following additional option added to .addTo
+ie. 
+`propertiesVolume.addTo(secretsConfig, { mountPoint: '/Volumes/mnt/secrets/' });`
 
 Note that this is connected into the application via the following pieces of code:
 ```javascript
@@ -137,6 +156,14 @@ it's been discussed within the team - we've agreed to keep it in.
 API Validation is controlled within the server/common/api.yml file, and should be added to when a developer
 writes a new route.
 
+# Issues and solutions
+
+If you receive `Error: Cannot find module 'dotenv/config'` when trying to run `yarn dev` you may need run
+`npm install --dotenv-extended`
+
+If you see `/bin/sh: nodemon: command not found` or `/bin/sh: pino-pretty: command not found` you'll need to 
+install these locally. 
+
 # Postman
 
 We have a Postman file with all the endpoints within the team for ease of testing
@@ -148,4 +175,4 @@ GET http://localhost:8080/api/v1/examples
 GET http://localhost:8080/api/v1/examples/1
 POST http://localhost:8080/api/v1/examples
 
-END2
+END3

@@ -6,7 +6,8 @@ nodejs:
   # as it won't be picked up if we specify it in the aat.yaml
   #
   environment:
-    NODE_CONFIG_ENV: aat
     NODE_TLS_REJECT_UNAUTHORIZED: '1'
     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    NODE_CONFIG_ENV: aat
+
