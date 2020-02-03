@@ -38,7 +38,7 @@ const initOptions: IInitOptions<Extensions> = {
  * environmentDatabaseConfig
  *
  * On the higher environments ie. AAT & Production these configuration values
- * are coming from custom-environment-variables.yaml
+ * are coming from custom-environment-variables.json
  *
  * This is as per the Reform standard. [25.11.2019]
  *
