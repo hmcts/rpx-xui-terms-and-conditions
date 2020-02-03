@@ -19,8 +19,6 @@ export class ConfigController {
             appInsightSecret: getAppInsightsSecret(secretsConfig)
         }
 
-        console.log(config.get<string>('environment'));
-
         res.status(200).send(response);
     }
 }
