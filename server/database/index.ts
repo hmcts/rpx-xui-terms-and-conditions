@@ -85,6 +85,7 @@ const setPgp = (unitTestEnvironment) => {
         console.log(`POSTGRES_SERVER_PORT: ${config.get('database.port')}`);
         console.log(`POSTGRES_SSL: ${config.get('database.ssl')}`);
         console.log(`POSTGRES_SECRET_DYNAMIC: ${getPostgresSecret(secretsConfig, getEnvironment())}`);
+        console.log(`IDAM_SERVICE_URL: ${config.get('services.idam-api-url')}`);
         console.log(`APP_INSIGHT_SECRET: ${getAppInsightsSecret(secretsConfig)}`);
 
         /**
