@@ -94,19 +94,29 @@ Note that this is connected into the application via the following pieces of cod
 
 which in turn uses `propertiesVolume.addTo()`
 
-# How Application Configuration Works
+# How Application Configuration (Node Config) Works
 
-The application configuration 'flow' is as per reform standard. Yes there are a lot of overrides happening which
-increases the complexity of knowing what configuration variables are being used. I've tried to remove as much
-complexity as I could without breaking to current bulid. [16.01.2020]
+The application picks up the configuration from the /config .json files.
 
-1. The application looks at the environmental variable `NODE_CONFIG_ENV` on all environments. ie. `NODE_CONFIG_ENV=preview`
+The references within *.json ie. production.json are set by the /charts/xui-terms-and-conditions/values.yaml file ie.
+POSTGRES_SERVER_PORT is set by POSTGRES_SERVER_PORT within values.yaml. <br><br>HOWEVER if there is a
+values.*.template.yaml file it will override the values within the values.yaml file, BUT this only happens on the JENKINS
+pipelines, where values.*.template.yaml are available to the build pipeline.
 
-2. The application will then hit /config/ folder and use the relevant *.yaml file. ie. preview.yaml.
+AKS uses a .json file in /config and the values.yaml from within charts/xui-terms-and-conditions ONLY.
+ 
+AKS does not use values.aat.template.yaml and values.previews.template.yaml
 
-3. The references within *.yaml ie. preview.yaml are overridden by the /charts/xui-terms-and-conditions/values.yaml file ie.
-POSTGRES_SERVER_PORT is overridden by POSTGRES_SERVER_PORT within values.yaml. <br><br>HOWEVER if there is a
-values.*.template.yaml file it will override the values within the values.yaml file.
+DO NOT create a new .json file within /config as this increases the complexity of configuration. 
+
+Node config selects the file within /config based on `NODE_ENV` which is always production on all environments,
+due to Reform standards, this should not change on different environments, it should always be `NODE_ENV=production`
+
+Note that I'm currently leveraging `NODE_CONFIG_ENV` which passes in the environment as we have a database password on
+the preview environment that cannot be stored within any of our configuration files, as this is an open repo,
+and the same password is being used on AAT.
+
+In other projects we will not need to leverage `NODE_CONFIG_ENV`.
 
 Note about secrets ie. 
 
@@ -117,7 +127,7 @@ Note about secrets ie.
         - postgresql-admin-pw
         - appinsights-instrumentationkey-tc
  ```   
-are set within the values.yaml and there is NO REFERENCE to them within any /config/*.yaml file.
+are set within the values.yaml and there should be NO REFERENCE to them within any /config/*.json file.
 
 The application pulls out the secrets directly using `propertiesVolume.addTo()`
 
@@ -175,4 +185,4 @@ GET http://localhost:8080/api/v1/examples
 GET http://localhost:8080/api/v1/examples/1
 POST http://localhost:8080/api/v1/examples
 
-END3
+END
