@@ -16,7 +16,8 @@ export class ConfigController {
             databasePort: parseInt(config.get<string>('database.port'), 10) as number,
             username: config.get<string>('database.username'),
             password: getPostgresSecret(secretsConfig, getEnvironment()),
-            appInsightSecret: getAppInsightsSecret(secretsConfig)
+            appInsightSecret: getAppInsightsSecret(secretsConfig),
+            idamServiceUrl: config.get<string>('services.idam-api-url'),
         }
 
         res.status(200).send(response);

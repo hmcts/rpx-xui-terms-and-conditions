@@ -3,7 +3,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   #
   # We need to specify {{ .Release.Name }}-postgresql here
-  # as the build does not work if we specify it within preview.yaml
+  # as the build does not work if we specify it within the /config/*.json files.
   #
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'

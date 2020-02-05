@@ -3,7 +3,7 @@ nodejs:
   ingressHost: ${SERVICE_FQDN}
   #
   # We need to specify ${POSTGRES_PASSWORD} here
-  # as it won't be picked up if we specify it in the aat.yaml
+  # as it won't be picked up if we specify it in the /config/*.json files.
   #
   environment:
     NODE_TLS_REJECT_UNAUTHORIZED: '1'
