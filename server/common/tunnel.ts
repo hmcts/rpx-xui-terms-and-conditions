@@ -3,7 +3,7 @@ import config from 'config';
 import l from './logger';
 
 export function init() {
-    if (config.has('proxy.host') && config.has('proxy.port')) {
+    if (config.get('environment') === 'local' && config.has('proxy.host') && config.has('proxy.port')) {
         const proxy = {
             host: config.get<string>('proxy.host'),
             port: parseInt(config.get<string>('proxy.port'), 10) as number,
