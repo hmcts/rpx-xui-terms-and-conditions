@@ -185,4 +185,4 @@ GET http://localhost:8080/api/v1/examples
 GET http://localhost:8080/api/v1/examples/1
 POST http://localhost:8080/api/v1/examples
 
-END2
+END3
