@@ -1,5 +1,4 @@
 import { createGlobalProxyAgent } from 'global-agent';
-import * as globalTunnel from 'global-tunnel-ng';
 import config from 'config';
 import l from './logger';
 
@@ -10,20 +9,10 @@ export function init() {
             port: parseInt(config.get<string>('proxy.port'), 10) as number,
         };
 
-        let logMessage = '';
-        const MAJOR_NODEJS_VERSION = parseInt(process.version.slice(1).split('.')[0], 10);
+        const globalProxyAgent = createGlobalProxyAgent();
+        globalProxyAgent.HTTP_PROXY = `http://${proxy.host}:${proxy.port}`;
+        globalProxyAgent.NO_PROXY = 'localhost';
 
-        if (MAJOR_NODEJS_VERSION >= 10) {
-            // `global-agent` works with Node.js v10 and above.
-            const globalProxyAgent = createGlobalProxyAgent();
-            logMessage = 'configuring global-agent:';
-            globalProxyAgent.HTTP_PROXY = `http://${proxy.host}:${proxy.port}`;
-        } else {
-            // `global-tunnel-ng` works only with Node.js v10 and below.
-            logMessage = 'configuring global-tunnel-ng:';
-            globalTunnel.initialize(proxy);
-        }
-
-        l.info('using PROXY => ', logMessage, proxy);
+        l.info('configuring global-agent:', proxy);
     }
 }
