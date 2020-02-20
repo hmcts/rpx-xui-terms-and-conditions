@@ -179,7 +179,7 @@ install these locally.
 We have a Postman file with all the endpoints within the team for ease of testing
 the API.
 
-# Example requests1
+# Example requests
 
 GET http://localhost:8080/api/v1/examples
 GET http://localhost:8080/api/v1/examples/1
