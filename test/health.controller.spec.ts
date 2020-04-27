@@ -1,5 +1,6 @@
 import { LIVENESS_UP_AND_RUNNING } from '../server/api/messages';
 import { HealthController } from '../server/api/controllers/health/healthController';
+import { Request, Response } from 'express';
 
 /**
  * Mock Express Request Object using Jest
@@ -32,7 +33,7 @@ describe('Health controller', () => {
         const req = mockRequest();
         const res = mockResponse();
         const healthController = new HealthController();
-        healthController.liveness(req as any, res as any);
+        healthController.liveness((req as unknown) as Request, (res as unknown) as Response);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(res.status().send).toHaveBeenCalledWith({ message: LIVENESS_UP_AND_RUNNING });
@@ -42,7 +43,7 @@ describe('Health controller', () => {
         const req = mockRequest();
         const res = mockResponse();
         const healthController = new HealthController();
-        healthController.health(req as any, res as any);
+        healthController.health((req as unknown) as Request, (res as unknown) as Response);
 
         expect(res.status).toHaveBeenCalledWith(200);
     });

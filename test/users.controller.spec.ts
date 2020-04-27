@@ -3,6 +3,9 @@ import { VersionNumber } from '../server/api/utils/versionNumber.util';
 import usersService from '../server/api/services/users.service';
 import { User } from '../server/api/interfaces/users';
 import { InvalidDBConnectionError } from '../server/api/errors';
+import { NextFunction, Request, Response } from 'express';
+import { TCUserAgreement } from '../server/database/models';
+import { Agreement } from '../server/database/models/agreement.model';
 
 /**
  * Mock Express Request Object using Jest
@@ -47,7 +50,11 @@ describe('Users Controller', () => {
             jest.spyOn(usersService, 'userAgreement').mockImplementation(() => {
                 throw new Error();
             });
-            await userController.acceptTermsConditions(req as any, res as any, next as any);
+            await userController.acceptTermsConditions(
+                (req as unknown) as Request,
+                (res as unknown) as Response,
+                (next as unknown) as NextFunction,
+            );
 
             expect(next).toHaveBeenCalledWith(new Error());
         });
@@ -70,7 +77,11 @@ describe('Users Controller', () => {
 
                 const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
 
-                await userController.acceptTermsConditions(req as any, res as any, next as any);
+                await userController.acceptTermsConditions(
+                    (req as unknown) as Request,
+                    (res as unknown) as Response,
+                    (next as unknown) as NextFunction,
+                );
 
                 expect(spy).toHaveBeenCalledWith(req.params.version);
 
@@ -104,7 +115,11 @@ describe('Users Controller', () => {
 
                 const spy = jest.spyOn(usersService, 'userAgreement');
 
-                await userController.acceptTermsConditions(req as any, res as any, next as any);
+                await userController.acceptTermsConditions(
+                    (req as unknown) as Request,
+                    (res as unknown) as Response,
+                    (next as unknown) as NextFunction,
+                );
 
                 expect(spy).toHaveBeenCalledWith(APP, USER, VERSION);
 
@@ -119,8 +134,11 @@ describe('Users Controller', () => {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
             };
 
-            const RESPONSE_DATA: any = {
-                response: 42,
+            const RESPONSE_DATA: TCUserAgreement = {
+                id: 42,
+                userId: 'abc123',
+                documentAppId: 1,
+                agreementDate: 'now',
             };
 
             /**
@@ -141,7 +159,11 @@ describe('Users Controller', () => {
                 .spyOn(usersService, 'userAgreement')
                 .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
-            await userController.acceptTermsConditions(req as any, res as any, next as any);
+            await userController.acceptTermsConditions(
+                (req as unknown) as Request,
+                (res as unknown) as Response,
+                (next as unknown) as NextFunction,
+            );
 
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
@@ -169,7 +191,11 @@ describe('Users Controller', () => {
 
                 const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
 
-                await userController.getAcceptedUsers(req as any, res as any, next as any);
+                await userController.getAcceptedUsers(
+                    (req as unknown) as Request,
+                    (res as unknown) as Response,
+                    (next as unknown) as NextFunction,
+                );
 
                 expect(spy).toHaveBeenCalledWith(req.params.version);
 
@@ -203,7 +229,11 @@ describe('Users Controller', () => {
 
                 const spy = jest.spyOn(usersService, 'getUserAgreements');
 
-                await userController.getAcceptedUsers(req as any, res as any, next as any);
+                await userController.getAcceptedUsers(
+                    (req as unknown) as Request,
+                    (res as unknown) as Response,
+                    (next as unknown) as NextFunction,
+                );
 
                 expect(spy).toHaveBeenCalledWith(APP, VERSION);
 
@@ -223,7 +253,11 @@ describe('Users Controller', () => {
                 throw new InvalidDBConnectionError();
             });
 
-            await userController.getAcceptedUsers(req as any, res as any, next as any);
+            await userController.getAcceptedUsers(
+                (req as unknown) as Request,
+                (res as unknown) as Response,
+                (next as unknown) as NextFunction,
+            );
 
             expect(next).toHaveBeenCalledWith(new InvalidDBConnectionError());
         });
@@ -235,7 +269,7 @@ describe('Users Controller', () => {
                 userId: '123e4567-e89b-12d3-a456-426655440000',
             };
 
-            const RESPONSE_DATA: any = [
+            const RESPONSE_DATA: User[] = [
                 {
                     userId: '123e4567-e89b-12d3-a456-426655440000',
                 },
@@ -262,7 +296,11 @@ describe('Users Controller', () => {
                 .spyOn(usersService, 'getUserAgreements')
                 .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
-            await userController.getAcceptedUsers(req as any, res as any, next as any);
+            await userController.getAcceptedUsers(
+                (req as unknown) as Request,
+                (res as unknown) as Response,
+                (next as unknown) as NextFunction,
+            );
 
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
@@ -290,7 +328,11 @@ describe('Users Controller', () => {
 
                 const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
 
-                await userController.hasUserAccepted(req as any, res as any, next as any);
+                await userController.hasUserAccepted(
+                    (req as unknown) as Request,
+                    (res as unknown) as Response,
+                    (next as unknown) as NextFunction,
+                );
 
                 expect(spy).toHaveBeenCalledWith(req.params.version);
 
@@ -322,7 +364,11 @@ describe('Users Controller', () => {
 
                 const spy = jest.spyOn(usersService, 'getUserAgreement');
 
-                await userController.hasUserAccepted(req as any, res as any, next as any);
+                await userController.hasUserAccepted(
+                    (req as unknown) as Request,
+                    (res as unknown) as Response,
+                    (next as unknown) as NextFunction,
+                );
 
                 expect(spy).toHaveBeenCalledWith(APP, USER_ID, VERSION);
 
@@ -333,11 +379,16 @@ describe('Users Controller', () => {
         it('should return a 200 Success and return the response data, if UserService.getUserAgreement() returns response data.', async () => {
             const APP = 'manageorg';
             const VERSION = 1;
+            const userId = '123e4567-e89b-12d3-a456-426655440000';
             const USER: User = {
-                userId: '123e4567-e89b-12d3-a456-426655440000',
+                userId,
             };
 
-            const RESPONSE_DATA: any = {};
+            const RESPONSE_DATA: Agreement = {
+                userId,
+                accepted: false,
+                version: 1,
+            };
 
             /**
              * Request
@@ -357,7 +408,11 @@ describe('Users Controller', () => {
                 .spyOn(usersService, 'getUserAgreement')
                 .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
-            await userController.hasUserAccepted(req as any, res as any, next as any);
+            await userController.hasUserAccepted(
+                (req as unknown) as Request,
+                (res as unknown) as Response,
+                (next as unknown) as NextFunction,
+            );
 
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);

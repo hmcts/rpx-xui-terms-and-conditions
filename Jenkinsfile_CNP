@@ -17,6 +17,8 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "terms-and-conditions"
 
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
 def secrets = [
   'rpx-${env}': [
     secret('mc-s2s-client-secret', 'S2S_SECRET'),
@@ -52,8 +54,36 @@ withPipeline("nodejs", product, component) {
 
     enableAksStagingDeployment()
 
+    after('build') {
+            yarnBuilder.yarn('build')
+
+            publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/lint",
+                reportFiles          : 'index.html',
+                reportName           : 'node lint Report'
+            ])
+
+        }
+
+    after('test') {
+
+            publishHTML ( [
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/coverage",
+                reportFiles          : "index.html",
+                reportName           : "node coverage tests"
+            ])
+
+        }
+
     after('smoketest:aat') {
-        sh 'yarn compile && yarn migrate'
+        yarnBuilder.yarn('compile')
+        yarnBuilder.yarn('migrate')
     }
 
 }
