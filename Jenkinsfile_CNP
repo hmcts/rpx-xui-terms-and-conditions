@@ -17,15 +17,17 @@ def type      = "nodejs"
 def product   = "xui"
 def component = "terms-and-conditions"
 
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
 def secrets = [
   'rpx-${env}': [
     secret('appinsights-instrumentationkey-tc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
-    secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
-    secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
-    secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
-    secret('postgresql-ssl', 'POSTGRES_SSL'),
-    secret('postgresql-admin-username', 'POSTGRES_USERNAME'),
-    secret('postgresql-admin-pw', 'POSTGRES_PASSWORD')
+        secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
+        secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
+        secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
+        secret('postgresql-ssl', 'POSTGRES_SSL'),
+        secret('postgresql-admin-username', 'POSTGRES_USERNAME'),
+        secret('postgresql-admin-pw', 'POSTGRES_PASSWORD')
   ],
 ]
 
@@ -48,12 +50,41 @@ withPipeline("nodejs", product, component) {
 
     enableAksStagingDeployment()
 
+    after('build') {
+        yarnBuilder.yarn('build')
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/lint",
+            reportFiles          : 'index.html',
+            reportName           : 'node lint Report'
+        ])
+
+    }
+
+    after('test') {
+
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/coverage",
+            reportFiles          : "index.html",
+            reportName           : "node coverage tests"
+        ])
+
+    }
+
     after('smoketest:preview') {
-        sh 'yarn compile && yarn migrate'
+        yarnBuilder.yarn('compile')
+        yarnBuilder.yarn('migrate')
     }
 
     after('smoketest:aat') {
-        sh 'yarn compile && yarn migrate'
+        yarnBuilder.yarn('compile')
+        yarnBuilder.yarn('migrate')
     }
 
 }
