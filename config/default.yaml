@@ -1,6 +1,0 @@
-database:
-  port: 5432
-  ssl: true
-environment: local
-swagger:
-  path: /api/v1/spec

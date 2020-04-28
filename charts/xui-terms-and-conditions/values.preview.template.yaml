@@ -1,10 +1,14 @@
 nodejs:
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
-  command: ["./wait-for", "$POSTGRES_SERVER_NAME:5432", "--", "yarn", "migrate"]
+  #
+  # We need to specify {{ .Release.Name }}-postgresql here
+  # as the build does not work if we specify it within the /config/*.json files.
+  #
   environment:
        NODE_TLS_REJECT_UNAUTHORIZED: '0'
        XUI_ENV: preview
+       NODE_CONFIG_ENV: preview
        POSTGRES_SERVER_NAME: "{{ .Release.Name }}-postgresql"
        POSTGRES_USERNAME: "xui_tc"
        POSTGRES_PASSWORD: "xui_tc"

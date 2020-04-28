@@ -21,15 +21,13 @@ def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 def secrets = [
   'rpx-${env}': [
-    secret('mc-s2s-client-secret', 'S2S_SECRET'),
-    secret('mc-idam-client-secret', 'IDAM_SECRET'),
-    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
-    secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
-    secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
-    secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
-    secret('postgresql-ssl', 'POSTGRES_SSL'),
-    secret('postgresql-username', 'POSTGRES_USERNAME'),
-    secret('postgresql-pw', 'POSTGRES_PASSWORD')
+    secret('appinsights-instrumentationkey-tc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+        secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
+        secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
+        secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
+        secret('postgresql-ssl', 'POSTGRES_SSL'),
+        secret('postgresql-admin-username', 'POSTGRES_USERNAME'),
+        secret('postgresql-admin-pw', 'POSTGRES_PASSWORD')
   ],
 ]
 
@@ -53,31 +51,36 @@ withPipeline("nodejs", product, component) {
     enableAksStagingDeployment()
 
     after('build') {
-            yarnBuilder.yarn('build')
+        yarnBuilder.yarn('build')
 
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/lint",
-                reportFiles          : 'index.html',
-                reportName           : 'node lint Report'
-            ])
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/lint",
+            reportFiles          : 'index.html',
+            reportName           : 'node lint Report'
+        ])
 
-        }
+    }
 
     after('test') {
 
-            publishHTML ( [
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/coverage",
-                reportFiles          : "index.html",
-                reportName           : "node coverage tests"
-            ])
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/coverage",
+            reportFiles          : "index.html",
+            reportName           : "node coverage tests"
+        ])
 
-        }
+    }
+
+    after('smoketest:preview') {
+        yarnBuilder.yarn('compile')
+        yarnBuilder.yarn('migrate')
+    }
 
     after('smoketest:aat') {
         yarnBuilder.yarn('compile')

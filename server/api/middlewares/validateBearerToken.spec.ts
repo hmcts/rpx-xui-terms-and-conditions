@@ -77,7 +77,7 @@ describe('Users Controller', () => {
     });
 
     it('should have an Idam Api Url config name so that we can extract the Idam Api Url path from the config.', async () => {
-        expect(IDAM_API_URL_CONFIG_NAME).toBe('services.idam.api-url');
+        expect(IDAM_API_URL_CONFIG_NAME).toBe('services.idam-api-url');
     });
 
     /**
