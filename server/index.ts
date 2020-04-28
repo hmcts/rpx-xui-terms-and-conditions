@@ -1,11 +1,17 @@
-import './common/env';
 import Server from './common/server';
 import routes from './routes';
+import L from './common/logger';
+import {environmentCheckText, getEnvironment} from './api/configuration'
+import {ERROR_NODE_CONFIG_ENV} from './api/configuration/constants'
 
-// TODO: Hard-coded 8080 for now, until we have environmental
-// variables in our pipeline.
-// const port = parseInt(process.env.PORT);
-const port = 3000;
-export default new Server()
-  .router(routes)
-  .listen(port);
+/**
+ * If there are no configuration properties found we highlight this to the person attempting to initialise
+ * this application.
+ */
+if (!getEnvironment()) {
+    L.info(ERROR_NODE_CONFIG_ENV)
+}
+
+L.info(environmentCheckText());
+
+export default new Server().router(routes).listen(process.env.PORT || 3000);

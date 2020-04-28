@@ -2,6 +2,7 @@ import path from 'path';
 import middleware from 'swagger-express-middleware';
 import { Application } from 'express';
 import errorHandler from '../api/middlewares/error.handler';
+import config from 'config';
 
 export default function(app: Application, routes: (app: Application) => void) {
     middleware(path.join(__dirname, 'api.yml'), app, function(err, middleware) {
@@ -13,22 +14,11 @@ export default function(app: Application, routes: (app: Application) => void) {
         app.use(middleware.metadata());
         app.use(
             middleware.files(app, {
-                apiPath: process.env.SWAGGER_API_SPEC,
+                apiPath: '/api/v1/spec',
             }),
         );
 
-        app.use(
-            middleware.parseRequest({
-                // Configure the cookie parser to use secure cookies
-                cookie: {
-                    secret: process.env.SESSION_SECRET,
-                },
-                // Don't allow JSON content over 100kb (default is 1mb)
-                json: {
-                    limit: process.env.REQUEST_LIMIT,
-                },
-            }),
-        );
+        app.use(middleware.parseRequest({}));
 
         // These two middleware don't have any options (yet)
         app.use(middleware.CORS(), middleware.validateRequest());

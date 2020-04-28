@@ -33,6 +33,7 @@ data "azurerm_key_vault" "key_vault" {
     resource_group_name = "${local.shared_vault_name}"
 }
 
+/*
 data "azurerm_key_vault_secret" "s2s_secret" {
     name = "xui-s2s-token"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
@@ -43,26 +44,9 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 
-/*
 data "azurerm_key_vault_secret" "db_admin" {
     name = "postgresql-admin-username"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
-}
-*/
-
-#save DB details to Azure Key Vault
-/*
-module "send-dbinfo-key-vault" {
-  source              = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
-  name                = "${local.shared_vault_name}"
-  product             = "${var.product}"
-  env                 = "${var.env}"
-  tenant_id           = "${var.tenant_id}"
-  object_id           = "${var.object_id}"
-  product_group_object_id = "${var.product_group_object_id}"
-  resource_group_name = "${azurerm_resource_group.rg.name}"
-  managed_identity_object_id = "${var.managed_identity_object_id}"
-  common_tags             = "${var.common_tags}"
 }
 */
 
@@ -71,4 +55,6 @@ resource "azurerm_key_vault_secret" "postgresql-pw" {
   name         = "postgresql-admin-pw"
   value        = "${module.db.postgresql_password}"
 }
+
+
 

@@ -1,20 +1,17 @@
-FROM node:10.15.3
+FROM hmctspublic.azurecr.io/base/node:12-alpine as base
 
-MAINTAINER "HMCTS Team <https://github.com/hmcts>"
-LABEL maintainer = "HMCTS Team <https://github.com/hmcts>"
+LABEL maintainer = "HMCTS Expert UI <https://github.com/hmcts>"
 
-RUN mkdir -p /usr/src/app
-RUN chmod 777 /usr/src/app
-WORKDIR /usr/src/app
+COPY --chown=hmcts:hmcts package.json yarn.lock ./
 
-COPY package.json .
-COPY package-lock.json .
-COPY yarn.lock .
-
-COPY . .
+FROM base as build
 
 RUN yarn
-RUN yarn compile
 
-EXPOSE 8080
-CMD [ "yarn", "start" ]
+COPY --chown=hmcts:hmcts . .
+RUN yarn compile && rm -r node_modules/ && yarn install --production && rm -r ~/.cache/yarn
+
+FROM base as runtime
+COPY --from=build $WORKDIR ./
+USER hmcts
+EXPOSE 3000

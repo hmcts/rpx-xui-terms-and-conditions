@@ -1,47 +1,368 @@
-import 'mocha';
-import { expect } from 'chai';
-import request from 'supertest';
-import Server from '../server';
+import userController from '../server/api/controllers/users/userController';
+import { VersionNumber } from '../server/api/utils/versionNumber.util';
+import usersService from '../server/api/services/users.service';
+import { User } from '../server/api/interfaces/users';
+import { InvalidDBConnectionError } from '../server/api/errors';
 
 /**
- * Users controller tests
- *
- * TODO: To be hardened once we know the data
+ * Mock Express Request Object using Jest
  */
-describe('Users controller', () => {
-  it('should get all Users', () =>
-    request(Server)
-      .get('/api/v1/termsAndConditions/managecases/users/1')
-      .expect('Content-Type', /json/)
-      .then(response => {
-        expect(response.body)
-          .to.be.an('array');
-      }));
+const mockRequest = () => {
+    return {
+        params: {
+            app: 'manageorg',
+            version: 1,
+        },
+        body: {
+            uuid: 'testUuid',
+        },
+    };
+};
 
-  it('should be able to add Users', () =>
-    request(Server)
-      .post('/api/v1/termsAndConditions/managecases/users/1')
-      .send(
-          {
-              "userId": "123e4567-e89b-12d3-a456-426655440000"
-          },
-      )
-      .expect('Content-Type', /json/)
-      .then(response => {
-        expect(response.body)
-          .to.be.an('object')
-          // .that.has.property('name')
-          // .equal('test');
-      }));
+/**
+ * Mock Express Response Object using Jest
+ *
+ * We mock the status and send so that we can test the response of
+ * <code>
+ *     res.status(200).send(LIVENESS_UP_AND_RUNNING);
+ * </code>
+ */
+const mockResponse = () => {
+    return {
+        status: jest.fn().mockReturnValue({
+            send: jest.fn().mockReturnValue({}),
+        }),
+    };
+};
 
-  it('should get a User by id', () =>
-    request(Server)
-      .get('/api/v1/termsAndConditions/managecases/users/userId/1')
-      .expect('Content-Type', /json/)
-      .then(response => {
-        expect(response.body)
-          .to.be.an('object')
-          .that.has.property('userId')
-          .equal('userId');
-      }));
+describe('Users Controller', () => {
+    describe('acceptTermsConditions()', () => {
+        /**
+         * TODO: Placeholder test for error handling when it is fully implemented.
+         */
+        it("should throw a 500 if we're not able to hit the database.", async () => {
+            const req = mockRequest();
+            const res = mockResponse();
+            const next = jest.fn().mockReturnValue({});
+            jest.spyOn(usersService, 'userAgreement').mockImplementation(() => {
+                throw new Error();
+            });
+            await userController.acceptTermsConditions(req as any, res as any, next as any);
+
+            expect(next).toHaveBeenCalledWith(new Error());
+        });
+
+        it(
+            'should make a call to getVersionNumber() with the version, so that the version can' +
+                'be converted to a number or remain as undefined.',
+            async () => {
+                /**
+                 * Request with a version
+                 */
+                const req = {
+                    params: {
+                        version: 1,
+                    },
+                };
+
+                const res = mockResponse();
+                const next = () => {};
+
+                const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
+
+                await userController.acceptTermsConditions(req as any, res as any, next as any);
+
+                expect(spy).toHaveBeenCalledWith(req.params.version);
+
+                spy.mockRestore();
+            },
+        );
+
+        it(
+            'should make a call to UserService.userAgreement() with the app, user and versionAsNumber, so that ' +
+                'we can add the User as having agreed to the T&Cs.',
+            async () => {
+                const APP = 'manageorg';
+                const VERSION = 1;
+                const USER: User = {
+                    userId: '123e4567-e89b-12d3-a456-426655440000',
+                };
+
+                /**
+                 * Request
+                 */
+                const req = {
+                    params: {
+                        app: APP,
+                        version: VERSION,
+                    },
+                    body: USER,
+                };
+
+                const res = mockResponse();
+                const next = () => {};
+
+                const spy = jest.spyOn(usersService, 'userAgreement');
+
+                await userController.acceptTermsConditions(req as any, res as any, next as any);
+
+                expect(spy).toHaveBeenCalledWith(APP, USER, VERSION);
+
+                spy.mockRestore();
+            },
+        );
+
+        it('should return a 200 Success and return the response data, if UserService.userAgreement() returns response data.', async () => {
+            const APP = 'manageorg';
+            const VERSION = 1;
+            const USER: User = {
+                userId: '123e4567-e89b-12d3-a456-426655440000',
+            };
+
+            const RESPONSE_DATA: any = {
+                response: 42,
+            };
+
+            /**
+             * Request
+             */
+            const req = {
+                params: {
+                    app: APP,
+                    version: VERSION,
+                },
+                body: USER,
+            };
+
+            const res = mockResponse();
+            const next = () => {};
+
+            const spy = jest
+                .spyOn(usersService, 'userAgreement')
+                .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
+
+            await userController.acceptTermsConditions(req as any, res as any, next as any);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
+
+            spy.mockRestore();
+        });
+    });
+
+    describe('getAcceptedUsers()', () => {
+        it(
+            'should make a call to getVersionNumber() with the version, so that the version can' +
+                'be converted to a number or remain as undefined.',
+            async () => {
+                /**
+                 * Request with a version
+                 */
+                const req = {
+                    params: {
+                        version: 1,
+                    },
+                };
+
+                const res = mockResponse();
+                const next = () => {};
+
+                const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
+
+                await userController.getAcceptedUsers(req as any, res as any, next as any);
+
+                expect(spy).toHaveBeenCalledWith(req.params.version);
+
+                spy.mockRestore();
+            },
+        );
+
+        it(
+            'should make a call to UserService.getUserAgreements() with the app and versionAsNumber, so that ' +
+                "we can get the User's who have agreed to the T&Cs.",
+            async () => {
+                const APP = 'manageorg';
+                const VERSION = 1;
+                const USER: User = {
+                    userId: '123e4567-e89b-12d3-a456-426655440000',
+                };
+
+                /**
+                 * Request
+                 */
+                const req = {
+                    params: {
+                        app: APP,
+                        version: VERSION,
+                    },
+                    body: USER,
+                };
+
+                const res = mockResponse();
+                const next = () => {};
+
+                const spy = jest.spyOn(usersService, 'getUserAgreements');
+
+                await userController.getAcceptedUsers(req as any, res as any, next as any);
+
+                expect(spy).toHaveBeenCalledWith(APP, VERSION);
+
+                spy.mockRestore();
+            },
+        );
+
+        /**
+         * TODO: Placeholder test for error handling when it is fully implemented.
+         */
+        it("should throw a 500 if we're not able to hit the database.", async () => {
+            const req = mockRequest();
+            const res = mockResponse();
+            const next = jest.fn().mockReturnValue({});
+
+            jest.spyOn(usersService, 'getUserAgreements').mockImplementation(() => {
+                throw new InvalidDBConnectionError();
+            });
+
+            await userController.getAcceptedUsers(req as any, res as any, next as any);
+
+            expect(next).toHaveBeenCalledWith(new InvalidDBConnectionError());
+        });
+
+        it('should return a 200 Success and return the response data, if UserService.getUserAgreements() returns response data.', async () => {
+            const APP = 'manageorg';
+            const VERSION = 1;
+            const USER: User = {
+                userId: '123e4567-e89b-12d3-a456-426655440000',
+            };
+
+            const RESPONSE_DATA: any = [
+                {
+                    userId: '123e4567-e89b-12d3-a456-426655440000',
+                },
+                {
+                    userId: '123e4567-e89b-12d3-a456-426655440012',
+                },
+            ];
+
+            /**
+             * Request
+             */
+            const req = {
+                params: {
+                    app: APP,
+                    version: VERSION,
+                },
+                body: USER,
+            };
+
+            const res = mockResponse();
+            const next = () => {};
+
+            const spy = jest
+                .spyOn(usersService, 'getUserAgreements')
+                .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
+
+            await userController.getAcceptedUsers(req as any, res as any, next as any);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
+
+            spy.mockRestore();
+        });
+    });
+
+    describe('hasUserAccepted()', () => {
+        it(
+            'should make a call to getVersionNumber() with the version, so that the version can' +
+                'be converted to a number or remain as undefined.',
+            async () => {
+                /**
+                 * Request with a version
+                 */
+                const req = {
+                    params: {
+                        version: 1,
+                    },
+                };
+
+                const res = mockResponse();
+                const next = () => {};
+
+                const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
+
+                await userController.hasUserAccepted(req as any, res as any, next as any);
+
+                expect(spy).toHaveBeenCalledWith(req.params.version);
+
+                spy.mockRestore();
+            },
+        );
+
+        it(
+            'should make a call to UserService.getUserAgreements() with the app, userId and versionAsNumber, so that ' +
+                'we can get if a User has agreed to the T&Cs.',
+            async () => {
+                const APP = 'manageorg';
+                const VERSION = 1;
+                const USER_ID = '123e4567-e89b-12d3-a456-426655440000';
+
+                /**
+                 * Request
+                 */
+                const req = {
+                    params: {
+                        app: APP,
+                        version: VERSION,
+                        userId: USER_ID,
+                    },
+                };
+
+                const res = mockResponse();
+                const next = () => {};
+
+                const spy = jest.spyOn(usersService, 'getUserAgreement');
+
+                await userController.hasUserAccepted(req as any, res as any, next as any);
+
+                expect(spy).toHaveBeenCalledWith(APP, USER_ID, VERSION);
+
+                spy.mockRestore();
+            },
+        );
+
+        it('should return a 200 Success and return the response data, if UserService.getUserAgreement() returns response data.', async () => {
+            const APP = 'manageorg';
+            const VERSION = 1;
+            const USER: User = {
+                userId: '123e4567-e89b-12d3-a456-426655440000',
+            };
+
+            const RESPONSE_DATA: any = {};
+
+            /**
+             * Request
+             */
+            const req = {
+                params: {
+                    app: APP,
+                    version: VERSION,
+                },
+                body: USER,
+            };
+
+            const res = mockResponse();
+            const next = () => {};
+
+            const spy = jest
+                .spyOn(usersService, 'getUserAgreement')
+                .mockImplementation(() => Promise.resolve(RESPONSE_DATA));
+
+            await userController.hasUserAccepted(req as any, res as any, next as any);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
+
+            spy.mockRestore();
+        });
+    });
 });

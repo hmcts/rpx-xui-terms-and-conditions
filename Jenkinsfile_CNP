@@ -19,11 +19,13 @@ def component = "terms-and-conditions"
 
 def secrets = [
   'rpx-${env}': [
-    secret('mc-s2s-client-secret', 'S2S_SECRET'),
-    secret('mc-idam-client-secret', 'IDAM_SECRET'),
-    secret('AppInsightsInstrumentationKey', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
-    secret('postgre-tc-username', 'POSTGRE_USERNAME'),
-    secret('postgre-tc-pw', 'POSTGRE_USER_PW')
+    secret('appinsights-instrumentationkey-tc', 'APPINSIGHTS_INSTRUMENTATIONKEY'),
+    secret('postgresql-server-name', 'POSTGRES_SERVER_NAME'),
+    secret('postgresql-server-port', 'POSTGRES_SERVER_PORT'),
+    secret('postgresql-dbname', 'POSTGRES_DB_NAME'),
+    secret('postgresql-ssl', 'POSTGRES_SSL'),
+    secret('postgresql-admin-username', 'POSTGRES_USERNAME'),
+    secret('postgresql-admin-pw', 'POSTGRES_PASSWORD')
   ],
 ]
 
@@ -40,13 +42,19 @@ withPipeline("nodejs", product, component) {
 
     loadVaultSecrets(secrets)
 
-    enableDockerBuild()
-    
     installCharts()
 
     disableLegacyDeployment()
-    
-    enableAksStagingDeployment() 
-    
+
+    enableAksStagingDeployment()
+
+    after('smoketest:preview') {
+        sh 'yarn compile && yarn migrate'
+    }
+
+    after('smoketest:aat') {
+        sh 'yarn compile && yarn migrate'
+    }
+
 }
 
