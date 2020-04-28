@@ -9,7 +9,7 @@ import installValidator from './swagger';
 
 import l from './logger';
 import * as tunnel from './tunnel';
-import { appInsights } from '../appInsights'
+import { appInsights } from '../appInsights';
 
 const app = express();
 
