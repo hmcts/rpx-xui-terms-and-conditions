@@ -73,7 +73,7 @@ describe('Users Controller', () => {
                 };
 
                 const res = mockResponse();
-                const next = () => {};
+                const next = jest.fn();
 
                 const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
 
@@ -111,7 +111,7 @@ describe('Users Controller', () => {
                 };
 
                 const res = mockResponse();
-                const next = () => {};
+                const next = jest.fn();
 
                 const spy = jest.spyOn(usersService, 'userAgreement');
 
@@ -153,7 +153,7 @@ describe('Users Controller', () => {
             };
 
             const res = mockResponse();
-            const next = () => {};
+            const next = jest.fn();
 
             const spy = jest
                 .spyOn(usersService, 'userAgreement')
@@ -187,7 +187,7 @@ describe('Users Controller', () => {
                 };
 
                 const res = mockResponse();
-                const next = () => {};
+                const next = jest.fn();
 
                 const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
 
@@ -225,7 +225,7 @@ describe('Users Controller', () => {
                 };
 
                 const res = mockResponse();
-                const next = () => {};
+                const next = jest.fn();
 
                 const spy = jest.spyOn(usersService, 'getUserAgreements');
 
@@ -290,7 +290,7 @@ describe('Users Controller', () => {
             };
 
             const res = mockResponse();
-            const next = () => {};
+            const next = jest.fn();
 
             const spy = jest
                 .spyOn(usersService, 'getUserAgreements')
@@ -324,7 +324,7 @@ describe('Users Controller', () => {
                 };
 
                 const res = mockResponse();
-                const next = () => {};
+                const next = jest.fn();
 
                 const spy = jest.spyOn(VersionNumber, 'getVersionNumber');
 
@@ -360,7 +360,7 @@ describe('Users Controller', () => {
                 };
 
                 const res = mockResponse();
-                const next = () => {};
+                const next = jest.fn();
 
                 const spy = jest.spyOn(usersService, 'getUserAgreement');
 
@@ -402,7 +402,7 @@ describe('Users Controller', () => {
             };
 
             const res = mockResponse();
-            const next = () => {};
+            const next = jest.fn();
 
             const spy = jest
                 .spyOn(usersService, 'getUserAgreement')
