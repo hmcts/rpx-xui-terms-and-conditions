@@ -44,8 +44,6 @@ withPipeline("nodejs", product, component) {
 
     loadVaultSecrets(secrets)
 
-    installCharts()
-
     disableLegacyDeployment()
 
     enableAksStagingDeployment()
