@@ -56,7 +56,7 @@
     "pino": "^5.13.4",
     "postgres-migrations": "^4.0.0-beta.1",
     "sonar-scanner": "^3.1.0",
-    "swagger-express-middleware": "^2.0.3"
+    "swagger-express-middleware": "^4.0.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",
