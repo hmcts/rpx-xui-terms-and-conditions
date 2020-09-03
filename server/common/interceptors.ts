@@ -3,9 +3,9 @@ import l from './logger';
 export function requestInterceptor(request) {
     l.info(`${request.method.toUpperCase()} to ${request.url}`);
     //add timings to requests
-    request.metadata = {startTime: new Date()};
+    request.metadata = { startTime: new Date() };
 
-    return request
+    return request;
 }
 
 export function successInterceptor(response) {

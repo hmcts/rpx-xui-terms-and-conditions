@@ -1,5 +1,7 @@
 import AppsController from '../server/api/controllers/apps/appsController';
 import AppsService from '../server/api/services/apps.service';
+import { NextFunction, Request, Response } from 'express';
+import { TCApp } from '../server/database/models';
 
 /**
  * Mock Express Request Object using Jest
@@ -37,22 +39,33 @@ describe('Apps Controller', () => {
             jest.spyOn(AppsService, 'getAllApps').mockImplementation(() => {
                 throw new Error();
             });
-            await AppsController.allApps(req as any, res as any, next as any);
+            await AppsController.allApps(
+                (req as unknown) as Request,
+                (res as unknown) as Response,
+                (next as unknown) as NextFunction,
+            );
 
             expect(next).toHaveBeenCalledWith(new Error());
         });
 
         it('should return a 200 Success and return the response data, if appsService.allApps() returns response data.', async () => {
-            const RESPONSE_DATA: any = {
-                response: 42,
-            };
+            const RESPONSE_DATA: TCApp[] = [
+                {
+                    id: 42,
+                    app: 'testApp',
+                },
+            ];
             const req = mockRequest();
             const res = mockResponse();
             const next = mockNext();
 
             const spy = jest.spyOn(AppsService, 'getAllApps').mockImplementation(() => Promise.resolve(RESPONSE_DATA));
 
-            await AppsController.allApps(req as any, res as any, next as any);
+            await AppsController.allApps(
+                (req as unknown) as Request,
+                (res as unknown) as Response,
+                (next as unknown) as NextFunction,
+            );
             expect(res.status).toHaveBeenCalledWith(200);
             expect(res.status().send).toHaveBeenCalledWith(RESPONSE_DATA);
         });

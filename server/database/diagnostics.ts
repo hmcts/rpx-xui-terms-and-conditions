@@ -1,5 +1,5 @@
 import * as pgMonitor from 'pg-monitor';
-import {IInitOptions} from 'pg-promise';
+import { IInitOptions } from 'pg-promise';
 
 // Flag to indicate whether we are in a DEV environment:
 const $PROD = process.env.XUI_ENV === 'prod';
