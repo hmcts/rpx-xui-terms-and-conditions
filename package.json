@@ -11,15 +11,14 @@
     "dev:start": "node -r dotenv/config dist/index.js",
     "dev:debug": "nodemon --exec 'node -r ts-node/register --inspect-brk' server/index.ts | pino-pretty",
     "compile": "ts-node build.ts && tsc",
-    "create:schema": "yarn compile && node -r dotenv/config dist/database/scripts/create_db.js",
-    "create:schema:dev": "ts-node -r dotenv/config server/database/scripts/create_db.ts",
+    "build": "yarn compile",
     "start": "node dist/index.js",
     "migrate": "node dist/database/scripts/migrate.js",
     "dev:migrate": "ts-node -r dotenv/config server/database/scripts/migrate.ts",
     "docker:dev": "nodemon -e ts server --exec \"yarn docker:compile\"",
     "docker:compile": "yarn compile && yarn migrate && yarn docker:start",
     "docker:start": "node -r source-map-support/register dist/index.js | pino-pretty",
-    "test": "UNIT_TEST_ENVIRONMENT=true jest",
+    "test": "yarn test:coverage",
     "test:debug": "mocha --inspect-brk test/**/*.ts --exit",
     "test:coverage": "UNIT_TEST_ENVIRONMENT=true jest --coverage",
     "test:watch": "UNIT_TEST_ENVIRONMENT=true jest --watch",
@@ -27,8 +26,8 @@
     "test:smoke": "echo 'not implemented'",
     "test:functional": "echo 'not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "lint": "eslint server/api/**/*.ts server/database/**/*.ts",
-    "lint:fix": "prettier eslint server/api/**/*.ts server/database/**/*.ts --write",
+    "lint": "eslint server/**/*.ts test/**/*.ts -o ./reports/lint/index.html -f html",
+    "lint:fix": "prettier eslint server/**/*.ts test/**/*.ts --write",
     "lint:legacy": "eslint .",
     "start:legacy": "node server.js",
     "test:legacy": "NODE_PATH=. LOG_LEVEL=OFF mocha"
@@ -57,7 +56,7 @@
     "pino": "^5.13.4",
     "postgres-migrations": "^4.0.0-beta.1",
     "sonar-scanner": "^3.1.0",
-    "swagger-express-middleware": "^2.0.3"
+    "swagger-express-middleware": "^4.0.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.3",

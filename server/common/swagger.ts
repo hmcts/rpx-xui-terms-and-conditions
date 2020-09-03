@@ -14,7 +14,7 @@ export default function(app: Application, routes: (app: Application) => void) {
         app.use(middleware.metadata());
         app.use(
             middleware.files(app, {
-                apiPath: config.get('swagger.path'),
+                apiPath: '/api/v1/spec',
             }),
         );
 
