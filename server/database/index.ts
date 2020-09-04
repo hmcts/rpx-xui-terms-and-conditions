@@ -11,12 +11,8 @@ import {
 import { Diagnostics } from './diagnostics';
 import config from 'config';
 import * as secretsConfig from 'config';
-import {
-    hasConfigValue, getPostgresSecret,
-    getEnvironment,
-    getAppInsightsSecret
-} from '../api/configuration'
-import * as propertiesVolume from "@hmcts/properties-volume";
+import { hasConfigValue, getPostgresSecret, getEnvironment, getAppInsightsSecret } from '../api/configuration';
+import * as propertiesVolume from '@hmcts/properties-volume';
 
 export type ExtendedProtocol = IDatabase<Extensions> & Extensions;
 
@@ -71,14 +67,14 @@ const pgp: IMain = pgPromise(initOptions);
  * propertiesVolume.addTo(secretsConfig, { mountPoint: '/Volumes/mnt/secrets/' });
  *
  */
-const setPgp = (unitTestEnvironment) => {
+const setPgp = unitTestEnvironment => {
     if (unitTestEnvironment) {
         return null;
     }
 
     propertiesVolume.addTo(secretsConfig);
 
-    if(hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
+    if (hasConfigValue('database.ssl', 'POSTGRES_DB_NAME')) {
         console.log(`POSTGRES_DB_NAME: ${config.get('database.name')}`);
         console.log(`POSTGRES_SERVER_NAME: ${config.get('database.host')}`);
         console.log(`POSTGRES_USERNAME: ${config.get('database.username')}`);
@@ -94,11 +90,11 @@ const setPgp = (unitTestEnvironment) => {
          * The Jenkins Preview Environment is the only environment where 'database.ssl' ie.
          * POSTGRES_SSL is set to false.
          */
-        if(config.get('database.ssl') !== 'false'){
+        if (config.get('database.ssl') !== 'false') {
             pgp.pg.defaults.ssl = true;
         }
     }
-}
+};
 
 setPgp(process.env.UNIT_TEST_ENVIRONMENT);
 
