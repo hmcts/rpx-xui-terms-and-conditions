@@ -10,7 +10,7 @@ that works with the HMCTS pipeline ( to be tested in next few days ).
 @ref https://github.com/hmcts/rpx-xui-share-case
 @ref https://github.com/cdimascio/generator-express-no-stress-typescript
 
-# Development commands
+# Development commands 
 
 Set environment variables `APP_ID` and `LOG_LEVEL` as well as `PORT` <br />
 `yarn dev` - Starts node in development mode <br />
