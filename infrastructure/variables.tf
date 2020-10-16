@@ -1,18 +1,12 @@
-variable "product" {
-  type    = "string"
-}
+variable "product" {}
 
-variable "component" {
-  type = "string"
-}
+variable "component" {}
 
 variable "location_app" {
-  type    = "string"
   default = "UK South"
 }
 
 variable "location_db" {
-  type    = "string"
   default = "UK South"
 }
 
@@ -20,9 +14,7 @@ variable "shared_product_name" {
     default = "rpx"
 }
 
-variable "env" {
-  type = "string"
-}
+variable "env" {}
 
 variable "capacity" {
   default = "2"
@@ -53,7 +45,6 @@ variable "common_tags" {
 variable "tenant_id" {}
 
 variable "jenkins_AAD_objectId" {
-  type        = "string"
   description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
