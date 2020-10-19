@@ -1,3 +1,3 @@
 output "postgresql_pw" {
-  value = "${module.db.postgresql_password}"
+  value = module.db.postgresql_password
 }
