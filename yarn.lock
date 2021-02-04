@@ -4609,7 +4609,7 @@ postgres-interval@^1.1.0:
   dependencies:
     xtend "^4.0.0"
 
-postgres-migrations@^4.0.0-beta.1:
+postgres-migrations@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/postgres-migrations/-/postgres-migrations-4.0.3.tgz#869972cabd26001edc18067c5fc18dd693fa93c4"
   integrity sha512-k6+ikiS2ZDJS/1fRsbms7N43nUIxlWswHGma0b8HcRkJil/QyEN+gw7yQ2Zu34EpR+TrHNOjV0oqUNMLZupoVw==
