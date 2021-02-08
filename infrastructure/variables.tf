@@ -39,7 +39,7 @@ variable "database_name" {
 variable "subscription" {}
 
 variable "common_tags" {
-  type = "map"
+  type = map(string)
 }
 
 variable "tenant_id" {}
