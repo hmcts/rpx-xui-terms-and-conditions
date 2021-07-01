@@ -1,6 +1,15 @@
 nodejs:
   aadIdentityName: xui
   applicationPort: 3000
+  cpuRequests: 250m
+  cpuLimits: 2000m
+  memoryRequests: 512Mi
+  memoryLimits: 2048Mi
+  autoscaling:        # Default is false
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8    # Required setting
+    targetCPUUtilizationPercentage: 80 # Default is 80% target CPU utilization
   environment:
     S2S_TOKEN_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
     REFORM_TEAM: rpx
